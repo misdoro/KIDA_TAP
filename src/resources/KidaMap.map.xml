@@ -1,0 +1,1906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-map xmlns="http://cayenne.apache.org/schema/3.0/modelMap"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://cayenne.apache.org/schema/3.0/modelMap http://cayenne.apache.org/schema/3.0/modelMap.xsd"
+  project-version="3.0.0.1">
+	<property name="defaultPackage" value="org.vamdc.kida"/>
+	<db-entity name="astrophysician_export" catalog="kida">
+		<db-attribute name="accepted_species" type="LONGVARCHAR" isMandatory="true" length="65535"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="denied_species" type="LONGVARCHAR" isMandatory="true" length="65535"/>
+		<db-attribute name="excluded_elements" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="export_type" type="VARCHAR" isMandatory="true" length="15"/>
+		<db-attribute name="filename_reactions" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="filename_species" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="input_elements" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="input_species" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="pmax" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="pmin" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="reac_prod" type="VARCHAR" isMandatory="true" length="10"/>
+		<db-attribute name="tmax" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="tmin" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="type" type="VARCHAR" isMandatory="true" length="15"/>
+		<db-attribute name="type_reaction" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="user_email" type="VARCHAR" length="255"/>
+	</db-entity>
+	<db-entity name="biblio" catalog="kida">
+		<db-attribute name="authors" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="entity_type" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isGenerated="true" isMandatory="true" length="10"/>
+		<db-attribute name="main_author" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="title" type="VARCHAR" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="year" type="INTEGER" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="biblio_book" catalog="kida">
+		<db-attribute name="bibliography_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="booktitle" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="doi" type="VARCHAR" length="255"/>
+		<db-attribute name="editor" type="VARCHAR" length="255"/>
+		<db-attribute name="pages" type="VARCHAR" length="255"/>
+		<db-attribute name="publisher" type="VARCHAR" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="biblio_journal" catalog="kida">
+		<db-attribute name="bibliography_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="doi" type="VARCHAR" length="255"/>
+		<db-attribute name="journal" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="page" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="biblio_thesis" catalog="kida">
+		<db-attribute name="bibliography_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="month" type="VARCHAR" length="255"/>
+		<db-attribute name="num_thesis" type="VARCHAR" length="255"/>
+		<db-attribute name="school" type="VARCHAR" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="bibliography" catalog="kida">
+		<db-attribute name="authors" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="category" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="doi" type="VARCHAR" length="255"/>
+		<db-attribute name="entity_type" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="journal_id" type="BIGINT" length="10"/>
+		<db-attribute name="main_author" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="other_journal" type="VARCHAR" length="255"/>
+		<db-attribute name="page" type="VARCHAR" length="255"/>
+		<db-attribute name="title" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="url" type="VARCHAR" length="255"/>
+		<db-attribute name="year" type="BIGINT" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="bug_priority" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="25"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="bug_state" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="25"/>
+		<db-attribute name="order" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="bugs_and_features" catalog="kida">
+		<db-attribute name="author_email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="page" type="VARCHAR" length="50"/>
+		<db-attribute name="priority_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="state_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="type_bug" type="VARCHAR" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="channel" catalog="kida">
+		<db-attribute name="added_status" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="num" type="INTEGER" length="10"/>
+		<db-attribute name="status" type="CHAR" isMandatory="true" length="13"/>
+		<db-attribute name="type_channel_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="channel_has_specie" catalog="kida">
+		<db-attribute name="channel_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="occurrence" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="specie_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="type" type="CHAR" isPrimaryKey="true" isMandatory="true" length="9"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="channel_value" catalog="kida">
+		<db-attribute name="add_justification" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="application" type="VARCHAR" length="55"/>
+		<db-attribute name="author_email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="bibliography_id" type="INTEGER" length="10"/>
+		<db-attribute name="channel_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="cv_field" type="VARCHAR" length="55"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="description" type="LONGVARCHAR" isMandatory="true" length="65535"/>
+		<db-attribute name="expert_authorised" type="VARCHAR" length="255"/>
+		<db-attribute name="expert_email" type="VARCHAR" length="255"/>
+		<db-attribute name="expertize" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="formula_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="is_temp" type="TINYINT" isMandatory="true" length="3"/>
+		<db-attribute name="is_trash" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="justification" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="ref" type="VARCHAR" length="255"/>
+		<db-attribute name="status" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="trash_author" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="trash_comment" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="validity_range_id" type="INTEGER" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="channel_variable" catalog="kida">
+		<db-attribute name="bibliography_id" type="BIGINT" length="10"/>
+		<db-attribute name="channel_value_id" type="INTEGER" length="10"/>
+		<db-attribute name="comment" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="exposant" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="ref" type="VARCHAR" length="20"/>
+		<db-attribute name="total_rate_id" type="INTEGER" length="10"/>
+		<db-attribute name="type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="uncert" type="VARCHAR" length="55"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="value" type="REAL" isMandatory="true" length="12"/>
+		<db-attribute name="variable_name_id" type="INTEGER" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="comment" catalog="kida">
+		<db-attribute name="author_email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="comment_text" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="entity_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="entity_type" type="CHAR" isMandatory="true" length="14"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="id_pere" type="INTEGER" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="datasheet" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" isMandatory="true" length="19"/>
+		<db-attribute name="filename" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="reaction_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" isMandatory="true" length="19"/>
+		<db-attribute name="user_email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="version" type="BIGINT" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="dipole_moment" catalog="kida">
+		<db-attribute name="author_email" type="VARCHAR" length="255"/>
+		<db-attribute name="bibliography_id" type="INTEGER" length="10"/>
+		<db-attribute name="comment" type="VARCHAR" length="255"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="definition" type="VARCHAR" length="255"/>
+		<db-attribute name="expert_email" type="VARCHAR" length="255"/>
+		<db-attribute name="expertize" type="CHAR" isMandatory="true" length="2"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="justification" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="ref" type="VARCHAR" length="20"/>
+		<db-attribute name="species_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="uncert" type="REAL" length="12"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="value" type="REAL" length="12"/>
+	</db-entity>
+	<db-entity name="documents" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="description" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="file_document" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="file_preview" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="type_document" type="VARCHAR" isMandatory="true" length="20"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="element" catalog="kida">
+		<db-attribute name="atomic_number" type="INTEGER" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="mass_value" type="DOUBLE" isMandatory="true" length="22"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="symbol" type="VARCHAR" isMandatory="true" length="20"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="enthalpy" catalog="kida">
+		<db-attribute name="author_email" type="VARCHAR" length="255"/>
+		<db-attribute name="bibliography_id" type="INTEGER" length="10"/>
+		<db-attribute name="comment" type="VARCHAR" length="255"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="expert_email" type="VARCHAR" length="255"/>
+		<db-attribute name="expertize" type="CHAR" isMandatory="true" length="2"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="justification" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="ref" type="VARCHAR" length="20"/>
+		<db-attribute name="species_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="temperature" type="REAL" length="12"/>
+		<db-attribute name="type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="uncert" type="REAL" length="12"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="value" type="REAL" length="12"/>
+	</db-entity>
+	<db-entity name="experiment_has_channel" catalog="kida">
+		<db-attribute name="channel_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="reaction_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="expert_advice" catalog="kida">
+		<db-attribute name="advice" type="LONGVARCHAR" isMandatory="true" length="65535"/>
+		<db-attribute name="comment" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="expert_email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="group_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="super_expert_email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="expert_advice_group" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="tab_channel_value" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="fc_value" catalog="kida">
+		<db-attribute name="bibliography_id" type="INTEGER" length="10"/>
+		<db-attribute name="channel_value_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="exposant_a" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="exposant_b" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="exposant_c" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="exposant_d" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="f0" type="REAL" length="12"/>
+		<db-attribute name="formula_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="value_a" type="REAL" isMandatory="true" length="12"/>
+		<db-attribute name="value_b" type="REAL" isMandatory="true" length="12"/>
+		<db-attribute name="value_c" type="REAL" isMandatory="true" length="12"/>
+		<db-attribute name="value_d" type="REAL" isMandatory="true" length="12"/>
+	</db-entity>
+	<db-entity name="fixed_text" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="pageName" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="100"/>
+		<db-attribute name="text" type="LONGVARCHAR" length="2147483647"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="formula" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="image" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="math" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="name" type="VARCHAR" length="100"/>
+		<db-attribute name="units" type="VARCHAR" length="30"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="get_logged" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="user_id" type="INTEGER" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="help_data" catalog="kida">
+		<db-attribute name="column" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="created_at" type="TIMESTAMP" isMandatory="true" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="table" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="text" type="LONGVARCHAR" isMandatory="true" length="65535"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" isMandatory="true" length="19"/>
+	</db-entity>
+	<db-entity name="histo_channel_value" catalog="kida">
+		<db-attribute name="action" type="CHAR" length="7"/>
+		<db-attribute name="add_justification" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="author_email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="bibliography_id" type="INTEGER" length="10"/>
+		<db-attribute name="channel_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="date_action" type="TIMESTAMP" length="19"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="expert_authorised" type="VARCHAR" length="255"/>
+		<db-attribute name="expert_email" type="VARCHAR" length="255"/>
+		<db-attribute name="expertize" type="INTEGER" length="10"/>
+		<db-attribute name="formula_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="id_original" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="justification" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="method" type="CHAR" length="23"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="ref" type="VARCHAR" length="255"/>
+		<db-attribute name="status" type="INTEGER" length="10"/>
+		<db-attribute name="validity_range_id" type="INTEGER" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="import_channel" catalog="kida">
+		<db-attribute name="Tmax" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="Tmin" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="alpha" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="application" type="VARCHAR" length="100"/>
+		<db-attribute name="beta" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="bibtex" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="bibtex_file" type="VARCHAR" length="255"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="cv_field" type="VARCHAR" length="55"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="formula" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="g" type="REAL" length="12"/>
+		<db-attribute name="gamma" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="is_pause" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="product1" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="product2" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="product3" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="product4" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="product5" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="product6" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="reactant1" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="reactant2" type="VARCHAR" length="50"/>
+		<db-attribute name="type_channel" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="uncert" type="REAL" length="12"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="import_dipole_moment" catalog="kida">
+		<db-attribute name="bibtex" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="bibtex_file" type="VARCHAR" length="255"/>
+		<db-attribute name="common_name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="is_pause" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="species_id" type="INTEGER" length="10"/>
+		<db-attribute name="uncert" type="REAL" length="12"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="value" type="REAL" length="12"/>
+	</db-entity>
+	<db-entity name="import_enthalpy" catalog="kida">
+		<db-attribute name="bibtex" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="bibtex_file" type="VARCHAR" length="255"/>
+		<db-attribute name="common_name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="is_pause" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="species_id" type="INTEGER" length="10"/>
+		<db-attribute name="temperature" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="uncert" type="REAL" length="12"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="value" type="REAL" length="12"/>
+	</db-entity>
+	<db-entity name="import_infos_new_specie" catalog="kida">
+		<db-attribute name="CAS" type="VARCHAR" length="100"/>
+		<db-attribute name="application" type="VARCHAR" length="100"/>
+		<db-attribute name="charge" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="common_name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="electronic_state" type="VARCHAR" length="100"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="inchi" type="VARCHAR" length="255"/>
+		<db-attribute name="is_pause" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="species" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="import_infos_specie" catalog="kida">
+		<db-attribute name="CAS" type="VARCHAR" length="100"/>
+		<db-attribute name="application" type="VARCHAR" length="100"/>
+		<db-attribute name="charge" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="common_name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="electronic_state" type="VARCHAR" length="100"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="inchi" type="VARCHAR" length="255"/>
+		<db-attribute name="is_pause" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="species_id" type="INTEGER" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="import_polarizability" catalog="kida">
+		<db-attribute name="bibtex" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="bibtex_file" type="VARCHAR" length="255"/>
+		<db-attribute name="common_name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="definition" type="VARCHAR" length="255"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="is_pause" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="species_id" type="INTEGER" length="10"/>
+		<db-attribute name="uncert" type="REAL" length="12"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="value" type="REAL" length="12"/>
+	</db-entity>
+	<db-entity name="import_three_body_channel" catalog="kida">
+		<db-attribute name="Pmax" type="VARCHAR" length="5"/>
+		<db-attribute name="Pmin" type="VARCHAR" length="5"/>
+		<db-attribute name="Tmax" type="VARCHAR" length="5"/>
+		<db-attribute name="Tmin" type="VARCHAR" length="5"/>
+		<db-attribute name="application" type="VARCHAR" length="100"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="fc_F0" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="fc_a" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="fc_b" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="fc_bibtex" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="fc_bibtex_file" type="VARCHAR" length="255"/>
+		<db-attribute name="fc_c" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="fc_d" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="fc_database" type="VARCHAR" length="255"/>
+		<db-attribute name="fc_description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="fc_formula" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="fc_method" type="VARCHAR" length="255"/>
+		<db-attribute name="fc_origin" type="VARCHAR" length="255"/>
+		<db-attribute name="fc_type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="formula" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="is_pause" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="k0_F0" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="k0_alpha" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="k0_beta" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="k0_bibtex" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="k0_bibtex_file" type="VARCHAR" length="255"/>
+		<db-attribute name="k0_database" type="VARCHAR" length="255"/>
+		<db-attribute name="k0_description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="k0_formula" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="k0_g" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="k0_gamma" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="k0_method" type="VARCHAR" length="255"/>
+		<db-attribute name="k0_origin" type="VARCHAR" length="255"/>
+		<db-attribute name="k0_type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="kinf_F0" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="kinf_alpha" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="kinf_beta" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="kinf_bibtex" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="kinf_bibtex_file" type="VARCHAR" length="255"/>
+		<db-attribute name="kinf_database" type="VARCHAR" length="255"/>
+		<db-attribute name="kinf_description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="kinf_formula" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="kinf_g" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="kinf_gamma" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="kinf_method" type="VARCHAR" length="255"/>
+		<db-attribute name="kinf_origin" type="VARCHAR" length="255"/>
+		<db-attribute name="kinf_type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="product1" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="product2" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="product3" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="product4" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="product5" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="product6" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="reactant1" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="reactant2" type="VARCHAR" length="50"/>
+		<db-attribute name="reactant3" type="VARCHAR" length="50"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="is_expert" catalog="kida">
+		<db-attribute name="level" type="CHAR" isMandatory="true" length="2"/>
+		<db-attribute name="type_channel_id" type="BIGINT" isMandatory="true" length="10"/>
+		<db-attribute name="user_email" type="VARCHAR" isMandatory="true" length="255"/>
+	</db-entity>
+	<db-entity name="journal_name" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" isMandatory="true" length="19"/>
+		<db-attribute name="id" type="BIGINT" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" isMandatory="true" length="19"/>
+	</db-entity>
+	<db-entity name="k0_value" catalog="kida">
+		<db-attribute name="bibliography_id" type="INTEGER" length="10"/>
+		<db-attribute name="channel_value_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="exposant_a" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="exposant_b" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="exposant_n" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="f0" type="REAL" length="12"/>
+		<db-attribute name="formula_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="g" type="REAL" length="12"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="value_a" type="REAL" isMandatory="true" length="12"/>
+		<db-attribute name="value_b" type="REAL" isMandatory="true" length="12"/>
+		<db-attribute name="value_n" type="REAL" isMandatory="true" length="12"/>
+	</db-entity>
+	<db-entity name="kinf_value" catalog="kida">
+		<db-attribute name="bibliography_id" type="INTEGER" length="10"/>
+		<db-attribute name="channel_value_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="exposant_a" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="exposant_b" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="exposant_n" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="f0" type="REAL" length="12"/>
+		<db-attribute name="formula_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="g" type="REAL" length="12"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="value_a" type="REAL" isMandatory="true" length="12"/>
+		<db-attribute name="value_b" type="REAL" isMandatory="true" length="12"/>
+		<db-attribute name="value_n" type="REAL" isMandatory="true" length="12"/>
+	</db-entity>
+	<db-entity name="mailing_list" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="email" type="VARCHAR" isMandatory="true" length="200"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="models" catalog="kida">
+		<db-attribute name="comment" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="filename" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="type" type="VARCHAR" isMandatory="true" length="30"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="news" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="description" type="VARCHAR" length="255"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="image" type="VARCHAR" length="255"/>
+		<db-attribute name="link" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="title" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="polarizability" catalog="kida">
+		<db-attribute name="author_email" type="VARCHAR" length="255"/>
+		<db-attribute name="bibliography_id" type="INTEGER" length="10"/>
+		<db-attribute name="comment" type="VARCHAR" length="255"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="database" type="VARCHAR" length="255"/>
+		<db-attribute name="definition" type="VARCHAR" length="255"/>
+		<db-attribute name="expert_email" type="VARCHAR" length="255"/>
+		<db-attribute name="expertize" type="CHAR" isMandatory="true" length="2"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="justification" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="ref" type="VARCHAR" length="255"/>
+		<db-attribute name="species_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="type_uncert" type="VARCHAR" length="255"/>
+		<db-attribute name="uncert" type="REAL" length="12"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="value" type="REAL" length="12"/>
+	</db-entity>
+	<db-entity name="reaction" catalog="kida">
+		<db-attribute name="added_status" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="search" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="query_param" type="VARCHAR" length="255"/>
+		<db-attribute name="random_key" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="rea_prod" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="20"/>
+		<db-attribute name="reaction_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="type_channel_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="user_email" type="VARCHAR" length="255"/>
+	</db-entity>
+	<db-entity name="sf_guard_group" catalog="kida">
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="255"/>
+	</db-entity>
+	<db-entity name="sf_guard_group_permission" catalog="kida">
+		<db-attribute name="group_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="permission_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="sf_guard_permission" catalog="kida">
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="255"/>
+	</db-entity>
+	<db-entity name="sf_guard_remember_key" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="ip_address" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
+		<db-attribute name="remember_key" type="VARCHAR" length="32"/>
+		<db-attribute name="user_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="sf_guard_user" catalog="kida">
+		<db-attribute name="algorithm" type="VARCHAR" isMandatory="true" length="128"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="is_active" type="TINYINT" isMandatory="true" length="3"/>
+		<db-attribute name="is_super_admin" type="TINYINT" isMandatory="true" length="3"/>
+		<db-attribute name="last_login" type="TIMESTAMP" length="19"/>
+		<db-attribute name="password" type="VARCHAR" isMandatory="true" length="128"/>
+		<db-attribute name="salt" type="VARCHAR" isMandatory="true" length="128"/>
+		<db-attribute name="username" type="VARCHAR" isMandatory="true" length="128"/>
+	</db-entity>
+	<db-entity name="sf_guard_user_group" catalog="kida">
+		<db-attribute name="group_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="user_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="sf_guard_user_permission" catalog="kida">
+		<db-attribute name="permission_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="user_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="sf_guard_user_profile" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="first_name" type="VARCHAR" length="255"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="last_name" type="VARCHAR" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="user_id" type="INTEGER" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="specie" catalog="kida">
+		<db-attribute name="CAS" type="VARCHAR" length="100"/>
+		<db-attribute name="application" type="VARCHAR" length="100"/>
+		<db-attribute name="charge" type="INTEGER" length="10"/>
+		<db-attribute name="common_name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="electronic_state" type="VARCHAR" length="100"/>
+		<db-attribute name="excitation" type="VARCHAR" length="100"/>
+		<db-attribute name="formula" type="VARCHAR" length="100"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="inchi" type="VARCHAR" length="255"/>
+		<db-attribute name="inchi_key" type="VARCHAR" length="255"/>
+		<db-attribute name="mol_file" type="VARCHAR" length="100"/>
+		<db-attribute name="multiplicity" type="INTEGER" length="10"/>
+		<db-attribute name="num" type="INTEGER" length="10"/>
+		<db-attribute name="rotation_level" type="REAL" length="12"/>
+		<db-attribute name="structure" type="VARCHAR" length="100"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="vibration_level" type="VARCHAR" length="255"/>
+	</db-entity>
+	<db-entity name="specie_has_element" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="element_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="occurrence" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="specie_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="three_body_channel" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="status" type="CHAR" length="12"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="three_body_channel_has_specie" catalog="kida">
+		<db-attribute name="channel_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="occurrence" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="ordre" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="specie_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="type" type="CHAR" isPrimaryKey="true" isMandatory="true" length="9"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="three_body_channel_value" catalog="kida">
+		<db-attribute name="application" type="VARCHAR" length="55"/>
+		<db-attribute name="author_email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="channel_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="expert_email" type="VARCHAR" length="255"/>
+		<db-attribute name="expertize" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="formula_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="is_trash" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="justification" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="status" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="trash_author" type="VARCHAR" length="255"/>
+		<db-attribute name="trash_comment" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="validity_range_id" type="INTEGER" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="three_body_reaction" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="three_body_reaction_has_channel" catalog="kida">
+		<db-attribute name="channel_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="reaction_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="three_body_reaction_has_reactant" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="occurrence" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="ordre" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="reaction_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="specie_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="total_rate" catalog="kida">
+		<db-attribute name="author_email" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="expert_email" type="VARCHAR" length="255"/>
+		<db-attribute name="expertize" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="justification" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="method" type="VARCHAR" length="255"/>
+		<db-attribute name="origin" type="VARCHAR" length="255"/>
+		<db-attribute name="reaction_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="validity_range_id" type="INTEGER" isMandatory="true" length="10"/>
+	</db-entity>
+	<db-entity name="type_channel" catalog="kida">
+		<db-attribute name="abbrev" type="VARCHAR" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="oldValue" type="INTEGER" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="validity_range" catalog="kida">
+		<db-attribute name="Pmax" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="Pmin" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="Tmax" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="Tmin" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<db-entity name="variable_name" catalog="kida">
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="html" type="VARCHAR" length="10"/>
+		<db-attribute name="id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="255"/>
+		<db-attribute name="updated_at" type="TIMESTAMP" length="19"/>
+	</db-entity>
+	<obj-entity name="AstrophysicianExport" className="org.vamdc.kida.AstrophysicianExport" dbEntityName="astrophysician_export">
+		<obj-attribute name="acceptedSpecies" type="java.lang.String" db-attribute-path="accepted_species"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="deniedSpecies" type="java.lang.String" db-attribute-path="denied_species"/>
+		<obj-attribute name="excludedElements" type="java.lang.String" db-attribute-path="excluded_elements"/>
+		<obj-attribute name="exportType" type="java.lang.String" db-attribute-path="export_type"/>
+		<obj-attribute name="filenameReactions" type="java.lang.String" db-attribute-path="filename_reactions"/>
+		<obj-attribute name="filenameSpecies" type="java.lang.String" db-attribute-path="filename_species"/>
+		<obj-attribute name="inputElements" type="java.lang.String" db-attribute-path="input_elements"/>
+		<obj-attribute name="inputSpecies" type="java.lang.String" db-attribute-path="input_species"/>
+		<obj-attribute name="pmax" type="java.lang.Integer" db-attribute-path="pmax"/>
+		<obj-attribute name="pmin" type="java.lang.Integer" db-attribute-path="pmin"/>
+		<obj-attribute name="reacProd" type="java.lang.String" db-attribute-path="reac_prod"/>
+		<obj-attribute name="tmax" type="java.lang.Integer" db-attribute-path="tmax"/>
+		<obj-attribute name="tmin" type="java.lang.Integer" db-attribute-path="tmin"/>
+		<obj-attribute name="type" type="java.lang.String" db-attribute-path="type"/>
+		<obj-attribute name="typeReaction" type="java.lang.String" db-attribute-path="type_reaction"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="userEmail" type="java.lang.String" db-attribute-path="user_email"/>
+	</obj-entity>
+	<obj-entity name="Biblio" className="org.vamdc.kida.Biblio" dbEntityName="biblio">
+		<obj-attribute name="authors" type="java.lang.String" db-attribute-path="authors"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="entityType" type="java.lang.String" db-attribute-path="entity_type"/>
+		<obj-attribute name="id" type="java.lang.Integer" db-attribute-path="id"/>
+		<obj-attribute name="mainAuthor" type="java.lang.String" db-attribute-path="main_author"/>
+		<obj-attribute name="title" type="java.lang.String" db-attribute-path="title"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="year" type="java.lang.Integer" db-attribute-path="year"/>
+	</obj-entity>
+	<obj-entity name="BiblioBook" className="org.vamdc.kida.BiblioBook" dbEntityName="biblio_book">
+		<obj-attribute name="booktitle" type="java.lang.String" db-attribute-path="booktitle"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="doi" type="java.lang.String" db-attribute-path="doi"/>
+		<obj-attribute name="editor" type="java.lang.String" db-attribute-path="editor"/>
+		<obj-attribute name="pages" type="java.lang.String" db-attribute-path="pages"/>
+		<obj-attribute name="publisher" type="java.lang.String" db-attribute-path="publisher"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="BiblioJournal" className="org.vamdc.kida.BiblioJournal" dbEntityName="biblio_journal">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="doi" type="java.lang.String" db-attribute-path="doi"/>
+		<obj-attribute name="journal" type="java.lang.String" db-attribute-path="journal"/>
+		<obj-attribute name="page" type="java.lang.String" db-attribute-path="page"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="BiblioThesis" className="org.vamdc.kida.BiblioThesis" dbEntityName="biblio_thesis">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="month" type="java.lang.String" db-attribute-path="month"/>
+		<obj-attribute name="numThesis" type="java.lang.String" db-attribute-path="num_thesis"/>
+		<obj-attribute name="school" type="java.lang.String" db-attribute-path="school"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="Bibliography" className="org.vamdc.kida.Bibliography" dbEntityName="bibliography">
+		<obj-attribute name="authors" type="java.lang.String" db-attribute-path="authors"/>
+		<obj-attribute name="category" type="java.lang.String" db-attribute-path="category"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="doi" type="java.lang.String" db-attribute-path="doi"/>
+		<obj-attribute name="entityType" type="java.lang.String" db-attribute-path="entity_type"/>
+		<obj-attribute name="journalId" type="java.lang.Long" db-attribute-path="journal_id"/>
+		<obj-attribute name="mainAuthor" type="java.lang.String" db-attribute-path="main_author"/>
+		<obj-attribute name="otherJournal" type="java.lang.String" db-attribute-path="other_journal"/>
+		<obj-attribute name="page" type="java.lang.String" db-attribute-path="page"/>
+		<obj-attribute name="title" type="java.lang.String" db-attribute-path="title"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="url" type="java.lang.String" db-attribute-path="url"/>
+		<obj-attribute name="year" type="java.lang.Long" db-attribute-path="year"/>
+	</obj-entity>
+	<obj-entity name="BugPriority" className="org.vamdc.kida.BugPriority" dbEntityName="bug_priority">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="BugState" className="org.vamdc.kida.BugState" dbEntityName="bug_state">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="order" type="java.lang.Integer" db-attribute-path="order"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="BugsAndFeatures" className="org.vamdc.kida.BugsAndFeatures" dbEntityName="bugs_and_features">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="page" type="java.lang.String" db-attribute-path="page"/>
+		<obj-attribute name="priorityId" type="java.lang.Integer" db-attribute-path="priority_id"/>
+		<obj-attribute name="typeBug" type="java.lang.String" db-attribute-path="type_bug"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="Channel" className="org.vamdc.kida.Channel" dbEntityName="channel">
+		<obj-attribute name="addedStatus" type="java.lang.Integer" db-attribute-path="added_status"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="num" type="java.lang.Integer" db-attribute-path="num"/>
+		<obj-attribute name="status" type="java.lang.String" db-attribute-path="status"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ChannelHasSpecie" className="org.vamdc.kida.ChannelHasSpecie" dbEntityName="channel_has_specie">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="occurrence" type="java.lang.Integer" db-attribute-path="occurrence"/>
+		<obj-attribute name="type" type="java.lang.String" db-attribute-path="type"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ChannelValue" className="org.vamdc.kida.ChannelValue" dbEntityName="channel_value">
+		<obj-attribute name="addJustification" type="java.lang.String" db-attribute-path="add_justification"/>
+		<obj-attribute name="application" type="java.lang.String" db-attribute-path="application"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="cvField" type="java.lang.String" db-attribute-path="cv_field"/>
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="expertAuthorised" type="java.lang.String" db-attribute-path="expert_authorised"/>
+		<obj-attribute name="expertize" type="java.lang.Integer" db-attribute-path="expertize"/>
+		<obj-attribute name="isTemp" type="java.lang.Byte" db-attribute-path="is_temp"/>
+		<obj-attribute name="isTrash" type="java.lang.Integer" db-attribute-path="is_trash"/>
+		<obj-attribute name="justification" type="java.lang.String" db-attribute-path="justification"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="ref" type="java.lang.String" db-attribute-path="ref"/>
+		<obj-attribute name="status" type="java.lang.Integer" db-attribute-path="status"/>
+		<obj-attribute name="trashAuthor" type="java.lang.String" db-attribute-path="trash_author"/>
+		<obj-attribute name="trashComment" type="java.lang.String" db-attribute-path="trash_comment"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ChannelVariable" className="org.vamdc.kida.ChannelVariable" dbEntityName="channel_variable">
+		<obj-attribute name="comment" type="java.lang.String" db-attribute-path="comment"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="exposant" type="java.lang.Integer" db-attribute-path="exposant"/>
+		<obj-attribute name="ref" type="java.lang.String" db-attribute-path="ref"/>
+		<obj-attribute name="typeUncert" type="java.lang.String" db-attribute-path="type_uncert"/>
+		<obj-attribute name="uncert" type="java.lang.String" db-attribute-path="uncert"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="value" type="java.lang.Float" db-attribute-path="value"/>
+	</obj-entity>
+	<obj-entity name="Comment" className="org.vamdc.kida.Comment" dbEntityName="comment">
+		<obj-attribute name="commentText" type="java.lang.String" db-attribute-path="comment_text"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="entityId" type="java.lang.Integer" db-attribute-path="entity_id"/>
+		<obj-attribute name="entityType" type="java.lang.String" db-attribute-path="entity_type"/>
+		<obj-attribute name="idPere" type="java.lang.Integer" db-attribute-path="id_pere"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="Datasheet" className="org.vamdc.kida.Datasheet" dbEntityName="datasheet">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="filename" type="java.lang.String" db-attribute-path="filename"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="userEmail" type="java.lang.String" db-attribute-path="user_email"/>
+		<obj-attribute name="version" type="java.lang.Long" db-attribute-path="version"/>
+	</obj-entity>
+	<obj-entity name="DipoleMoment" className="org.vamdc.kida.DipoleMoment" dbEntityName="dipole_moment">
+		<obj-attribute name="authorEmail" type="java.lang.String" db-attribute-path="author_email"/>
+		<obj-attribute name="bibliographyId" type="java.lang.Integer" db-attribute-path="bibliography_id"/>
+		<obj-attribute name="comment" type="java.lang.String" db-attribute-path="comment"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="definition" type="java.lang.String" db-attribute-path="definition"/>
+		<obj-attribute name="expertEmail" type="java.lang.String" db-attribute-path="expert_email"/>
+		<obj-attribute name="expertize" type="java.lang.String" db-attribute-path="expertize"/>
+		<obj-attribute name="justification" type="java.lang.String" db-attribute-path="justification"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="ref" type="java.lang.String" db-attribute-path="ref"/>
+		<obj-attribute name="speciesId" type="java.lang.Integer" db-attribute-path="species_id"/>
+		<obj-attribute name="typeUncert" type="java.lang.String" db-attribute-path="type_uncert"/>
+		<obj-attribute name="uncert" type="java.lang.Float" db-attribute-path="uncert"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="value" type="java.lang.Float" db-attribute-path="value"/>
+	</obj-entity>
+	<obj-entity name="Documents" className="org.vamdc.kida.Documents" dbEntityName="documents">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="fileDocument" type="java.lang.String" db-attribute-path="file_document"/>
+		<obj-attribute name="filePreview" type="java.lang.String" db-attribute-path="file_preview"/>
+		<obj-attribute name="typeDocument" type="java.lang.String" db-attribute-path="type_document"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="Element" className="org.vamdc.kida.Element" dbEntityName="element">
+		<obj-attribute name="atomicNumber" type="java.lang.Integer" db-attribute-path="atomic_number"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="massValue" type="java.lang.Double" db-attribute-path="mass_value"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="symbol" type="java.lang.String" db-attribute-path="symbol"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="Enthalpy" className="org.vamdc.kida.Enthalpy" dbEntityName="enthalpy">
+		<obj-attribute name="authorEmail" type="java.lang.String" db-attribute-path="author_email"/>
+		<obj-attribute name="bibliographyId" type="java.lang.Integer" db-attribute-path="bibliography_id"/>
+		<obj-attribute name="comment" type="java.lang.String" db-attribute-path="comment"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="expertEmail" type="java.lang.String" db-attribute-path="expert_email"/>
+		<obj-attribute name="expertize" type="java.lang.String" db-attribute-path="expertize"/>
+		<obj-attribute name="justification" type="java.lang.String" db-attribute-path="justification"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="ref" type="java.lang.String" db-attribute-path="ref"/>
+		<obj-attribute name="speciesId" type="java.lang.Integer" db-attribute-path="species_id"/>
+		<obj-attribute name="temperature" type="java.lang.Float" db-attribute-path="temperature"/>
+		<obj-attribute name="typeUncert" type="java.lang.String" db-attribute-path="type_uncert"/>
+		<obj-attribute name="uncert" type="java.lang.Float" db-attribute-path="uncert"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="value" type="java.lang.Float" db-attribute-path="value"/>
+	</obj-entity>
+	<obj-entity name="ExperimentHasChannel" className="org.vamdc.kida.ExperimentHasChannel" dbEntityName="experiment_has_channel">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ExpertAdvice" className="org.vamdc.kida.ExpertAdvice" dbEntityName="expert_advice">
+		<obj-attribute name="advice" type="java.lang.String" db-attribute-path="advice"/>
+		<obj-attribute name="comment" type="java.lang.String" db-attribute-path="comment"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="expertEmail" type="java.lang.String" db-attribute-path="expert_email"/>
+		<obj-attribute name="groupId" type="java.lang.Integer" db-attribute-path="group_id"/>
+		<obj-attribute name="superExpertEmail" type="java.lang.String" db-attribute-path="super_expert_email"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ExpertAdviceGroup" className="org.vamdc.kida.ExpertAdviceGroup" dbEntityName="expert_advice_group">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="tabChannelValue" type="java.lang.String" db-attribute-path="tab_channel_value"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="FcValue" className="org.vamdc.kida.FcValue" dbEntityName="fc_value">
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="exposantA" type="java.lang.Integer" db-attribute-path="exposant_a"/>
+		<obj-attribute name="exposantB" type="java.lang.Integer" db-attribute-path="exposant_b"/>
+		<obj-attribute name="exposantC" type="java.lang.Integer" db-attribute-path="exposant_c"/>
+		<obj-attribute name="exposantD" type="java.lang.Integer" db-attribute-path="exposant_d"/>
+		<obj-attribute name="f0" type="java.lang.Float" db-attribute-path="f0"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="typeUncert" type="java.lang.String" db-attribute-path="type_uncert"/>
+		<obj-attribute name="valueA" type="java.lang.Float" db-attribute-path="value_a"/>
+		<obj-attribute name="valueB" type="java.lang.Float" db-attribute-path="value_b"/>
+		<obj-attribute name="valueC" type="java.lang.Float" db-attribute-path="value_c"/>
+		<obj-attribute name="valueD" type="java.lang.Float" db-attribute-path="value_d"/>
+	</obj-entity>
+	<obj-entity name="FixedText" className="org.vamdc.kida.FixedText" dbEntityName="fixed_text">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="text" type="java.lang.String" db-attribute-path="text"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="Formula" className="org.vamdc.kida.Formula" dbEntityName="formula">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="image" type="java.lang.String" db-attribute-path="image"/>
+		<obj-attribute name="math" type="java.lang.String" db-attribute-path="math"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="units" type="java.lang.String" db-attribute-path="units"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="GetLogged" className="org.vamdc.kida.GetLogged" dbEntityName="get_logged">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="HelpData" className="org.vamdc.kida.HelpData" dbEntityName="help_data">
+		<obj-attribute name="column" type="java.lang.String" db-attribute-path="column"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="table" type="java.lang.String" db-attribute-path="table"/>
+		<obj-attribute name="text" type="java.lang.String" db-attribute-path="text"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="HistoChannelValue" className="org.vamdc.kida.HistoChannelValue" dbEntityName="histo_channel_value">
+		<obj-attribute name="action" type="java.lang.String" db-attribute-path="action"/>
+		<obj-attribute name="addJustification" type="java.lang.String" db-attribute-path="add_justification"/>
+		<obj-attribute name="authorEmail" type="java.lang.String" db-attribute-path="author_email"/>
+		<obj-attribute name="bibliographyId" type="java.lang.Integer" db-attribute-path="bibliography_id"/>
+		<obj-attribute name="channelId" type="java.lang.Integer" db-attribute-path="channel_id"/>
+		<obj-attribute name="dateAction" type="java.util.Date" db-attribute-path="date_action"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="expertAuthorised" type="java.lang.String" db-attribute-path="expert_authorised"/>
+		<obj-attribute name="expertEmail" type="java.lang.String" db-attribute-path="expert_email"/>
+		<obj-attribute name="expertize" type="java.lang.Integer" db-attribute-path="expertize"/>
+		<obj-attribute name="formulaId" type="java.lang.Integer" db-attribute-path="formula_id"/>
+		<obj-attribute name="idOriginal" type="java.lang.Integer" db-attribute-path="id_original"/>
+		<obj-attribute name="justification" type="java.lang.String" db-attribute-path="justification"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="ref" type="java.lang.String" db-attribute-path="ref"/>
+		<obj-attribute name="status" type="java.lang.Integer" db-attribute-path="status"/>
+		<obj-attribute name="validityRangeId" type="java.lang.Integer" db-attribute-path="validity_range_id"/>
+	</obj-entity>
+	<obj-entity name="ImportChannel" className="org.vamdc.kida.ImportChannel" dbEntityName="import_channel">
+		<obj-attribute name="alpha" type="java.lang.String" db-attribute-path="alpha"/>
+		<obj-attribute name="application" type="java.lang.String" db-attribute-path="application"/>
+		<obj-attribute name="beta" type="java.lang.String" db-attribute-path="beta"/>
+		<obj-attribute name="bibtex" type="java.lang.String" db-attribute-path="bibtex"/>
+		<obj-attribute name="bibtexFile" type="java.lang.String" db-attribute-path="bibtex_file"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="cvField" type="java.lang.String" db-attribute-path="cv_field"/>
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="formula" type="java.lang.String" db-attribute-path="formula"/>
+		<obj-attribute name="g" type="java.lang.Float" db-attribute-path="g"/>
+		<obj-attribute name="gamma" type="java.lang.String" db-attribute-path="gamma"/>
+		<obj-attribute name="isPause" type="java.lang.Integer" db-attribute-path="is_pause"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="product1" type="java.lang.String" db-attribute-path="product1"/>
+		<obj-attribute name="product2" type="java.lang.String" db-attribute-path="product2"/>
+		<obj-attribute name="product3" type="java.lang.String" db-attribute-path="product3"/>
+		<obj-attribute name="product4" type="java.lang.String" db-attribute-path="product4"/>
+		<obj-attribute name="product5" type="java.lang.String" db-attribute-path="product5"/>
+		<obj-attribute name="product6" type="java.lang.String" db-attribute-path="product6"/>
+		<obj-attribute name="reactant1" type="java.lang.String" db-attribute-path="reactant1"/>
+		<obj-attribute name="reactant2" type="java.lang.String" db-attribute-path="reactant2"/>
+		<obj-attribute name="tmax" type="java.lang.Integer" db-attribute-path="Tmax"/>
+		<obj-attribute name="tmin" type="java.lang.Integer" db-attribute-path="Tmin"/>
+		<obj-attribute name="typeChannel" type="java.lang.Integer" db-attribute-path="type_channel"/>
+		<obj-attribute name="typeUncert" type="java.lang.String" db-attribute-path="type_uncert"/>
+		<obj-attribute name="uncert" type="java.lang.Float" db-attribute-path="uncert"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ImportDipoleMoment" className="org.vamdc.kida.ImportDipoleMoment" dbEntityName="import_dipole_moment">
+		<obj-attribute name="bibtex" type="java.lang.String" db-attribute-path="bibtex"/>
+		<obj-attribute name="bibtexFile" type="java.lang.String" db-attribute-path="bibtex_file"/>
+		<obj-attribute name="commonName" type="java.lang.String" db-attribute-path="common_name"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="isPause" type="java.lang.Integer" db-attribute-path="is_pause"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="speciesId" type="java.lang.Integer" db-attribute-path="species_id"/>
+		<obj-attribute name="uncert" type="java.lang.Float" db-attribute-path="uncert"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="value" type="java.lang.Float" db-attribute-path="value"/>
+	</obj-entity>
+	<obj-entity name="ImportEnthalpy" className="org.vamdc.kida.ImportEnthalpy" dbEntityName="import_enthalpy">
+		<obj-attribute name="bibtex" type="java.lang.String" db-attribute-path="bibtex"/>
+		<obj-attribute name="bibtexFile" type="java.lang.String" db-attribute-path="bibtex_file"/>
+		<obj-attribute name="commonName" type="java.lang.String" db-attribute-path="common_name"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="isPause" type="java.lang.Integer" db-attribute-path="is_pause"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="speciesId" type="java.lang.Integer" db-attribute-path="species_id"/>
+		<obj-attribute name="temperature" type="java.lang.Integer" db-attribute-path="temperature"/>
+		<obj-attribute name="uncert" type="java.lang.Float" db-attribute-path="uncert"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="value" type="java.lang.Float" db-attribute-path="value"/>
+	</obj-entity>
+	<obj-entity name="ImportInfosNewSpecie" className="org.vamdc.kida.ImportInfosNewSpecie" dbEntityName="import_infos_new_specie">
+		<obj-attribute name="application" type="java.lang.String" db-attribute-path="application"/>
+		<obj-attribute name="cas" type="java.lang.String" db-attribute-path="CAS"/>
+		<obj-attribute name="charge" type="java.lang.Integer" db-attribute-path="charge"/>
+		<obj-attribute name="commonName" type="java.lang.String" db-attribute-path="common_name"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="electronicState" type="java.lang.String" db-attribute-path="electronic_state"/>
+		<obj-attribute name="inchi" type="java.lang.String" db-attribute-path="inchi"/>
+		<obj-attribute name="isPause" type="java.lang.Integer" db-attribute-path="is_pause"/>
+		<obj-attribute name="species" type="java.lang.String" db-attribute-path="species"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ImportInfosSpecie" className="org.vamdc.kida.ImportInfosSpecie" dbEntityName="import_infos_specie">
+		<obj-attribute name="application" type="java.lang.String" db-attribute-path="application"/>
+		<obj-attribute name="cas" type="java.lang.String" db-attribute-path="CAS"/>
+		<obj-attribute name="charge" type="java.lang.Integer" db-attribute-path="charge"/>
+		<obj-attribute name="commonName" type="java.lang.String" db-attribute-path="common_name"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="electronicState" type="java.lang.String" db-attribute-path="electronic_state"/>
+		<obj-attribute name="inchi" type="java.lang.String" db-attribute-path="inchi"/>
+		<obj-attribute name="isPause" type="java.lang.Integer" db-attribute-path="is_pause"/>
+		<obj-attribute name="speciesId" type="java.lang.Integer" db-attribute-path="species_id"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ImportPolarizability" className="org.vamdc.kida.ImportPolarizability" dbEntityName="import_polarizability">
+		<obj-attribute name="bibtex" type="java.lang.String" db-attribute-path="bibtex"/>
+		<obj-attribute name="bibtexFile" type="java.lang.String" db-attribute-path="bibtex_file"/>
+		<obj-attribute name="commonName" type="java.lang.String" db-attribute-path="common_name"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="definition" type="java.lang.String" db-attribute-path="definition"/>
+		<obj-attribute name="isPause" type="java.lang.Integer" db-attribute-path="is_pause"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="speciesId" type="java.lang.Integer" db-attribute-path="species_id"/>
+		<obj-attribute name="uncert" type="java.lang.Float" db-attribute-path="uncert"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="value" type="java.lang.Float" db-attribute-path="value"/>
+	</obj-entity>
+	<obj-entity name="ImportThreeBodyChannel" className="org.vamdc.kida.ImportThreeBodyChannel" dbEntityName="import_three_body_channel">
+		<obj-attribute name="application" type="java.lang.String" db-attribute-path="application"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="fcA" type="java.lang.String" db-attribute-path="fc_a"/>
+		<obj-attribute name="fcB" type="java.lang.String" db-attribute-path="fc_b"/>
+		<obj-attribute name="fcBibtex" type="java.lang.String" db-attribute-path="fc_bibtex"/>
+		<obj-attribute name="fcBibtexFile" type="java.lang.String" db-attribute-path="fc_bibtex_file"/>
+		<obj-attribute name="fcC" type="java.lang.String" db-attribute-path="fc_c"/>
+		<obj-attribute name="fcD" type="java.lang.String" db-attribute-path="fc_d"/>
+		<obj-attribute name="fcDatabase" type="java.lang.String" db-attribute-path="fc_database"/>
+		<obj-attribute name="fcDescription" type="java.lang.String" db-attribute-path="fc_description"/>
+		<obj-attribute name="fcF0" type="java.lang.String" db-attribute-path="fc_F0"/>
+		<obj-attribute name="fcFormula" type="java.lang.String" db-attribute-path="fc_formula"/>
+		<obj-attribute name="fcMethod" type="java.lang.String" db-attribute-path="fc_method"/>
+		<obj-attribute name="fcOrigin" type="java.lang.String" db-attribute-path="fc_origin"/>
+		<obj-attribute name="fcTypeUncert" type="java.lang.String" db-attribute-path="fc_type_uncert"/>
+		<obj-attribute name="formula" type="java.lang.String" db-attribute-path="formula"/>
+		<obj-attribute name="isPause" type="java.lang.Integer" db-attribute-path="is_pause"/>
+		<obj-attribute name="k0Alpha" type="java.lang.String" db-attribute-path="k0_alpha"/>
+		<obj-attribute name="k0Beta" type="java.lang.String" db-attribute-path="k0_beta"/>
+		<obj-attribute name="k0Bibtex" type="java.lang.String" db-attribute-path="k0_bibtex"/>
+		<obj-attribute name="k0BibtexFile" type="java.lang.String" db-attribute-path="k0_bibtex_file"/>
+		<obj-attribute name="k0Database" type="java.lang.String" db-attribute-path="k0_database"/>
+		<obj-attribute name="k0Description" type="java.lang.String" db-attribute-path="k0_description"/>
+		<obj-attribute name="k0F0" type="java.lang.String" db-attribute-path="k0_F0"/>
+		<obj-attribute name="k0Formula" type="java.lang.String" db-attribute-path="k0_formula"/>
+		<obj-attribute name="k0G" type="java.lang.String" db-attribute-path="k0_g"/>
+		<obj-attribute name="k0Gamma" type="java.lang.String" db-attribute-path="k0_gamma"/>
+		<obj-attribute name="k0Method" type="java.lang.String" db-attribute-path="k0_method"/>
+		<obj-attribute name="k0Origin" type="java.lang.String" db-attribute-path="k0_origin"/>
+		<obj-attribute name="k0TypeUncert" type="java.lang.String" db-attribute-path="k0_type_uncert"/>
+		<obj-attribute name="kinfAlpha" type="java.lang.String" db-attribute-path="kinf_alpha"/>
+		<obj-attribute name="kinfBeta" type="java.lang.String" db-attribute-path="kinf_beta"/>
+		<obj-attribute name="kinfBibtex" type="java.lang.String" db-attribute-path="kinf_bibtex"/>
+		<obj-attribute name="kinfBibtexFile" type="java.lang.String" db-attribute-path="kinf_bibtex_file"/>
+		<obj-attribute name="kinfDatabase" type="java.lang.String" db-attribute-path="kinf_database"/>
+		<obj-attribute name="kinfDescription" type="java.lang.String" db-attribute-path="kinf_description"/>
+		<obj-attribute name="kinfF0" type="java.lang.String" db-attribute-path="kinf_F0"/>
+		<obj-attribute name="kinfFormula" type="java.lang.String" db-attribute-path="kinf_formula"/>
+		<obj-attribute name="kinfG" type="java.lang.String" db-attribute-path="kinf_g"/>
+		<obj-attribute name="kinfGamma" type="java.lang.String" db-attribute-path="kinf_gamma"/>
+		<obj-attribute name="kinfMethod" type="java.lang.String" db-attribute-path="kinf_method"/>
+		<obj-attribute name="kinfOrigin" type="java.lang.String" db-attribute-path="kinf_origin"/>
+		<obj-attribute name="kinfTypeUncert" type="java.lang.String" db-attribute-path="kinf_type_uncert"/>
+		<obj-attribute name="pmax" type="java.lang.String" db-attribute-path="Pmax"/>
+		<obj-attribute name="pmin" type="java.lang.String" db-attribute-path="Pmin"/>
+		<obj-attribute name="product1" type="java.lang.String" db-attribute-path="product1"/>
+		<obj-attribute name="product2" type="java.lang.String" db-attribute-path="product2"/>
+		<obj-attribute name="product3" type="java.lang.String" db-attribute-path="product3"/>
+		<obj-attribute name="product4" type="java.lang.String" db-attribute-path="product4"/>
+		<obj-attribute name="product5" type="java.lang.String" db-attribute-path="product5"/>
+		<obj-attribute name="product6" type="java.lang.String" db-attribute-path="product6"/>
+		<obj-attribute name="reactant1" type="java.lang.String" db-attribute-path="reactant1"/>
+		<obj-attribute name="reactant2" type="java.lang.String" db-attribute-path="reactant2"/>
+		<obj-attribute name="reactant3" type="java.lang.String" db-attribute-path="reactant3"/>
+		<obj-attribute name="tmax" type="java.lang.String" db-attribute-path="Tmax"/>
+		<obj-attribute name="tmin" type="java.lang.String" db-attribute-path="Tmin"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="IsExpert" className="org.vamdc.kida.IsExpert" dbEntityName="is_expert">
+		<obj-attribute name="level" type="java.lang.String" db-attribute-path="level"/>
+		<obj-attribute name="typeChannelId" type="java.lang.Long" db-attribute-path="type_channel_id"/>
+		<obj-attribute name="userEmail" type="java.lang.String" db-attribute-path="user_email"/>
+	</obj-entity>
+	<obj-entity name="JournalName" className="org.vamdc.kida.JournalName" dbEntityName="journal_name">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="K0Value" className="org.vamdc.kida.K0Value" dbEntityName="k0_value">
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="exposantA" type="java.lang.Integer" db-attribute-path="exposant_a"/>
+		<obj-attribute name="exposantB" type="java.lang.Integer" db-attribute-path="exposant_b"/>
+		<obj-attribute name="exposantN" type="java.lang.Integer" db-attribute-path="exposant_n"/>
+		<obj-attribute name="f0" type="java.lang.Float" db-attribute-path="f0"/>
+		<obj-attribute name="g" type="java.lang.Float" db-attribute-path="g"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="typeUncert" type="java.lang.String" db-attribute-path="type_uncert"/>
+		<obj-attribute name="valueA" type="java.lang.Float" db-attribute-path="value_a"/>
+		<obj-attribute name="valueB" type="java.lang.Float" db-attribute-path="value_b"/>
+		<obj-attribute name="valueN" type="java.lang.Float" db-attribute-path="value_n"/>
+	</obj-entity>
+	<obj-entity name="KinfValue" className="org.vamdc.kida.KinfValue" dbEntityName="kinf_value">
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="exposantA" type="java.lang.Integer" db-attribute-path="exposant_a"/>
+		<obj-attribute name="exposantB" type="java.lang.Integer" db-attribute-path="exposant_b"/>
+		<obj-attribute name="exposantN" type="java.lang.Integer" db-attribute-path="exposant_n"/>
+		<obj-attribute name="f0" type="java.lang.Float" db-attribute-path="f0"/>
+		<obj-attribute name="g" type="java.lang.Float" db-attribute-path="g"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="typeUncert" type="java.lang.String" db-attribute-path="type_uncert"/>
+		<obj-attribute name="valueA" type="java.lang.Float" db-attribute-path="value_a"/>
+		<obj-attribute name="valueB" type="java.lang.Float" db-attribute-path="value_b"/>
+		<obj-attribute name="valueN" type="java.lang.Float" db-attribute-path="value_n"/>
+	</obj-entity>
+	<obj-entity name="MailingList" className="org.vamdc.kida.MailingList" dbEntityName="mailing_list">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="Models" className="org.vamdc.kida.Models" dbEntityName="models">
+		<obj-attribute name="comment" type="java.lang.String" db-attribute-path="comment"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="filename" type="java.lang.String" db-attribute-path="filename"/>
+		<obj-attribute name="type" type="java.lang.String" db-attribute-path="type"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="News" className="org.vamdc.kida.News" dbEntityName="news">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="image" type="java.lang.String" db-attribute-path="image"/>
+		<obj-attribute name="link" type="java.lang.String" db-attribute-path="link"/>
+		<obj-attribute name="title" type="java.lang.String" db-attribute-path="title"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="Polarizability" className="org.vamdc.kida.Polarizability" dbEntityName="polarizability">
+		<obj-attribute name="authorEmail" type="java.lang.String" db-attribute-path="author_email"/>
+		<obj-attribute name="bibliographyId" type="java.lang.Integer" db-attribute-path="bibliography_id"/>
+		<obj-attribute name="comment" type="java.lang.String" db-attribute-path="comment"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="database" type="java.lang.String" db-attribute-path="database"/>
+		<obj-attribute name="definition" type="java.lang.String" db-attribute-path="definition"/>
+		<obj-attribute name="expertEmail" type="java.lang.String" db-attribute-path="expert_email"/>
+		<obj-attribute name="expertize" type="java.lang.String" db-attribute-path="expertize"/>
+		<obj-attribute name="justification" type="java.lang.String" db-attribute-path="justification"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="ref" type="java.lang.String" db-attribute-path="ref"/>
+		<obj-attribute name="speciesId" type="java.lang.Integer" db-attribute-path="species_id"/>
+		<obj-attribute name="typeUncert" type="java.lang.String" db-attribute-path="type_uncert"/>
+		<obj-attribute name="uncert" type="java.lang.Float" db-attribute-path="uncert"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="value" type="java.lang.Float" db-attribute-path="value"/>
+	</obj-entity>
+	<obj-entity name="Reaction" className="org.vamdc.kida.Reaction" dbEntityName="reaction">
+		<obj-attribute name="addedStatus" type="java.lang.Integer" db-attribute-path="added_status"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="Search" className="org.vamdc.kida.Search" dbEntityName="search">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="queryParam" type="java.lang.String" db-attribute-path="query_param"/>
+		<obj-attribute name="typeChannelId" type="java.lang.Integer" db-attribute-path="type_channel_id"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="userEmail" type="java.lang.String" db-attribute-path="user_email"/>
+	</obj-entity>
+	<obj-entity name="SfGuardGroup" className="org.vamdc.kida.SfGuardGroup" dbEntityName="sf_guard_group">
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+	</obj-entity>
+	<obj-entity name="SfGuardGroupPermission" className="org.vamdc.kida.SfGuardGroupPermission" dbEntityName="sf_guard_group_permission">
+	</obj-entity>
+	<obj-entity name="SfGuardPermission" className="org.vamdc.kida.SfGuardPermission" dbEntityName="sf_guard_permission">
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+	</obj-entity>
+	<obj-entity name="SfGuardRememberKey" className="org.vamdc.kida.SfGuardRememberKey" dbEntityName="sf_guard_remember_key">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="rememberKey" type="java.lang.String" db-attribute-path="remember_key"/>
+	</obj-entity>
+	<obj-entity name="SfGuardUser" className="org.vamdc.kida.SfGuardUser" dbEntityName="sf_guard_user">
+		<obj-attribute name="algorithm" type="java.lang.String" db-attribute-path="algorithm"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="isActive" type="java.lang.Byte" db-attribute-path="is_active"/>
+		<obj-attribute name="isSuperAdmin" type="java.lang.Byte" db-attribute-path="is_super_admin"/>
+		<obj-attribute name="lastLogin" type="java.util.Date" db-attribute-path="last_login"/>
+		<obj-attribute name="password" type="java.lang.String" db-attribute-path="password"/>
+		<obj-attribute name="salt" type="java.lang.String" db-attribute-path="salt"/>
+	</obj-entity>
+	<obj-entity name="SfGuardUserGroup" className="org.vamdc.kida.SfGuardUserGroup" dbEntityName="sf_guard_user_group">
+	</obj-entity>
+	<obj-entity name="SfGuardUserPermission" className="org.vamdc.kida.SfGuardUserPermission" dbEntityName="sf_guard_user_permission">
+	</obj-entity>
+	<obj-entity name="SfGuardUserProfile" className="org.vamdc.kida.SfGuardUserProfile" dbEntityName="sf_guard_user_profile">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="firstName" type="java.lang.String" db-attribute-path="first_name"/>
+		<obj-attribute name="lastName" type="java.lang.String" db-attribute-path="last_name"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="Specie" className="org.vamdc.kida.Specie" dbEntityName="specie">
+		<obj-attribute name="application" type="java.lang.String" db-attribute-path="application"/>
+		<obj-attribute name="cas" type="java.lang.String" db-attribute-path="CAS"/>
+		<obj-attribute name="charge" type="java.lang.Integer" db-attribute-path="charge"/>
+		<obj-attribute name="commonName" type="java.lang.String" db-attribute-path="common_name"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="electronicState" type="java.lang.String" db-attribute-path="electronic_state"/>
+		<obj-attribute name="excitation" type="java.lang.String" db-attribute-path="excitation"/>
+		<obj-attribute name="formula" type="java.lang.String" db-attribute-path="formula"/>
+		<obj-attribute name="id" type="java.lang.Integer" db-attribute-path="id"/>
+		<obj-attribute name="inchi" type="java.lang.String" db-attribute-path="inchi"/>
+		<obj-attribute name="inchiKey" type="java.lang.String" db-attribute-path="inchi_key"/>
+		<obj-attribute name="molFile" type="java.lang.String" db-attribute-path="mol_file"/>
+		<obj-attribute name="multiplicity" type="java.lang.Integer" db-attribute-path="multiplicity"/>
+		<obj-attribute name="num" type="java.lang.Integer" db-attribute-path="num"/>
+		<obj-attribute name="rotationLevel" type="java.lang.Float" db-attribute-path="rotation_level"/>
+		<obj-attribute name="structure" type="java.lang.String" db-attribute-path="structure"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+		<obj-attribute name="vibrationLevel" type="java.lang.String" db-attribute-path="vibration_level"/>
+	</obj-entity>
+	<obj-entity name="SpecieHasElement" className="org.vamdc.kida.SpecieHasElement" dbEntityName="specie_has_element">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="occurrence" type="java.lang.Integer" db-attribute-path="occurrence"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ThreeBodyChannel" className="org.vamdc.kida.ThreeBodyChannel" dbEntityName="three_body_channel">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="status" type="java.lang.String" db-attribute-path="status"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ThreeBodyChannelHasSpecie" className="org.vamdc.kida.ThreeBodyChannelHasSpecie" dbEntityName="three_body_channel_has_specie">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="occurrence" type="java.lang.Integer" db-attribute-path="occurrence"/>
+		<obj-attribute name="ordre" type="java.lang.Integer" db-attribute-path="ordre"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ThreeBodyChannelValue" className="org.vamdc.kida.ThreeBodyChannelValue" dbEntityName="three_body_channel_value">
+		<obj-attribute name="application" type="java.lang.String" db-attribute-path="application"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="expertize" type="java.lang.Integer" db-attribute-path="expertize"/>
+		<obj-attribute name="isTrash" type="java.lang.Integer" db-attribute-path="is_trash"/>
+		<obj-attribute name="justification" type="java.lang.String" db-attribute-path="justification"/>
+		<obj-attribute name="status" type="java.lang.Integer" db-attribute-path="status"/>
+		<obj-attribute name="trashComment" type="java.lang.String" db-attribute-path="trash_comment"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ThreeBodyReaction" className="org.vamdc.kida.ThreeBodyReaction" dbEntityName="three_body_reaction">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ThreeBodyReactionHasChannel" className="org.vamdc.kida.ThreeBodyReactionHasChannel" dbEntityName="three_body_reaction_has_channel">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ThreeBodyReactionHasReactant" className="org.vamdc.kida.ThreeBodyReactionHasReactant" dbEntityName="three_body_reaction_has_reactant">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="occurrence" type="java.lang.Integer" db-attribute-path="occurrence"/>
+		<obj-attribute name="ordre" type="java.lang.Integer" db-attribute-path="ordre"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="TotalRate" className="org.vamdc.kida.TotalRate" dbEntityName="total_rate">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="expertize" type="java.lang.Integer" db-attribute-path="expertize"/>
+		<obj-attribute name="justification" type="java.lang.String" db-attribute-path="justification"/>
+		<obj-attribute name="method" type="java.lang.String" db-attribute-path="method"/>
+		<obj-attribute name="origin" type="java.lang.String" db-attribute-path="origin"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="TypeChannel" className="org.vamdc.kida.TypeChannel" dbEntityName="type_channel">
+		<obj-attribute name="abbrev" type="java.lang.String" db-attribute-path="abbrev"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="id" type="java.lang.Integer" db-attribute-path="id"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="oldValue" type="java.lang.Integer" db-attribute-path="oldValue"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="ValidityRange" className="org.vamdc.kida.ValidityRange" dbEntityName="validity_range">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="pmax" type="java.lang.Integer" db-attribute-path="Pmax"/>
+		<obj-attribute name="pmin" type="java.lang.Integer" db-attribute-path="Pmin"/>
+		<obj-attribute name="tmax" type="java.lang.Integer" db-attribute-path="Tmax"/>
+		<obj-attribute name="tmin" type="java.lang.Integer" db-attribute-path="Tmin"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<obj-entity name="VariableName" className="org.vamdc.kida.VariableName" dbEntityName="variable_name">
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="html" type="java.lang.String" db-attribute-path="html"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="updatedAt" type="java.util.Date" db-attribute-path="updated_at"/>
+	</obj-entity>
+	<db-relationship name="fcValueArray" source="biblio" target="fc_value" toMany="true">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="k0ValueArray" source="biblio" target="k0_value" toMany="true">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="kinfValueArray" source="biblio" target="kinf_value" toMany="true">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="toBiblio" source="biblio" target="biblio_book" toDependentPK="true" toMany="false">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="toBiblio1" source="biblio" target="biblio_journal" toDependentPK="true" toMany="false">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="toBiblio2" source="biblio" target="biblio_thesis" toDependentPK="true" toMany="false">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="toChannelValue" source="biblio" target="channel_value" toMany="true">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="untitledRel" source="biblio" target="channel_value" toMany="true">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="untitledRel1" source="biblio" target="channel_value" toMany="true">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="untitledRel2" source="biblio" target="channel_value" toMany="true">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="toBiblio" source="biblio_book" target="biblio" toMany="false">
+		<db-attribute-pair source="bibliography_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toBiblio" source="biblio_journal" target="biblio" toMany="false">
+		<db-attribute-pair source="bibliography_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toBiblio" source="biblio_thesis" target="biblio" toMany="false">
+		<db-attribute-pair source="bibliography_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="channelVariableArray" source="bibliography" target="channel_variable" toMany="true">
+		<db-attribute-pair source="id" target="bibliography_id"/>
+	</db-relationship>
+	<db-relationship name="bugsAndFeaturesArray" source="bug_state" target="bugs_and_features" toMany="true">
+		<db-attribute-pair source="id" target="state_id"/>
+	</db-relationship>
+	<db-relationship name="toBugState" source="bugs_and_features" target="bug_state" toMany="false">
+		<db-attribute-pair source="state_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser" source="bugs_and_features" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="author_email" target="username"/>
+	</db-relationship>
+	<db-relationship name="channelHasSpecieArray" source="channel" target="channel_has_specie" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="channel_id"/>
+	</db-relationship>
+	<db-relationship name="channelValueArray" source="channel" target="channel_value" toMany="true">
+		<db-attribute-pair source="id" target="channel_id"/>
+	</db-relationship>
+	<db-relationship name="experimentHasChannelArray" source="channel" target="experiment_has_channel" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="channel_id"/>
+	</db-relationship>
+	<db-relationship name="toTypeChannel" source="channel" target="type_channel" toMany="false">
+		<db-attribute-pair source="type_channel_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toChannel" source="channel_has_specie" target="channel" toMany="false">
+		<db-attribute-pair source="channel_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSpecie" source="channel_has_specie" target="specie" toMany="false">
+		<db-attribute-pair source="specie_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="channelVariableArray" source="channel_value" target="channel_variable" toMany="true">
+		<db-attribute-pair source="id" target="channel_value_id"/>
+	</db-relationship>
+	<db-relationship name="toBibliography" source="channel_value" target="biblio" toMany="false">
+		<db-attribute-pair source="bibliography_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toChannel" source="channel_value" target="channel" toMany="false">
+		<db-attribute-pair source="channel_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toFormula" source="channel_value" target="formula" toMany="false">
+		<db-attribute-pair source="formula_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser" source="channel_value" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="author_email" target="username"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser1" source="channel_value" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="expert_email" target="username"/>
+	</db-relationship>
+	<db-relationship name="toValidityRange" source="channel_value" target="validity_range" toMany="false">
+		<db-attribute-pair source="validity_range_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toBibliography" source="channel_variable" target="bibliography" toMany="false">
+		<db-attribute-pair source="bibliography_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toChannelValue" source="channel_variable" target="channel_value" toMany="false">
+		<db-attribute-pair source="channel_value_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toTotalRate" source="channel_variable" target="total_rate" toMany="false">
+		<db-attribute-pair source="total_rate_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toVariableName" source="channel_variable" target="variable_name" toMany="false">
+		<db-attribute-pair source="variable_name_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser" source="comment" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="author_email" target="username"/>
+	</db-relationship>
+	<db-relationship name="toReaction" source="datasheet" target="reaction" toMany="false">
+		<db-attribute-pair source="reaction_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="specieHasElementArray" source="element" target="specie_has_element" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="element_id"/>
+	</db-relationship>
+	<db-relationship name="toChannel" source="experiment_has_channel" target="channel" toMany="false">
+		<db-attribute-pair source="channel_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toReaction" source="experiment_has_channel" target="reaction" toMany="false">
+		<db-attribute-pair source="reaction_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toBiblio" source="fc_value" target="biblio" toMany="false">
+		<db-attribute-pair source="bibliography_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toFormula" source="fc_value" target="formula" toMany="false">
+		<db-attribute-pair source="formula_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toThreeBodyChannelValue" source="fc_value" target="three_body_channel_value" toMany="false">
+		<db-attribute-pair source="channel_value_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="channelValueArray" source="formula" target="channel_value" toMany="true">
+		<db-attribute-pair source="id" target="formula_id"/>
+	</db-relationship>
+	<db-relationship name="fcValueArray" source="formula" target="fc_value" toMany="true">
+		<db-attribute-pair source="id" target="formula_id"/>
+	</db-relationship>
+	<db-relationship name="k0ValueArray" source="formula" target="k0_value" toMany="true">
+		<db-attribute-pair source="id" target="formula_id"/>
+	</db-relationship>
+	<db-relationship name="kinfValueArray" source="formula" target="kinf_value" toMany="true">
+		<db-attribute-pair source="id" target="formula_id"/>
+	</db-relationship>
+	<db-relationship name="threeBodyChannelValueArray" source="formula" target="three_body_channel_value" toMany="true">
+		<db-attribute-pair source="id" target="formula_id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser" source="get_logged" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="user_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toBiblio" source="k0_value" target="biblio" toMany="false">
+		<db-attribute-pair source="bibliography_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toFormula" source="k0_value" target="formula" toMany="false">
+		<db-attribute-pair source="formula_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toThreeBodyChannelValue" source="k0_value" target="three_body_channel_value" toMany="false">
+		<db-attribute-pair source="channel_value_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toBiblio" source="kinf_value" target="biblio" toMany="false">
+		<db-attribute-pair source="bibliography_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toFormula" source="kinf_value" target="formula" toMany="false">
+		<db-attribute-pair source="formula_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toThreeBodyChannelValue" source="kinf_value" target="three_body_channel_value" toMany="false">
+		<db-attribute-pair source="channel_value_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="datasheetArray" source="reaction" target="datasheet" toMany="true">
+		<db-attribute-pair source="id" target="reaction_id"/>
+	</db-relationship>
+	<db-relationship name="experimentHasChannelArray" source="reaction" target="experiment_has_channel" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="reaction_id"/>
+	</db-relationship>
+	<db-relationship name="totalRateArray" source="reaction" target="total_rate" toMany="true">
+		<db-attribute-pair source="id" target="reaction_id"/>
+	</db-relationship>
+	<db-relationship name="sfGuardGroupPermissionArray" source="sf_guard_group" target="sf_guard_group_permission" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="group_id"/>
+	</db-relationship>
+	<db-relationship name="sfGuardUserGroupArray" source="sf_guard_group" target="sf_guard_user_group" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="group_id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardGroup" source="sf_guard_group_permission" target="sf_guard_group" toMany="false">
+		<db-attribute-pair source="group_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardPermission" source="sf_guard_group_permission" target="sf_guard_permission" toMany="false">
+		<db-attribute-pair source="permission_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="sfGuardGroupPermissionArray" source="sf_guard_permission" target="sf_guard_group_permission" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="permission_id"/>
+	</db-relationship>
+	<db-relationship name="sfGuardUserPermissionArray" source="sf_guard_permission" target="sf_guard_user_permission" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="permission_id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser" source="sf_guard_remember_key" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="user_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="bugsAndFeaturesArray" source="sf_guard_user" target="bugs_and_features" toMany="true">
+		<db-attribute-pair source="username" target="author_email"/>
+	</db-relationship>
+	<db-relationship name="channelValueArray" source="sf_guard_user" target="channel_value" toMany="true">
+		<db-attribute-pair source="username" target="author_email"/>
+	</db-relationship>
+	<db-relationship name="channelValueArray1" source="sf_guard_user" target="channel_value" toMany="true">
+		<db-attribute-pair source="username" target="expert_email"/>
+	</db-relationship>
+	<db-relationship name="commentArray" source="sf_guard_user" target="comment" toMany="true">
+		<db-attribute-pair source="username" target="author_email"/>
+	</db-relationship>
+	<db-relationship name="getLoggedArray" source="sf_guard_user" target="get_logged" toMany="true">
+		<db-attribute-pair source="id" target="user_id"/>
+	</db-relationship>
+	<db-relationship name="sfGuardRememberKeyArray" source="sf_guard_user" target="sf_guard_remember_key" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="user_id"/>
+	</db-relationship>
+	<db-relationship name="sfGuardUserGroupArray" source="sf_guard_user" target="sf_guard_user_group" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="user_id"/>
+	</db-relationship>
+	<db-relationship name="sfGuardUserPermissionArray" source="sf_guard_user" target="sf_guard_user_permission" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="user_id"/>
+	</db-relationship>
+	<db-relationship name="sfGuardUserProfileArray" source="sf_guard_user" target="sf_guard_user_profile" toMany="true">
+		<db-attribute-pair source="id" target="user_id"/>
+	</db-relationship>
+	<db-relationship name="threeBodyChannelValueArray" source="sf_guard_user" target="three_body_channel_value" toMany="true">
+		<db-attribute-pair source="username" target="author_email"/>
+	</db-relationship>
+	<db-relationship name="threeBodyChannelValueArray1" source="sf_guard_user" target="three_body_channel_value" toMany="true">
+		<db-attribute-pair source="username" target="expert_email"/>
+	</db-relationship>
+	<db-relationship name="threeBodyChannelValueArray2" source="sf_guard_user" target="three_body_channel_value" toMany="true">
+		<db-attribute-pair source="username" target="trash_author"/>
+	</db-relationship>
+	<db-relationship name="totalRateArray" source="sf_guard_user" target="total_rate" toMany="true">
+		<db-attribute-pair source="username" target="author_email"/>
+	</db-relationship>
+	<db-relationship name="totalRateArray1" source="sf_guard_user" target="total_rate" toMany="true">
+		<db-attribute-pair source="username" target="expert_email"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardGroup" source="sf_guard_user_group" target="sf_guard_group" toMany="false">
+		<db-attribute-pair source="group_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser" source="sf_guard_user_group" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="user_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardPermission" source="sf_guard_user_permission" target="sf_guard_permission" toMany="false">
+		<db-attribute-pair source="permission_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser" source="sf_guard_user_permission" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="user_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser" source="sf_guard_user_profile" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="user_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="channelHasSpecieArray" source="specie" target="channel_has_specie" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="specie_id"/>
+	</db-relationship>
+	<db-relationship name="specieHasElementArray" source="specie" target="specie_has_element" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="specie_id"/>
+	</db-relationship>
+	<db-relationship name="threeBodyChannelHasSpecieArray" source="specie" target="three_body_channel_has_specie" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="specie_id"/>
+	</db-relationship>
+	<db-relationship name="threeBodyReactionHasReactantArray" source="specie" target="three_body_reaction_has_reactant" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="specie_id"/>
+	</db-relationship>
+	<db-relationship name="toElement" source="specie_has_element" target="element" toMany="false">
+		<db-attribute-pair source="element_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSpecie" source="specie_has_element" target="specie" toMany="false">
+		<db-attribute-pair source="specie_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="threeBodyChannelHasSpecieArray" source="three_body_channel" target="three_body_channel_has_specie" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="channel_id"/>
+	</db-relationship>
+	<db-relationship name="threeBodyChannelValueArray" source="three_body_channel" target="three_body_channel_value" toMany="true">
+		<db-attribute-pair source="id" target="channel_id"/>
+	</db-relationship>
+	<db-relationship name="threeBodyReactionHasChannelArray" source="three_body_channel" target="three_body_reaction_has_channel" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="channel_id"/>
+	</db-relationship>
+	<db-relationship name="threeBodyReactionHasReactantArray" source="three_body_channel" target="three_body_reaction_has_reactant" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="reaction_id"/>
+	</db-relationship>
+	<db-relationship name="toSpecie" source="three_body_channel_has_specie" target="specie" toMany="false">
+		<db-attribute-pair source="specie_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toThreeBodyChannel" source="three_body_channel_has_specie" target="three_body_channel" toMany="false">
+		<db-attribute-pair source="channel_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="fcValueArray" source="three_body_channel_value" target="fc_value" toMany="true">
+		<db-attribute-pair source="id" target="channel_value_id"/>
+	</db-relationship>
+	<db-relationship name="k0ValueArray" source="three_body_channel_value" target="k0_value" toMany="true">
+		<db-attribute-pair source="id" target="channel_value_id"/>
+	</db-relationship>
+	<db-relationship name="kinfValueArray" source="three_body_channel_value" target="kinf_value" toMany="true">
+		<db-attribute-pair source="id" target="channel_value_id"/>
+	</db-relationship>
+	<db-relationship name="toFormula" source="three_body_channel_value" target="formula" toMany="false">
+		<db-attribute-pair source="formula_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser" source="three_body_channel_value" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="author_email" target="username"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser1" source="three_body_channel_value" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="expert_email" target="username"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser2" source="three_body_channel_value" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="trash_author" target="username"/>
+	</db-relationship>
+	<db-relationship name="toThreeBodyChannel" source="three_body_channel_value" target="three_body_channel" toMany="false">
+		<db-attribute-pair source="channel_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toValidityRange" source="three_body_channel_value" target="validity_range" toMany="false">
+		<db-attribute-pair source="validity_range_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="threeBodyReactionHasChannelArray" source="three_body_reaction" target="three_body_reaction_has_channel" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="reaction_id"/>
+	</db-relationship>
+	<db-relationship name="toThreeBodyChannel" source="three_body_reaction_has_channel" target="three_body_channel" toMany="false">
+		<db-attribute-pair source="channel_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toThreeBodyReaction" source="three_body_reaction_has_channel" target="three_body_reaction" toMany="false">
+		<db-attribute-pair source="reaction_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSpecie" source="three_body_reaction_has_reactant" target="specie" toMany="false">
+		<db-attribute-pair source="specie_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toThreeBodyChannel" source="three_body_reaction_has_reactant" target="three_body_channel" toMany="false">
+		<db-attribute-pair source="reaction_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="channelVariableArray" source="total_rate" target="channel_variable" toMany="true">
+		<db-attribute-pair source="id" target="total_rate_id"/>
+	</db-relationship>
+	<db-relationship name="toReaction" source="total_rate" target="reaction" toMany="false">
+		<db-attribute-pair source="reaction_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser" source="total_rate" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="author_email" target="username"/>
+	</db-relationship>
+	<db-relationship name="toSfGuardUser1" source="total_rate" target="sf_guard_user" toMany="false">
+		<db-attribute-pair source="expert_email" target="username"/>
+	</db-relationship>
+	<db-relationship name="toValidityRange" source="total_rate" target="validity_range" toMany="false">
+		<db-attribute-pair source="validity_range_id" target="id"/>
+	</db-relationship>
+	<db-relationship name="channelArray" source="type_channel" target="channel" toMany="true">
+		<db-attribute-pair source="id" target="type_channel_id"/>
+	</db-relationship>
+	<db-relationship name="channelValueArray" source="validity_range" target="channel_value" toMany="true">
+		<db-attribute-pair source="id" target="validity_range_id"/>
+	</db-relationship>
+	<db-relationship name="threeBodyChannelValueArray" source="validity_range" target="three_body_channel_value" toMany="true">
+		<db-attribute-pair source="id" target="validity_range_id"/>
+	</db-relationship>
+	<db-relationship name="totalRateArray" source="validity_range" target="total_rate" toMany="true">
+		<db-attribute-pair source="id" target="validity_range_id"/>
+	</db-relationship>
+	<db-relationship name="channelVariableArray" source="variable_name" target="channel_variable" toMany="true">
+		<db-attribute-pair source="id" target="variable_name_id"/>
+	</db-relationship>
+	<obj-relationship name="fcValueArray" source="Biblio" target="FcValue" deleteRule="Deny" db-relationship-path="fcValueArray"/>
+	<obj-relationship name="k0ValueArray" source="Biblio" target="K0Value" deleteRule="Deny" db-relationship-path="k0ValueArray"/>
+	<obj-relationship name="kinfValueArray" source="Biblio" target="KinfValue" deleteRule="Deny" db-relationship-path="kinfValueArray"/>
+	<obj-relationship name="toBiblio" source="Biblio" target="BiblioBook" deleteRule="Nullify" db-relationship-path="toBiblio"/>
+	<obj-relationship name="toBiblio1" source="Biblio" target="BiblioJournal" deleteRule="Nullify" db-relationship-path="toBiblio1"/>
+	<obj-relationship name="toBiblio2" source="Biblio" target="BiblioThesis" deleteRule="Nullify" db-relationship-path="toBiblio2"/>
+	<obj-relationship name="toChannelValue" source="Biblio" target="ChannelValue" deleteRule="Deny" db-relationship-path="toChannelValue"/>
+	<obj-relationship name="untitledRel" source="Biblio" target="ChannelValue" deleteRule="Deny" db-relationship-path="untitledRel"/>
+	<obj-relationship name="untitledRel1" source="Biblio" target="ChannelValue" deleteRule="Deny" db-relationship-path="untitledRel1"/>
+	<obj-relationship name="untitledRel2" source="Biblio" target="ChannelValue" deleteRule="Deny" db-relationship-path="untitledRel2"/>
+	<obj-relationship name="toBiblio" source="BiblioBook" target="Biblio" deleteRule="Nullify" db-relationship-path="toBiblio"/>
+	<obj-relationship name="toBiblio" source="BiblioJournal" target="Biblio" deleteRule="Nullify" db-relationship-path="toBiblio"/>
+	<obj-relationship name="toBiblio" source="BiblioThesis" target="Biblio" deleteRule="Nullify" db-relationship-path="toBiblio"/>
+	<obj-relationship name="channelVariableArray" source="Bibliography" target="ChannelVariable" deleteRule="Deny" db-relationship-path="channelVariableArray"/>
+	<obj-relationship name="bugsAndFeaturesArray" source="BugState" target="BugsAndFeatures" deleteRule="Deny" db-relationship-path="bugsAndFeaturesArray"/>
+	<obj-relationship name="toBugState" source="BugsAndFeatures" target="BugState" deleteRule="Nullify" db-relationship-path="toBugState"/>
+	<obj-relationship name="toSfGuardUser" source="BugsAndFeatures" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser"/>
+	<obj-relationship name="channelHasSpecieArray" source="Channel" target="ChannelHasSpecie" deleteRule="Deny" db-relationship-path="channelHasSpecieArray"/>
+	<obj-relationship name="channelValueArray" source="Channel" target="ChannelValue" deleteRule="Deny" db-relationship-path="channelValueArray"/>
+	<obj-relationship name="experimentHasChannelArray" source="Channel" target="ExperimentHasChannel" deleteRule="Deny" db-relationship-path="experimentHasChannelArray"/>
+	<obj-relationship name="specieRel" source="Channel" target="Specie" deleteRule="Deny" db-relationship-path="channelHasSpecieArray.toSpecie"/>
+	<obj-relationship name="toTypeChannel" source="Channel" target="TypeChannel" deleteRule="Nullify" db-relationship-path="toTypeChannel"/>
+	<obj-relationship name="specieRel" source="ChannelHasSpecie" target="Specie" deleteRule="Nullify" db-relationship-path="toSpecie"/>
+	<obj-relationship name="toChannel" source="ChannelHasSpecie" target="Channel" deleteRule="Nullify" db-relationship-path="toChannel"/>
+	<obj-relationship name="toSpecie" source="ChannelHasSpecie" target="Specie" deleteRule="Nullify" db-relationship-path="toSpecie"/>
+	<obj-relationship name="channelVariableArray" source="ChannelValue" target="ChannelVariable" deleteRule="Deny" db-relationship-path="channelVariableArray"/>
+	<obj-relationship name="toBiblio" source="ChannelValue" target="Biblio" deleteRule="Nullify" db-relationship-path="toBibliography"/>
+	<obj-relationship name="toChannel" source="ChannelValue" target="Channel" deleteRule="Nullify" db-relationship-path="toChannel"/>
+	<obj-relationship name="toFormula" source="ChannelValue" target="Formula" deleteRule="Nullify" db-relationship-path="toFormula"/>
+	<obj-relationship name="toSfGuardUser" source="ChannelValue" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser"/>
+	<obj-relationship name="toSfGuardUser1" source="ChannelValue" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser1"/>
+	<obj-relationship name="toValidityRange" source="ChannelValue" target="ValidityRange" deleteRule="Nullify" db-relationship-path="toValidityRange"/>
+	<obj-relationship name="toBibliography" source="ChannelVariable" target="Bibliography" deleteRule="Nullify" db-relationship-path="toBibliography"/>
+	<obj-relationship name="toChannelValue" source="ChannelVariable" target="ChannelValue" deleteRule="Nullify" db-relationship-path="toChannelValue"/>
+	<obj-relationship name="toTotalRate" source="ChannelVariable" target="TotalRate" deleteRule="Nullify" db-relationship-path="toTotalRate"/>
+	<obj-relationship name="toVariableName" source="ChannelVariable" target="VariableName" deleteRule="Nullify" db-relationship-path="toVariableName"/>
+	<obj-relationship name="toSfGuardUser" source="Comment" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser"/>
+	<obj-relationship name="toReaction" source="Datasheet" target="Reaction" deleteRule="Nullify" db-relationship-path="toReaction"/>
+	<obj-relationship name="specieHasElementArray" source="Element" target="SpecieHasElement" deleteRule="Deny" db-relationship-path="specieHasElementArray"/>
+	<obj-relationship name="toChannel" source="ExperimentHasChannel" target="Channel" deleteRule="Nullify" db-relationship-path="toChannel"/>
+	<obj-relationship name="toReaction" source="ExperimentHasChannel" target="Reaction" deleteRule="Nullify" db-relationship-path="toReaction"/>
+	<obj-relationship name="toBiblio" source="FcValue" target="Biblio" deleteRule="Nullify" db-relationship-path="toBiblio"/>
+	<obj-relationship name="toFormula" source="FcValue" target="Formula" deleteRule="Nullify" db-relationship-path="toFormula"/>
+	<obj-relationship name="toThreeBodyChannelValue" source="FcValue" target="ThreeBodyChannelValue" deleteRule="Nullify" db-relationship-path="toThreeBodyChannelValue"/>
+	<obj-relationship name="channelValueArray" source="Formula" target="ChannelValue" deleteRule="Deny" db-relationship-path="channelValueArray"/>
+	<obj-relationship name="fcValueArray" source="Formula" target="FcValue" deleteRule="Deny" db-relationship-path="fcValueArray"/>
+	<obj-relationship name="k0ValueArray" source="Formula" target="K0Value" deleteRule="Deny" db-relationship-path="k0ValueArray"/>
+	<obj-relationship name="kinfValueArray" source="Formula" target="KinfValue" deleteRule="Deny" db-relationship-path="kinfValueArray"/>
+	<obj-relationship name="threeBodyChannelValueArray" source="Formula" target="ThreeBodyChannelValue" deleteRule="Deny" db-relationship-path="threeBodyChannelValueArray"/>
+	<obj-relationship name="toSfGuardUser" source="GetLogged" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser"/>
+	<obj-relationship name="toBiblio" source="K0Value" target="Biblio" deleteRule="Nullify" db-relationship-path="toBiblio"/>
+	<obj-relationship name="toFormula" source="K0Value" target="Formula" deleteRule="Nullify" db-relationship-path="toFormula"/>
+	<obj-relationship name="toThreeBodyChannelValue" source="K0Value" target="ThreeBodyChannelValue" deleteRule="Nullify" db-relationship-path="toThreeBodyChannelValue"/>
+	<obj-relationship name="toBiblio" source="KinfValue" target="Biblio" deleteRule="Nullify" db-relationship-path="toBiblio"/>
+	<obj-relationship name="toFormula" source="KinfValue" target="Formula" deleteRule="Nullify" db-relationship-path="toFormula"/>
+	<obj-relationship name="toThreeBodyChannelValue" source="KinfValue" target="ThreeBodyChannelValue" deleteRule="Nullify" db-relationship-path="toThreeBodyChannelValue"/>
+	<obj-relationship name="datasheetArray" source="Reaction" target="Datasheet" deleteRule="Deny" db-relationship-path="datasheetArray"/>
+	<obj-relationship name="experimentHasChannelArray" source="Reaction" target="ExperimentHasChannel" deleteRule="Deny" db-relationship-path="experimentHasChannelArray"/>
+	<obj-relationship name="totalRateArray" source="Reaction" target="TotalRate" deleteRule="Deny" db-relationship-path="totalRateArray"/>
+	<obj-relationship name="sfGuardGroupPermissionArray" source="SfGuardGroup" target="SfGuardGroupPermission" deleteRule="Deny" db-relationship-path="sfGuardGroupPermissionArray"/>
+	<obj-relationship name="sfGuardUserGroupArray" source="SfGuardGroup" target="SfGuardUserGroup" deleteRule="Deny" db-relationship-path="sfGuardUserGroupArray"/>
+	<obj-relationship name="toSfGuardGroup" source="SfGuardGroupPermission" target="SfGuardGroup" deleteRule="Nullify" db-relationship-path="toSfGuardGroup"/>
+	<obj-relationship name="toSfGuardPermission" source="SfGuardGroupPermission" target="SfGuardPermission" deleteRule="Nullify" db-relationship-path="toSfGuardPermission"/>
+	<obj-relationship name="sfGuardGroupPermissionArray" source="SfGuardPermission" target="SfGuardGroupPermission" deleteRule="Deny" db-relationship-path="sfGuardGroupPermissionArray"/>
+	<obj-relationship name="sfGuardUserPermissionArray" source="SfGuardPermission" target="SfGuardUserPermission" deleteRule="Deny" db-relationship-path="sfGuardUserPermissionArray"/>
+	<obj-relationship name="toSfGuardUser" source="SfGuardRememberKey" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser"/>
+	<obj-relationship name="bugsAndFeaturesArray" source="SfGuardUser" target="BugsAndFeatures" deleteRule="Deny" db-relationship-path="bugsAndFeaturesArray"/>
+	<obj-relationship name="channelValueArray" source="SfGuardUser" target="ChannelValue" deleteRule="Deny" db-relationship-path="channelValueArray"/>
+	<obj-relationship name="channelValueArray1" source="SfGuardUser" target="ChannelValue" deleteRule="Deny" db-relationship-path="channelValueArray1"/>
+	<obj-relationship name="commentArray" source="SfGuardUser" target="Comment" deleteRule="Deny" db-relationship-path="commentArray"/>
+	<obj-relationship name="getLoggedArray" source="SfGuardUser" target="GetLogged" deleteRule="Deny" db-relationship-path="getLoggedArray"/>
+	<obj-relationship name="sfGuardRememberKeyArray" source="SfGuardUser" target="SfGuardRememberKey" deleteRule="Deny" db-relationship-path="sfGuardRememberKeyArray"/>
+	<obj-relationship name="sfGuardUserGroupArray" source="SfGuardUser" target="SfGuardUserGroup" deleteRule="Deny" db-relationship-path="sfGuardUserGroupArray"/>
+	<obj-relationship name="sfGuardUserPermissionArray" source="SfGuardUser" target="SfGuardUserPermission" deleteRule="Deny" db-relationship-path="sfGuardUserPermissionArray"/>
+	<obj-relationship name="sfGuardUserProfileArray" source="SfGuardUser" target="SfGuardUserProfile" deleteRule="Deny" db-relationship-path="sfGuardUserProfileArray"/>
+	<obj-relationship name="threeBodyChannelValueArray" source="SfGuardUser" target="ThreeBodyChannelValue" deleteRule="Deny" db-relationship-path="threeBodyChannelValueArray"/>
+	<obj-relationship name="threeBodyChannelValueArray1" source="SfGuardUser" target="ThreeBodyChannelValue" deleteRule="Deny" db-relationship-path="threeBodyChannelValueArray1"/>
+	<obj-relationship name="threeBodyChannelValueArray2" source="SfGuardUser" target="ThreeBodyChannelValue" deleteRule="Deny" db-relationship-path="threeBodyChannelValueArray2"/>
+	<obj-relationship name="totalRateArray" source="SfGuardUser" target="TotalRate" deleteRule="Deny" db-relationship-path="totalRateArray"/>
+	<obj-relationship name="totalRateArray1" source="SfGuardUser" target="TotalRate" deleteRule="Deny" db-relationship-path="totalRateArray1"/>
+	<obj-relationship name="toSfGuardGroup" source="SfGuardUserGroup" target="SfGuardGroup" deleteRule="Nullify" db-relationship-path="toSfGuardGroup"/>
+	<obj-relationship name="toSfGuardUser" source="SfGuardUserGroup" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser"/>
+	<obj-relationship name="toSfGuardPermission" source="SfGuardUserPermission" target="SfGuardPermission" deleteRule="Nullify" db-relationship-path="toSfGuardPermission"/>
+	<obj-relationship name="toSfGuardUser" source="SfGuardUserPermission" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser"/>
+	<obj-relationship name="toSfGuardUser" source="SfGuardUserProfile" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser"/>
+	<obj-relationship name="channelHasSpecieArray" source="Specie" target="ChannelHasSpecie" deleteRule="Deny" db-relationship-path="channelHasSpecieArray"/>
+	<obj-relationship name="specieHasElementArray" source="Specie" target="SpecieHasElement" deleteRule="Deny" db-relationship-path="specieHasElementArray"/>
+	<obj-relationship name="threeBodyChannelHasSpecieArray" source="Specie" target="ThreeBodyChannelHasSpecie" deleteRule="Deny" db-relationship-path="threeBodyChannelHasSpecieArray"/>
+	<obj-relationship name="threeBodyReactionHasReactantArray" source="Specie" target="ThreeBodyReactionHasReactant" deleteRule="Deny" db-relationship-path="threeBodyReactionHasReactantArray"/>
+	<obj-relationship name="toElement" source="SpecieHasElement" target="Element" deleteRule="Nullify" db-relationship-path="toElement"/>
+	<obj-relationship name="toSpecie" source="SpecieHasElement" target="Specie" deleteRule="Nullify" db-relationship-path="toSpecie"/>
+	<obj-relationship name="threeBodyChannelHasSpecieArray" source="ThreeBodyChannel" target="ThreeBodyChannelHasSpecie" deleteRule="Deny" db-relationship-path="threeBodyChannelHasSpecieArray"/>
+	<obj-relationship name="threeBodyChannelValueArray" source="ThreeBodyChannel" target="ThreeBodyChannelValue" deleteRule="Deny" db-relationship-path="threeBodyChannelValueArray"/>
+	<obj-relationship name="threeBodyReactionHasChannelArray" source="ThreeBodyChannel" target="ThreeBodyReactionHasChannel" deleteRule="Deny" db-relationship-path="threeBodyReactionHasChannelArray"/>
+	<obj-relationship name="threeBodyReactionHasReactantArray" source="ThreeBodyChannel" target="ThreeBodyReactionHasReactant" deleteRule="Deny" db-relationship-path="threeBodyReactionHasReactantArray"/>
+	<obj-relationship name="toSpecie" source="ThreeBodyChannelHasSpecie" target="Specie" deleteRule="Nullify" db-relationship-path="toSpecie"/>
+	<obj-relationship name="toThreeBodyChannel" source="ThreeBodyChannelHasSpecie" target="ThreeBodyChannel" deleteRule="Nullify" db-relationship-path="toThreeBodyChannel"/>
+	<obj-relationship name="fcValueArray" source="ThreeBodyChannelValue" target="FcValue" deleteRule="Deny" db-relationship-path="fcValueArray"/>
+	<obj-relationship name="k0ValueArray" source="ThreeBodyChannelValue" target="K0Value" deleteRule="Deny" db-relationship-path="k0ValueArray"/>
+	<obj-relationship name="kinfValueArray" source="ThreeBodyChannelValue" target="KinfValue" deleteRule="Deny" db-relationship-path="kinfValueArray"/>
+	<obj-relationship name="toFormula" source="ThreeBodyChannelValue" target="Formula" deleteRule="Nullify" db-relationship-path="toFormula"/>
+	<obj-relationship name="toSfGuardUser" source="ThreeBodyChannelValue" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser"/>
+	<obj-relationship name="toSfGuardUser1" source="ThreeBodyChannelValue" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser1"/>
+	<obj-relationship name="toSfGuardUser2" source="ThreeBodyChannelValue" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser2"/>
+	<obj-relationship name="toThreeBodyChannel" source="ThreeBodyChannelValue" target="ThreeBodyChannel" deleteRule="Nullify" db-relationship-path="toThreeBodyChannel"/>
+	<obj-relationship name="toValidityRange" source="ThreeBodyChannelValue" target="ValidityRange" deleteRule="Nullify" db-relationship-path="toValidityRange"/>
+	<obj-relationship name="threeBodyReactionHasChannelArray" source="ThreeBodyReaction" target="ThreeBodyReactionHasChannel" deleteRule="Deny" db-relationship-path="threeBodyReactionHasChannelArray"/>
+	<obj-relationship name="toThreeBodyChannel" source="ThreeBodyReactionHasChannel" target="ThreeBodyChannel" deleteRule="Nullify" db-relationship-path="toThreeBodyChannel"/>
+	<obj-relationship name="toThreeBodyReaction" source="ThreeBodyReactionHasChannel" target="ThreeBodyReaction" deleteRule="Nullify" db-relationship-path="toThreeBodyReaction"/>
+	<obj-relationship name="toSpecie" source="ThreeBodyReactionHasReactant" target="Specie" deleteRule="Nullify" db-relationship-path="toSpecie"/>
+	<obj-relationship name="toThreeBodyChannel" source="ThreeBodyReactionHasReactant" target="ThreeBodyChannel" deleteRule="Nullify" db-relationship-path="toThreeBodyChannel"/>
+	<obj-relationship name="channelVariableArray" source="TotalRate" target="ChannelVariable" deleteRule="Deny" db-relationship-path="channelVariableArray"/>
+	<obj-relationship name="toReaction" source="TotalRate" target="Reaction" deleteRule="Nullify" db-relationship-path="toReaction"/>
+	<obj-relationship name="toSfGuardUser" source="TotalRate" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser"/>
+	<obj-relationship name="toSfGuardUser1" source="TotalRate" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="toSfGuardUser1"/>
+	<obj-relationship name="toValidityRange" source="TotalRate" target="ValidityRange" deleteRule="Nullify" db-relationship-path="toValidityRange"/>
+	<obj-relationship name="channelArray" source="TypeChannel" target="Channel" deleteRule="Deny" db-relationship-path="channelArray"/>
+	<obj-relationship name="channelValueArray" source="ValidityRange" target="ChannelValue" deleteRule="Deny" db-relationship-path="channelValueArray"/>
+	<obj-relationship name="threeBodyChannelValueArray" source="ValidityRange" target="ThreeBodyChannelValue" deleteRule="Deny" db-relationship-path="threeBodyChannelValueArray"/>
+	<obj-relationship name="totalRateArray" source="ValidityRange" target="TotalRate" deleteRule="Deny" db-relationship-path="totalRateArray"/>
+	<obj-relationship name="channelVariableArray" source="VariableName" target="ChannelVariable" deleteRule="Deny" db-relationship-path="channelVariableArray"/>
+</data-map>
