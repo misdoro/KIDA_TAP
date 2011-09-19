@@ -120,13 +120,13 @@ public class ChannelBuilder {
 			aliases.add(strPrefix);
 			
 			if (prefix==VSSPrefix.REACTANT){//Handle REACTANT	
-				Expression chsex=ExpressionFactory.matchExp("channelHasSpecieArray.type", ChannelHasSpecie.REACTANT);
+				Expression chsex=ExpressionFactory.matchExp(strPrefix+".type", ChannelHasSpecie.REACTANT);
 				prefExp=QueryMapper.mapTree(query.getPrefixedTree(prefix, index), Restrictables.getAliasedChannelMap(strPrefix));//Build tree using aliases
 				if (prefExp!=null)
 					prefExp=prefExp.andExp(chsex);
 				
 			}else if (prefix==VSSPrefix.PRODUCT){//Handle PRODUCT
-				Expression chsex=ExpressionFactory.matchExp("channelHasSpecieArray.type", ChannelHasSpecie.PRODUCT);
+				Expression chsex=ExpressionFactory.matchExp(strPrefix+".type", ChannelHasSpecie.PRODUCT);
 				prefExp=QueryMapper.mapTree(query.getPrefixedTree(prefix, index), Restrictables.getAliasedChannelMap(strPrefix));//Build tree using aliases
 				if (prefExp!=null)
 					prefExp=prefExp.andExp(chsex);
@@ -144,7 +144,7 @@ public class ChannelBuilder {
 		System.out.println("Expression:"+channelExp);
 		SelectQuery q = new SelectQuery(Channel.class, channelExp);
 		
-		q.aliasPathSplits("channelHasSpecieArray.specieRel", aliases.toArray(new String[0]));
+		q.aliasPathSplits("channelHasSpecieArray", aliases.toArray(new String[0]));
 		
 		return q;
 		

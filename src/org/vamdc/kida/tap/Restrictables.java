@@ -49,10 +49,10 @@ public class Restrictables {
 	public static Map<Restrictable,String> getAliasedChannelMap(String prefix){
 		Map<Restrictable,String> cps = new HashMap<Restrictable,String>();
 		if (prefix!=null){
-			cps.put(Restrictable.MoleculeIonCharge, prefix+".charge");
-			cps.put(Restrictable.MoleculeChemicalName, prefix+".commonName");
-			cps.put(Restrictable.MoleculeInchi, prefix+".inchi");
-			cps.put(Restrictable.MoleculeInchiKey, prefix+".inchiKey");
+			cps.put(Restrictable.MoleculeIonCharge, prefix+".specieRel.charge");
+			cps.put(Restrictable.MoleculeChemicalName, prefix+".specieRel.commonName");
+			cps.put(Restrictable.MoleculeInchi, prefix+".specieRel.inchi");
+			cps.put(Restrictable.MoleculeInchiKey, prefix+".specieRel.inchiKey");
 		}
 		return cps;
 	}
