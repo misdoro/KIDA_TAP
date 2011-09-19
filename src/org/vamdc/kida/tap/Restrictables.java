@@ -14,28 +14,28 @@ import org.vamdc.dictionary.Restrictable;
 @SuppressWarnings("serial")
 public class Restrictables {
 
-
-	public static Collection<Restrictable> Restricts= new ArrayList<Restrictable>(){{
-		add(Restrictable.MoleculeIonCharge);
-		add(Restrictable.MoleculeChemicalName);
-		add(Restrictable.MoleculeInchi);
-		add(Restrictable.MoleculeInchiKey);
-	}};
-	
-
-	
+	public static Collection<Restrictable> Restricts = new ArrayList<Restrictable>() {
+		{
+			add(Restrictable.MoleculeIonCharge);
+			add(Restrictable.MoleculeChemicalName);
+			add(Restrictable.MoleculeInchi);
+			add(Restrictable.MoleculeInchiKey);
+		}
+	};
 
 	/**
-	 * Species paths 
+	 * Species paths
 	 * */
-	public final static Map<Restrictable,String> SpeciesPathSpec = new HashMap<Restrictable,String>(){{
-		put(Restrictable.MoleculeIonCharge,"charge");
-		put(Restrictable.MoleculeChemicalName,"commonName");
-		put(Restrictable.MoleculeInchi,"inchi");
-		put(Restrictable.MoleculeInchiKey,"inchiKey");
-		
-	}};
-	
+	public final static Map<Restrictable, String> SpeciesPathSpec = new HashMap<Restrictable, String>() {
+		{
+			put(Restrictable.MoleculeIonCharge, "charge");
+			put(Restrictable.MoleculeChemicalName, "commonName");
+			put(Restrictable.MoleculeInchi, "inchi");
+			put(Restrictable.MoleculeInchiKey, "inchiKey");
+
+		}
+	};
+
 	/**
 	 * Channel paths
 	 */

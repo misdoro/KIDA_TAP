@@ -61,7 +61,7 @@ public class ToolsBuilder {
 		{
 			FunctionType function = new FunctionType();
 			function.setFunctionID(IDs.getFunctionID(2));
-			function.setDescription("Cosmic-ray ionizationfunction");
+			function.setDescription("Cosmic-ray ionization function");
 			function.setName("Cosmic-ray ionization");
 			ExpressionType expression = new ExpressionType();
 			expression.setComputerLanguage("Fortran");
@@ -101,7 +101,7 @@ public class ToolsBuilder {
 		{
 			FunctionType function = new FunctionType();
 			function.setFunctionID(IDs.getFunctionID(3));
-			function.setDescription("Photo-dissociation ionizationfunction");
+			function.setDescription("Photo-dissociation ionization function");
 			function.setName("Photo-dissociation ionization");
 			ExpressionType expression = new ExpressionType();
 			expression.setComputerLanguage("Fortran");

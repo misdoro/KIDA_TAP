@@ -150,14 +150,12 @@ public class ChannelBuilder {
 		
 	}
 
+	
+
 	public static void buildChannels(RequestInterface request,
 			Vector<Integer> tabSpeciesId, Vector<String> tabFormulaName) {
 		// ObjectFactory factory = new org.vamdc.xsams.ObjectFactory(); //
 
-		//Expression specieExpr = QueryMapper.mapTree(request.getRestrictsTree(),
-		//		Restrictables.ChannelPathSpec);
-
-		
 		SelectQuery atquery = getCayenneQuery(request.getQuery());
 		// atquery.setPrefetchTree(prefetchTree)
 		List<Channel> atms = (List<Channel>) request.getCayenneContext()
