@@ -2,7 +2,9 @@ package org.vamdc.kida.tap;
 
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -10,7 +12,9 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.cayenne.exp.Expression;
+import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.query.SelectQuery;
+import org.vamdc.dictionary.VSSPrefix;
 import org.vamdc.kida.Biblio;
 import org.vamdc.kida.Channel;
 import org.vamdc.kida.ChannelHasSpecie;
@@ -19,6 +23,8 @@ import org.vamdc.kida.Specie;
 import org.vamdc.kida.TypeChannel;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
+import org.vamdc.tapservice.vss2.Prefix;
+import org.vamdc.tapservice.vss2.Query;
 import org.vamdc.xsams.common.DataSetType;
 import org.vamdc.xsams.common.DataSetsType;
 import org.vamdc.xsams.common.FitDataType;
@@ -99,14 +105,60 @@ public class ChannelBuilder {
 		}
 
 	}
+	
+	private static SelectQuery getCayenneQuery(Query query){
+		Expression channelExp = null;
+		Expression prefExp=null;
+		//Loop over all defined prefixes
+		Vector<String> aliases = new Vector<String>();
+		for (Prefix pref:query.getPrefixes()){
+			VSSPrefix prefix = pref.getPrefix();
+			int index = pref.getIndex();
+			
+			//Add alias to vector
+			String strPrefix = prefix.name()+index;
+			aliases.add(strPrefix);
+			
+			if (prefix==VSSPrefix.REACTANT){//Handle REACTANT	
+				Expression chsex=ExpressionFactory.matchExp("channelHasSpecieArray.type", ChannelHasSpecie.REACTANT);
+				prefExp=QueryMapper.mapTree(query.getPrefixedTree(prefix, index), Restrictables.getAliasedChannelMap(strPrefix));//Build tree using aliases
+				if (prefExp!=null)
+					prefExp=prefExp.andExp(chsex);
+				
+			}else if (prefix==VSSPrefix.PRODUCT){//Handle PRODUCT
+				Expression chsex=ExpressionFactory.matchExp("channelHasSpecieArray.type", ChannelHasSpecie.PRODUCT);
+				prefExp=QueryMapper.mapTree(query.getPrefixedTree(prefix, index), Restrictables.getAliasedChannelMap(strPrefix));//Build tree using aliases
+				if (prefExp!=null)
+					prefExp=prefExp.andExp(chsex);
+			}else{
+				prefExp=null;
+			}
+			if (channelExp==null){//Channel exp is yet empty, just assign prefExp to it.
+				channelExp=prefExp;
+				prefExp=null;
+			}else if (prefExp!=null){
+				channelExp=channelExp.andExp(prefExp);//
+			}
+		}
+		//TODO: add all keywords that don't require prefix, all reaction properties would go here. 
+		System.out.println("Expression:"+channelExp);
+		SelectQuery q = new SelectQuery(Channel.class, channelExp);
+		
+		q.aliasPathSplits("channelHasSpecieArray.specieRel", aliases.toArray(new String[0]));
+		
+		return q;
+		
+	}
 
 	public static void buildChannels(RequestInterface request,
 			Vector<Integer> tabSpeciesId, Vector<String> tabFormulaName) {
 		// ObjectFactory factory = new org.vamdc.xsams.ObjectFactory(); //
 
-		Expression specieExpr = QueryMapper.mapTree(request.getRestrictsTree(),
-				Restrictables.ChannelPathSpec);
-		SelectQuery atquery = new SelectQuery(Channel.class, specieExpr);
+		//Expression specieExpr = QueryMapper.mapTree(request.getRestrictsTree(),
+		//		Restrictables.ChannelPathSpec);
+
+		
+		SelectQuery atquery = getCayenneQuery(request.getQuery());
 		// atquery.setPrefetchTree(prefetchTree)
 		List<Channel> atms = (List<Channel>) request.getCayenneContext()
 				.performQuery(atquery);
