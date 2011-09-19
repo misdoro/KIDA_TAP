@@ -143,13 +143,13 @@ public class ChannelBuilder {
 
 			mycollision.setDataSets(datasets);
 
-			witeFunction(tabFunctions, request);
+			writeFunction(tabFunctions, request);
 			request.getXsamsroot().addProcess(mycollision);
 		}
 
 	}
 
-	private static void witeFunction(Functions tabFunctions,
+	private static void writeFunction(Functions tabFunctions,
 			RequestInterface request) {
 		List<org.vamdc.xsams.schema.FunctionType> listFunction = tabFunctions
 				.getFunctions();
