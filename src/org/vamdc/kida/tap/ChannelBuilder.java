@@ -140,11 +140,23 @@ public class ChannelBuilder {
 				channelExp=channelExp.andExp(prefExp);//
 			}
 		}
-		//TODO: add all keywords that don't require prefix, all reaction properties would go here. 
+		
+		//add all keywords that don't require or don't have a prefix.
+		prefExp=QueryMapper.mapTree(query.getPrefixedTree(null, 0), Restrictables.getAliasedChannelMap("unprefixed"));
+		aliases.add("unprefixed");
+		
+		if (channelExp==null){//Channel exp is yet empty, just assign prefExp to it.
+			channelExp=prefExp;
+			prefExp=null;
+		}else if (prefExp!=null){
+			channelExp=channelExp.andExp(prefExp);
+		}
+		
 		System.out.println("Expression:"+channelExp);
 		SelectQuery q = new SelectQuery(Channel.class, channelExp);
 		
-		q.aliasPathSplits("channelHasSpecieArray", aliases.toArray(new String[0]));
+		if (aliases.size()>0)
+			q.aliasPathSplits("channelHasSpecieArray", aliases.toArray(new String[0]));
 		
 		return q;
 		
