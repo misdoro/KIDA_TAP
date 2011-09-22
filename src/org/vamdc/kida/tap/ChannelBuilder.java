@@ -265,7 +265,7 @@ public class ChannelBuilder {
 
 			}
 
-			// alpha, beta, gamma
+			// channel value
 			FitDataType fitData = new FitDataType();
 			GregorianCalendar gCalendar = new GregorianCalendar();
 			gCalendar.setTime(channelValue.getCreatedAt());
@@ -279,28 +279,35 @@ public class ChannelBuilder {
 			}
 			fitData.setProductionDate(xmlCalendar);
 
-			FitParametersType alphaBetaGamma = new FitParametersType();
-			NamedDataType alpha = new NamedDataType();
-			alpha.setValue(new ValueType(channelValue.getValue("alpha"), chan
-					.getUnitAlpha()));
-			alpha.setName("alpha");
-			alphaBetaGamma.getFitParameters().add(alpha);
-			NamedDataType beta = new NamedDataType();
-			beta.setValue(new ValueType(channelValue.getValue("beta"), "undef"));
-			beta.setName("beta");
-			alphaBetaGamma.getFitParameters().add(beta);
-			NamedDataType gamma = new NamedDataType();
-			gamma.setValue(new ValueType(channelValue.getValue("gamma"), "keV"));
-			gamma.setName("gamma");
-			alphaBetaGamma.getFitParameters().add(gamma);
-
-			values.setFitParameters(alphaBetaGamma);
-
+			
+			values.setFitParameters(writeAlphaBetaGamma(channelValue,chan));
 			channelValueDataSet.getFitDatas().add(values);
 			datasets.getDataSets().add(channelValueDataSet);
 
 		}
 
+	}
+	
+	private static FitParametersType writeAlphaBetaGamma(ChannelValue channelValue, Channel chan)
+	{
+		FitParametersType alphaBetaGamma = new FitParametersType();
+		
+		NamedDataType alpha = new NamedDataType();
+		alpha.setValue(new ValueType(channelValue.getValue("alpha"), chan
+				.getUnitAlpha()));
+		alpha.setName("alpha");
+		alphaBetaGamma.getFitParameters().add(alpha);
+		NamedDataType beta = new NamedDataType();
+		beta.setValue(new ValueType(channelValue.getValue("beta"), "undef"));
+		beta.setName("beta");
+		alphaBetaGamma.getFitParameters().add(beta);
+		NamedDataType gamma = new NamedDataType();
+		gamma.setValue(new ValueType(channelValue.getValue("gamma"), "keV"));
+		gamma.setName("gamma");
+		alphaBetaGamma.getFitParameters().add(gamma);
+		
+		return alphaBetaGamma;
+		
 	}
 
 	private static boolean checkChannelValueValid(ChannelValue channelValue) {
