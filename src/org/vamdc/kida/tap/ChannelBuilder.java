@@ -227,12 +227,11 @@ public class ChannelBuilder {
 			CollisionalTransitionType mycollision, Channel chan,
 			DataSetsType datasets, Functions tabFunctions) {
 		for (ChannelValue channelValue : tChannelValues) {
-			if (channelValue.getIsTrash() == 1)
-				continue;
-			if (channelValue.getIsTemp() == 1)
-				continue;
-			if (channelValue.getStatus() == 0)
-				continue;
+			
+			// ignore some channel
+			if ( ! checkChannelValueValid(channelValue) ) continue;
+			
+			
 			if (!tabFormulaName.contains(channelValue.getToFormula().getName())) {
 				FunctionType function = ToolsBuilder.writeFormula(channelValue
 						.getToFormula().getName());
@@ -254,7 +253,6 @@ public class ChannelBuilder {
 					.getToValidityRange().getTmin(), "K"));
 			tRange.setUpperLimit(new ValueType((double) channelValue
 					.getToValidityRange().getTmax(), "K"));
-			// TODO : relier T range et values
 
 			// Bibliography
 			Biblio cvBiblio = channelValue.getToBiblio();
@@ -267,6 +265,7 @@ public class ChannelBuilder {
 
 			}
 
+			// alpha, beta, gamma
 			FitDataType fitData = new FitDataType();
 			GregorianCalendar gCalendar = new GregorianCalendar();
 			gCalendar.setTime(channelValue.getCreatedAt());
@@ -302,5 +301,16 @@ public class ChannelBuilder {
 
 		}
 
+	}
+
+	private static boolean checkChannelValueValid(ChannelValue channelValue) {
+		if (channelValue.getIsTrash() == 1)
+			return false;
+		if (channelValue.getIsTemp() == 1)
+			return false;
+		if (channelValue.getStatus() == 0)
+			return false;
+		
+		return true;
 	}
 }
