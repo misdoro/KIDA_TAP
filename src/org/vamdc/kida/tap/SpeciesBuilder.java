@@ -5,9 +5,11 @@ import java.util.Vector;
 
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.SelectQuery;
+import org.vamdc.dictionary.VSSPrefix;
 import org.vamdc.kida.Specie;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
+import org.vamdc.tapservice.vss2.LogicNode;
 import org.vamdc.xsams.common.ChemicalElementType;
 import org.vamdc.xsams.common.DataType;
 import org.vamdc.xsams.schema.ParticleNameType;
@@ -139,5 +141,28 @@ public class SpeciesBuilder {
 		mt.setSpeciesID(IDs.getSpecieID(sp.getId()));
 
 		return mt;
+	}
+	
+	public static Expression getExpression(RequestInterface myrequest) {
+		//Query for energy tables:
+		Expression myExpression=null,collExpr=null,tgtExpr=null;
+		//Check if we have target tree defined
+		LogicNode target = myrequest.getQuery().getPrefixedTree(VSSPrefix.REACTANT, 0);
+		tgtExpr = QueryMapper.mapTree(target, Restrictables.SpeciesPathSpec);
+		
+		if (target!=null && tgtExpr!=null){
+			myExpression = tgtExpr;
+			
+			//Check if we have collider tree defined		
+			LogicNode collider = myrequest.getQuery().getPrefixedTree(VSSPrefix.REACTANT, 1);
+			collExpr = QueryMapper.mapTree(collider, Restrictables.SpeciesPathSpec);
+			if (collider!=null && collExpr!=null)//If yes, add it also
+				myExpression = myExpression.orExp(collExpr);
+		}else{
+			//No prefixes are defined, so sad, let's try unprefixed VSS1 mode
+			myExpression = QueryMapper.mapTree(myrequest.getRestrictsTree(),Restrictables.SpeciesPathSpec);
+		}
+		Expression etExpression = myExpression;
+		return etExpression;
 	}
 }

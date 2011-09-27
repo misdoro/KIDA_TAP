@@ -71,7 +71,7 @@ public class Restrictables {
 			cps.put(Restrictable.MoleculeInchi, prefix+".specieRel.inchi");
 			cps.put(Restrictable.MoleculeInchiKey, prefix+".specieRel.inchiKey");
 			cps.put(Restrictable.MoleculeIonCharge, prefix+".specieRel.charge");
-			cps.put(Restrictable.MoleculeStoichiometricFormula, prefix+".formula");
+			cps.put(Restrictable.MoleculeStoichiometricFormula, prefix+".specieRel.formula");
 
 			cps.put(Restrictable.AtomSymbol, prefix+".specieRel.formula");
 			cps.put(Restrictable.AtomIonCharge, prefix+".specieRel.charge");
