@@ -106,64 +106,78 @@ public class ChannelBuilder {
 		}
 
 	}
-	
-	public static SelectQuery getCayenneQuery(Query query){
+
+	public static SelectQuery getCayenneQuery(Query query) {
 		Expression channelExp = null;
-		Expression prefExp=null;
-		//Loop over all defined prefixes
+		Expression prefExp = null;
+		// Loop over all defined prefixes
 		Vector<String> aliases = new Vector<String>();
-		for (Prefix pref:query.getPrefixes()){
+		for (Prefix pref : query.getPrefixes()) {
 			VSSPrefix prefix = pref.getPrefix();
 			int index = pref.getIndex();
-			
-			//Add alias to vector
-			String strPrefix = prefix.name()+index;
-			aliases.add(strPrefix);
-			
-			if (prefix==VSSPrefix.REACTANT){//Handle REACTANT	
-				Expression chsex=ExpressionFactory.matchExp(strPrefix+".type", ChannelHasSpecie.REACTANT);
-				prefExp=QueryMapper.mapTree(query.getPrefixedTree(prefix, index), Restrictables.getAliasedChannelMap(strPrefix));//Build tree using aliases
-				if (prefExp!=null)
-					prefExp=prefExp.andExp(chsex);
-				
-			}else if (prefix==VSSPrefix.PRODUCT){//Handle PRODUCT
-				Expression chsex=ExpressionFactory.matchExp(strPrefix+".type", ChannelHasSpecie.PRODUCT);
-				prefExp=QueryMapper.mapTree(query.getPrefixedTree(prefix, index), Restrictables.getAliasedChannelMap(strPrefix));//Build tree using aliases
-				if (prefExp!=null)
-					prefExp=prefExp.andExp(chsex);
-			}else{
-				prefExp=null;
-			}
-			if (channelExp==null){//Channel exp is yet empty, just assign prefExp to it.
-				channelExp=prefExp;
-				prefExp=null;
-			}else if (prefExp!=null){
-				channelExp=channelExp.andExp(prefExp);//
-			}
-		}
-		
-		//add all keywords that don't require or don't have a prefix.
-		prefExp=QueryMapper.mapTree(query.getPrefixedTree(null, 0), Restrictables.getAliasedChannelMap("unprefixed"));
-		aliases.add("unprefixed");
-		
-		if (channelExp==null){//Channel exp is yet empty, just assign prefExp to it.
-			channelExp=prefExp;
-			prefExp=null;
-		}else if (prefExp!=null){
-			channelExp=channelExp.andExp(prefExp);
-		}
-		
-		System.out.println("Expression:"+channelExp);
-		SelectQuery q = new SelectQuery(Channel.class, channelExp);
-		
-		if (aliases.size()>0)
-			q.aliasPathSplits("channelHasSpecieArray", aliases.toArray(new String[0]));
-		
-		return q;
-		
-	}
 
-	
+			// Add alias to vector
+			String strPrefix = prefix.name() + index;
+			aliases.add(strPrefix);
+
+			if (prefix == VSSPrefix.REACTANT) {// Handle REACTANT
+				Expression chsex = ExpressionFactory.matchExp(strPrefix
+						+ ".type", ChannelHasSpecie.REACTANT);
+				prefExp = QueryMapper.mapTree(
+						query.getPrefixedTree(prefix, index),
+						Restrictables.getAliasedChannelMap(strPrefix));// Build
+																		// tree
+																		// using
+																		// aliases
+				if (prefExp != null)
+					prefExp = prefExp.andExp(chsex);
+
+			} else if (prefix == VSSPrefix.PRODUCT) {// Handle PRODUCT
+				Expression chsex = ExpressionFactory.matchExp(strPrefix
+						+ ".type", ChannelHasSpecie.PRODUCT);
+				prefExp = QueryMapper.mapTree(
+						query.getPrefixedTree(prefix, index),
+						Restrictables.getAliasedChannelMap(strPrefix));// Build
+																		// tree
+																		// using
+																		// aliases
+				if (prefExp != null)
+					prefExp = prefExp.andExp(chsex);
+			} else {
+				prefExp = null;
+			}
+			if (channelExp == null) {// Channel exp is yet empty, just assign
+										// prefExp to it.
+				channelExp = prefExp;
+				prefExp = null;
+			} else if (prefExp != null) {
+				channelExp = channelExp.andExp(prefExp);//
+			}
+		}
+
+		// add all keywords that don't require or don't have a prefix.
+		prefExp = QueryMapper.mapTree(query.getPrefixedTree(null, 0),
+				Restrictables.getAliasedChannelMap("unprefixed"));
+		aliases.add("unprefixed");
+
+		if (channelExp == null) {// Channel exp is yet empty, just assign
+									// prefExp to it.
+			channelExp = prefExp;
+			prefExp = null;
+		} else if (prefExp != null) {
+			channelExp = channelExp.andExp(prefExp);
+		}
+
+		System.out.println("Expression:" + channelExp);
+		SelectQuery q = new SelectQuery(Channel.class, channelExp);
+
+		if (aliases.size() > 0)
+			q.aliasPathSplits("channelHasSpecieArray",
+					aliases.toArray(new String[0]));
+
+		return q;
+
+	}
 
 	public static void buildChannels(RequestInterface request,
 			Vector<Integer> tabSpeciesId, Vector<String> tabFormulaName) {
@@ -182,6 +196,8 @@ public class ChannelBuilder {
 				continue;
 
 			CollisionalTransitionType mycollision = new CollisionalTransitionType();
+			
+			mycollision.setId(IDs.getProcessID('C', chan.getId()));
 
 			Collection<ChannelHasSpecie> chsc = chan.getChannelHasSpecieArray();
 			writeReactantProduct(chsc, tabSpeciesId, mycollision, request);
@@ -228,11 +244,11 @@ public class ChannelBuilder {
 			CollisionalTransitionType mycollision, Channel chan,
 			DataSetsType datasets, Functions tabFunctions) {
 		for (ChannelValue channelValue : tChannelValues) {
-			
+
 			// ignore some channel
-			if ( ! checkChannelValueValid(channelValue) ) continue;
-			
-			
+			if (!checkChannelValueValid(channelValue))
+				continue;
+
 			if (!tabFormulaName.contains(channelValue.getToFormula().getName())) {
 				FunctionType function = ToolsBuilder.writeFormula(channelValue
 						.getToFormula().getName());
@@ -267,32 +283,33 @@ public class ChannelBuilder {
 			}
 
 			// channel value
-			FitDataType fitData = new FitDataType();
-			GregorianCalendar gCalendar = new GregorianCalendar();
-			gCalendar.setTime(channelValue.getCreatedAt());
-			XMLGregorianCalendar xmlCalendar = null;
-			try {
-				xmlCalendar = DatatypeFactory.newInstance()
-						.newXMLGregorianCalendar(gCalendar);
-			} catch (DatatypeConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (channelValue.getCreatedAt() != null) {
+				FitDataType fitData = new FitDataType();
+				GregorianCalendar gCalendar = new GregorianCalendar();
+				gCalendar.setTime(channelValue.getCreatedAt());
+				XMLGregorianCalendar xmlCalendar = null;
+				try {
+					xmlCalendar = DatatypeFactory.newInstance()
+							.newXMLGregorianCalendar(gCalendar);
+				} catch (DatatypeConfigurationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				fitData.setProductionDate(xmlCalendar);
 			}
-			fitData.setProductionDate(xmlCalendar);
 
-			
-			values.setFitParameters(writeAlphaBetaGamma(channelValue,chan));
+			values.setFitParameters(writeAlphaBetaGamma(channelValue, chan));
 			channelValueDataSet.getFitDatas().add(values);
 			datasets.getDataSets().add(channelValueDataSet);
 
 		}
 
 	}
-	
-	private static FitParametersType writeAlphaBetaGamma(ChannelValue channelValue, Channel chan)
-	{
+
+	private static FitParametersType writeAlphaBetaGamma(
+			ChannelValue channelValue, Channel chan) {
 		FitParametersType alphaBetaGamma = new FitParametersType();
-		
+
 		NamedDataType alpha = new NamedDataType();
 		alpha.setValue(new ValueType(channelValue.getValue("alpha"), chan
 				.getUnitAlpha()));
@@ -306,9 +323,9 @@ public class ChannelBuilder {
 		gamma.setValue(new ValueType(channelValue.getValue("gamma"), "keV"));
 		gamma.setName("gamma");
 		alphaBetaGamma.getFitParameters().add(gamma);
-		
+
 		return alphaBetaGamma;
-		
+
 	}
 
 	private static boolean checkChannelValueValid(ChannelValue channelValue) {
@@ -318,31 +335,32 @@ public class ChannelBuilder {
 			return false;
 		if (channelValue.getStatus() == 0)
 			return false;
-		
+
 		return true;
 	}
-	
-	/*public static Expression getExpression(RequestInterface myrequest) {
-		//Build limits expression
-		Expression myExpression=null,collExpr=null,tgtExpr=null;
-		//Expression myExpression = QueryMapper.listAnd(myrequest.getRestricts(),Restrictables.CollisionsPathSpec);
-		//Check if we have target tree defined
-		LogicNode target = myrequest.getQuery().getPrefixedTree(VSSPrefix.REACTANT, 0);
-		tgtExpr = QueryMapper.mapTree(target, Restrictables.ChannelPathSpec);
-		
-		if (target!=null && tgtExpr!=null){
-			myExpression = tgtExpr;
-			
-			//Check if we have collider tree defined		
-			LogicNode collider = myrequest.getQuery().getPrefixedTree(VSSPrefix.REACTANT, 1);
-			collExpr = QueryMapper.mapTree(collider, Restrictables.ChannelPathSpec);
-			if (collider!=null && collExpr!=null)//If yes, add it also
-				myExpression = myExpression.andExp(collExpr);
-		}else{
-			//No prefixes are defined, so sad, let's try unprefixed VSS1 mode
-			myExpression = QueryMapper.mapTree(myrequest.getRestrictsTree(),Restrictables.ChannelPathSpec);
-			myExpression = myExpression.orExp(QueryMapper.mapTree(myrequest.getRestrictsTree(),Restrictables.ChannelPathSpec)); 
-		}
-		return myExpression;
-	}*/
+
+	/*
+	 * public static Expression getExpression(RequestInterface myrequest) {
+	 * //Build limits expression Expression
+	 * myExpression=null,collExpr=null,tgtExpr=null; //Expression myExpression =
+	 * QueryMapper
+	 * .listAnd(myrequest.getRestricts(),Restrictables.CollisionsPathSpec);
+	 * //Check if we have target tree defined LogicNode target =
+	 * myrequest.getQuery().getPrefixedTree(VSSPrefix.REACTANT, 0); tgtExpr =
+	 * QueryMapper.mapTree(target, Restrictables.ChannelPathSpec);
+	 * 
+	 * if (target!=null && tgtExpr!=null){ myExpression = tgtExpr;
+	 * 
+	 * //Check if we have collider tree defined LogicNode collider =
+	 * myrequest.getQuery().getPrefixedTree(VSSPrefix.REACTANT, 1); collExpr =
+	 * QueryMapper.mapTree(collider, Restrictables.ChannelPathSpec); if
+	 * (collider!=null && collExpr!=null)//If yes, add it also myExpression =
+	 * myExpression.andExp(collExpr); }else{ //No prefixes are defined, so sad,
+	 * let's try unprefixed VSS1 mode myExpression =
+	 * QueryMapper.mapTree(myrequest
+	 * .getRestrictsTree(),Restrictables.ChannelPathSpec); myExpression =
+	 * myExpression
+	 * .orExp(QueryMapper.mapTree(myrequest.getRestrictsTree(),Restrictables
+	 * .ChannelPathSpec)); } return myExpression; }
+	 */
 }
