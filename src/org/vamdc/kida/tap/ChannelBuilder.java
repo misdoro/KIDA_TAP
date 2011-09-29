@@ -23,6 +23,7 @@ import org.vamdc.kida.Specie;
 import org.vamdc.kida.TypeChannel;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
+import org.vamdc.tapservice.vss2.LogicNode;
 import org.vamdc.tapservice.vss2.Prefix;
 import org.vamdc.tapservice.vss2.Query;
 import org.vamdc.xsams.common.DataSetType;
@@ -106,7 +107,7 @@ public class ChannelBuilder {
 
 	}
 	
-	private static SelectQuery getCayenneQuery(Query query){
+	public static SelectQuery getCayenneQuery(Query query){
 		Expression channelExp = null;
 		Expression prefExp=null;
 		//Loop over all defined prefixes
@@ -227,12 +228,11 @@ public class ChannelBuilder {
 			CollisionalTransitionType mycollision, Channel chan,
 			DataSetsType datasets, Functions tabFunctions) {
 		for (ChannelValue channelValue : tChannelValues) {
-			if (channelValue.getIsTrash() == 1)
-				continue;
-			if (channelValue.getIsTemp() == 1)
-				continue;
-			if (channelValue.getStatus() == 0)
-				continue;
+			
+			// ignore some channel
+			if ( ! checkChannelValueValid(channelValue) ) continue;
+			
+			
 			if (!tabFormulaName.contains(channelValue.getToFormula().getName())) {
 				FunctionType function = ToolsBuilder.writeFormula(channelValue
 						.getToFormula().getName());
@@ -254,7 +254,6 @@ public class ChannelBuilder {
 					.getToValidityRange().getTmin(), "K"));
 			tRange.setUpperLimit(new ValueType((double) channelValue
 					.getToValidityRange().getTmax(), "K"));
-			// TODO : relier T range et values
 
 			// Bibliography
 			Biblio cvBiblio = channelValue.getToBiblio();
@@ -267,6 +266,7 @@ public class ChannelBuilder {
 
 			}
 
+			// channel value
 			FitDataType fitData = new FitDataType();
 			GregorianCalendar gCalendar = new GregorianCalendar();
 			gCalendar.setTime(channelValue.getCreatedAt());
@@ -280,27 +280,69 @@ public class ChannelBuilder {
 			}
 			fitData.setProductionDate(xmlCalendar);
 
-			FitParametersType alphaBetaGamma = new FitParametersType();
-			NamedDataType alpha = new NamedDataType();
-			alpha.setValue(new ValueType(channelValue.getValue("alpha"), chan
-					.getUnitAlpha()));
-			alpha.setName("alpha");
-			alphaBetaGamma.getFitParameters().add(alpha);
-			NamedDataType beta = new NamedDataType();
-			beta.setValue(new ValueType(channelValue.getValue("beta"), "undef"));
-			beta.setName("beta");
-			alphaBetaGamma.getFitParameters().add(beta);
-			NamedDataType gamma = new NamedDataType();
-			gamma.setValue(new ValueType(channelValue.getValue("gamma"), "keV"));
-			gamma.setName("gamma");
-			alphaBetaGamma.getFitParameters().add(gamma);
-
-			values.setFitParameters(alphaBetaGamma);
-
+			
+			values.setFitParameters(writeAlphaBetaGamma(channelValue,chan));
 			channelValueDataSet.getFitDatas().add(values);
 			datasets.getDataSets().add(channelValueDataSet);
 
 		}
 
 	}
+	
+	private static FitParametersType writeAlphaBetaGamma(ChannelValue channelValue, Channel chan)
+	{
+		FitParametersType alphaBetaGamma = new FitParametersType();
+		
+		NamedDataType alpha = new NamedDataType();
+		alpha.setValue(new ValueType(channelValue.getValue("alpha"), chan
+				.getUnitAlpha()));
+		alpha.setName("alpha");
+		alphaBetaGamma.getFitParameters().add(alpha);
+		NamedDataType beta = new NamedDataType();
+		beta.setValue(new ValueType(channelValue.getValue("beta"), "undef"));
+		beta.setName("beta");
+		alphaBetaGamma.getFitParameters().add(beta);
+		NamedDataType gamma = new NamedDataType();
+		gamma.setValue(new ValueType(channelValue.getValue("gamma"), "keV"));
+		gamma.setName("gamma");
+		alphaBetaGamma.getFitParameters().add(gamma);
+		
+		return alphaBetaGamma;
+		
+	}
+
+	private static boolean checkChannelValueValid(ChannelValue channelValue) {
+		if (channelValue.getIsTrash() == 1)
+			return false;
+		if (channelValue.getIsTemp() == 1)
+			return false;
+		if (channelValue.getStatus() == 0)
+			return false;
+		
+		return true;
+	}
+	
+	/*public static Expression getExpression(RequestInterface myrequest) {
+		//Build limits expression
+		Expression myExpression=null,collExpr=null,tgtExpr=null;
+		//Expression myExpression = QueryMapper.listAnd(myrequest.getRestricts(),Restrictables.CollisionsPathSpec);
+		//Check if we have target tree defined
+		LogicNode target = myrequest.getQuery().getPrefixedTree(VSSPrefix.REACTANT, 0);
+		tgtExpr = QueryMapper.mapTree(target, Restrictables.ChannelPathSpec);
+		
+		if (target!=null && tgtExpr!=null){
+			myExpression = tgtExpr;
+			
+			//Check if we have collider tree defined		
+			LogicNode collider = myrequest.getQuery().getPrefixedTree(VSSPrefix.REACTANT, 1);
+			collExpr = QueryMapper.mapTree(collider, Restrictables.ChannelPathSpec);
+			if (collider!=null && collExpr!=null)//If yes, add it also
+				myExpression = myExpression.andExp(collExpr);
+		}else{
+			//No prefixes are defined, so sad, let's try unprefixed VSS1 mode
+			myExpression = QueryMapper.mapTree(myrequest.getRestrictsTree(),Restrictables.ChannelPathSpec);
+			myExpression = myExpression.orExp(QueryMapper.mapTree(myrequest.getRestrictsTree(),Restrictables.ChannelPathSpec)); 
+		}
+		return myExpression;
+	}*/
 }

@@ -18,7 +18,11 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 
 		Vector<Integer> tabSpeciesId = new Vector<Integer>();
 		Vector<String> tabFormulaName = new Vector<String>();
-		if (request.checkBranch(Requestable.Species)) // if there is a Species
+		if (request.checkBranch(Requestable.Species)
+				|| request.checkBranch(Requestable.Molecules)
+				|| request.checkBranch(Requestable.Atoms)
+				|| request.checkBranch(Requestable.Particles))
+		// if there is a Species
 		// in query or a *
 		{
 			SpeciesBuilder.buildSpecies(request, tabSpeciesId);
@@ -32,10 +36,6 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 		}
 
 	}
-
-	
-
-	
 
 	private void addReactantProduct(Collection<ChannelHasSpecie> chsc) {
 		// TODO Auto-generated method stub
@@ -59,8 +59,10 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 	}
 
 	public Map<HeaderMetrics, Integer> getMetrics(RequestInterface request) {
-		
+		if (request.isValid())
+			return Metrics.estimate(request);
 		return null;
+
 	}
 
 }
