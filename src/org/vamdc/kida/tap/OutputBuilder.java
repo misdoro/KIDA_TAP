@@ -58,8 +58,8 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 		return true;
 	}
 
-	public Map<HeaderMetrics, Integer> getMetrics(RequestInterface arg0) {
-		// TODO Auto-generated method stub
+	public Map<HeaderMetrics, Integer> getMetrics(RequestInterface request) {
+		
 		return null;
 	}
 

@@ -12,7 +12,7 @@ import org.vamdc.kida.Biblio;
 import org.vamdc.kida.BiblioBook;
 import org.vamdc.kida.BiblioJournal;
 import org.vamdc.kida.BiblioThesis;
-import org.vamdc.xsams.schema.CategoryType;
+import org.vamdc.xsams.schema.SourceCategoryType;
 import org.vamdc.xsams.sources.AuthorType;
 import org.vamdc.xsams.sources.AuthorsType;
 import org.vamdc.xsams.sources.SourceType;
@@ -24,11 +24,11 @@ public class BiblioBuilder {
 
 		SourceType bibliography = new SourceType();
 		if (cvBiblio.isABook())
-			bibliography.setCategory(CategoryType.BOOK);
+			bibliography.setCategory(SourceCategoryType.BOOK);
 		else if (cvBiblio.isAJournal())
-			bibliography.setCategory(CategoryType.JOURNAL);
+			bibliography.setCategory(SourceCategoryType.JOURNAL);
 		else if (cvBiblio.isAThesis())
-			bibliography.setCategory(CategoryType.THESES);
+			bibliography.setCategory(SourceCategoryType.THESIS);
 		GregorianCalendar gCalendar = new GregorianCalendar();
 		gCalendar.setTime(new Date(cvBiblio.getYear()));
 		XMLGregorianCalendar xmlCalendar = null;
