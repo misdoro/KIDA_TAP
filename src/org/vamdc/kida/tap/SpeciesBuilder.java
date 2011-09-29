@@ -64,58 +64,39 @@ public class SpeciesBuilder {
 	
 	
 	private static SelectQuery getCayenneQuery(Query query) {
-			Expression speciesExp = null;
-			Expression prefExp=null;
-			//Loop over all defined prefixes
-			Vector<String> aliases = new Vector<String>();
-			for (Prefix pref:query.getPrefixes()){
-				VSSPrefix prefix = pref.getPrefix();
-				int index = pref.getIndex();
+		Expression myExpression=null,collExpr=null;
+		
+		myExpression = QueryMapper.mapTree(query.getRestrictsTree(),Restrictables.SpeciesPathSpec);
+		
+		for (Prefix pref:query.getPrefixes())
+		{
+			VSSPrefix prefix = pref.getPrefix();
+			int index = pref.getIndex();
+			String strPrefix = prefix.name()+index;
+			System.out.println(strPrefix);
+			
+			LogicNode collider = null;
+			if ( prefix.name().equals("REACTANT"))
+			{
+				collider = query.getPrefixedTree(VSSPrefix.REACTANT, index);
 				
-				//Add alias to vector
-				String strPrefix = prefix.name()+index;
-				aliases.add(strPrefix);
-				
-				if (prefix==VSSPrefix.REACTANT){//Handle REACTANT	
-					Expression chsex=ExpressionFactory.matchExp(strPrefix+".type", ChannelHasSpecie.REACTANT);
-					prefExp=QueryMapper.mapTree(query.getPrefixedTree(prefix, index), Restrictables.getAliasedSpeciesMap(strPrefix));//Build tree using aliases
-					if (prefExp!=null)
-						prefExp=prefExp.andExp(chsex);
-					
-				}else if (prefix==VSSPrefix.PRODUCT){//Handle PRODUCT
-					Expression chsex=ExpressionFactory.matchExp(strPrefix+".type", ChannelHasSpecie.PRODUCT);
-					prefExp=QueryMapper.mapTree(query.getPrefixedTree(prefix, index), Restrictables.getAliasedSpeciesMap(strPrefix) );//Build tree using aliases
-					if (prefExp!=null)
-						prefExp=prefExp.andExp(chsex);
-				}else{
-					prefExp=null;
-				}
-				if (speciesExp==null){//Channel exp is yet empty, just assign prefExp to it.
-					speciesExp=prefExp;
-					prefExp=null;
-				}else if (prefExp!=null){
-					speciesExp=speciesExp.andExp(prefExp);//
-				}
 			}
-			
-			//add all keywords that don't require or don't have a prefix.
-			prefExp=QueryMapper.mapTree(query.getPrefixedTree(null, 0), Restrictables.getAliasedSpeciesMap("unprefixed"));
-			aliases.add("unprefixed");
-			
-			if (speciesExp==null){//Channel exp is yet empty, just assign prefExp to it.
-				speciesExp=prefExp;
-				prefExp=null;
-			}else if (prefExp!=null){
-				speciesExp=speciesExp.andExp(prefExp);
+			if (  prefix.name().equals("PRODUCT"))
+			{
+				collider = query.getPrefixedTree(VSSPrefix.PRODUCT, index);
 			}
+			if ( collider == null ) // if prefix is not reactant or product ... we skip it
+				continue;
 			
-			System.out.println("Expression:"+speciesExp);
-			SelectQuery q = new SelectQuery(Specie.class, speciesExp);
+			collExpr = QueryMapper.mapTree(collider, Restrictables.SpeciesPathSpec);
+			if (collider!=null && collExpr!=null)//If yes, add it also
+				myExpression = myExpression.orExp(collExpr);
 			
-			if (aliases.size()>0)
-				q.aliasPathSplits("channelHasSpecieArray", aliases.toArray(new String[0]));
 			
-			return q;
+			
+		}
+		SelectQuery q = new SelectQuery(Specie.class, myExpression);
+		return q;
 			
 	}
 
