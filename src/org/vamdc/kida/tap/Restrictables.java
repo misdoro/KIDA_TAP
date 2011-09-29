@@ -79,5 +79,21 @@ public class Restrictables {
 		return cps;
 	}
 	
+	public static Map<Restrictable,String> getAliasedSpeciesMap(String prefix){
+		Map<Restrictable,String> cps = new HashMap<Restrictable,String>();
+		if (prefix!=null){
+			cps.put(Restrictable.MoleculeIonCharge, prefix+".charge");
+			cps.put(Restrictable.MoleculeChemicalName, prefix+".description");
+			cps.put(Restrictable.MoleculeInchi, prefix+".inchi");
+			cps.put(Restrictable.MoleculeInchiKey, prefix+".inchiKey");
+			cps.put(Restrictable.MoleculeIonCharge, prefix+".charge");
+			cps.put(Restrictable.MoleculeStoichiometricFormula, prefix+".specieRel.formula");
+
+			cps.put(Restrictable.AtomSymbol, prefix+".formula");
+			cps.put(Restrictable.AtomIonCharge, prefix+".charge");
+		}
+		return cps;
+	}
+	
 	
 }

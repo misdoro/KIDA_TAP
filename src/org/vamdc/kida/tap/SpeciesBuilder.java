@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.cayenne.exp.Expression;
+import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.query.SelectQuery;
 import org.vamdc.dictionary.VSSPrefix;
+import org.vamdc.kida.Channel;
+import org.vamdc.kida.ChannelHasSpecie;
 import org.vamdc.kida.Specie;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
 import org.vamdc.tapservice.vss2.LogicNode;
+import org.vamdc.tapservice.vss2.Prefix;
+import org.vamdc.tapservice.vss2.Query;
 import org.vamdc.xsams.common.ChemicalElementType;
 import org.vamdc.xsams.common.DataType;
 import org.vamdc.xsams.schema.ParticleNameType;
@@ -32,9 +37,13 @@ public class SpeciesBuilder {
 			Vector<Integer> tabSpeciesId) {
 		Expression specieExpr = QueryMapper.mapTree(request.getRestrictsTree(),
 				Restrictables.SpeciesPathSpec);
-		SelectQuery atquery = new SelectQuery(Specie.class, specieExpr);
+		//SelectQuery atquery = new SelectQuery(Specie.class, specieExpr);
+		SelectQuery atquery = getCayenneQuery(request.getQuery());
+		System.out.println(atquery);
 		List<Specie> atms = (List<Specie>) request.getCayenneContext()
 				.performQuery(atquery);
+		
+		System.out.println(atms);
 
 		for (Specie sp : atms) {
 			if (sp.isASpecialSpecies()) {
@@ -54,6 +63,63 @@ public class SpeciesBuilder {
 	}
 	
 	
+	private static SelectQuery getCayenneQuery(Query query) {
+			Expression speciesExp = null;
+			Expression prefExp=null;
+			//Loop over all defined prefixes
+			Vector<String> aliases = new Vector<String>();
+			for (Prefix pref:query.getPrefixes()){
+				VSSPrefix prefix = pref.getPrefix();
+				int index = pref.getIndex();
+				
+				//Add alias to vector
+				String strPrefix = prefix.name()+index;
+				aliases.add(strPrefix);
+				
+				if (prefix==VSSPrefix.REACTANT){//Handle REACTANT	
+					Expression chsex=ExpressionFactory.matchExp(strPrefix+".type", ChannelHasSpecie.REACTANT);
+					prefExp=QueryMapper.mapTree(query.getPrefixedTree(prefix, index), Restrictables.getAliasedSpeciesMap(strPrefix));//Build tree using aliases
+					if (prefExp!=null)
+						prefExp=prefExp.andExp(chsex);
+					
+				}else if (prefix==VSSPrefix.PRODUCT){//Handle PRODUCT
+					Expression chsex=ExpressionFactory.matchExp(strPrefix+".type", ChannelHasSpecie.PRODUCT);
+					prefExp=QueryMapper.mapTree(query.getPrefixedTree(prefix, index), Restrictables.getAliasedSpeciesMap(strPrefix) );//Build tree using aliases
+					if (prefExp!=null)
+						prefExp=prefExp.andExp(chsex);
+				}else{
+					prefExp=null;
+				}
+				if (speciesExp==null){//Channel exp is yet empty, just assign prefExp to it.
+					speciesExp=prefExp;
+					prefExp=null;
+				}else if (prefExp!=null){
+					speciesExp=speciesExp.andExp(prefExp);//
+				}
+			}
+			
+			//add all keywords that don't require or don't have a prefix.
+			prefExp=QueryMapper.mapTree(query.getPrefixedTree(null, 0), Restrictables.getAliasedSpeciesMap("unprefixed"));
+			aliases.add("unprefixed");
+			
+			if (speciesExp==null){//Channel exp is yet empty, just assign prefExp to it.
+				speciesExp=prefExp;
+				prefExp=null;
+			}else if (prefExp!=null){
+				speciesExp=speciesExp.andExp(prefExp);
+			}
+			
+			System.out.println("Expression:"+speciesExp);
+			SelectQuery q = new SelectQuery(Specie.class, speciesExp);
+			
+			if (aliases.size()>0)
+				q.aliasPathSplits("channelHasSpecieArray", aliases.toArray(new String[0]));
+			
+			return q;
+			
+	}
+
+
 	public static ParticleType writeParticle(Specie sp,RequestInterface myrequest )
 	{
 		ParticleType myParticle = new ParticleType();

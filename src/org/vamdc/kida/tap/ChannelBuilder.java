@@ -107,7 +107,7 @@ public class ChannelBuilder {
 
 	}
 	
-	private static SelectQuery getCayenneQuery(Query query){
+	public static SelectQuery getCayenneQuery(Query query){
 		Expression channelExp = null;
 		Expression prefExp=null;
 		//Loop over all defined prefixes
@@ -322,7 +322,7 @@ public class ChannelBuilder {
 		return true;
 	}
 	
-	public static Expression getExpression(RequestInterface myrequest) {
+	/*public static Expression getExpression(RequestInterface myrequest) {
 		//Build limits expression
 		Expression myExpression=null,collExpr=null,tgtExpr=null;
 		//Expression myExpression = QueryMapper.listAnd(myrequest.getRestricts(),Restrictables.CollisionsPathSpec);
@@ -344,5 +344,5 @@ public class ChannelBuilder {
 			myExpression = myExpression.orExp(QueryMapper.mapTree(myrequest.getRestrictsTree(),Restrictables.ChannelPathSpec)); 
 		}
 		return myExpression;
-	}
+	}*/
 }

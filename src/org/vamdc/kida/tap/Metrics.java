@@ -18,8 +18,8 @@ public class Metrics {
 		Map<HeaderMetrics, Integer> estimates = new HashMap<HeaderMetrics, Integer>();
 		
 		//Estimate collisions
-		Expression colExpression = ChannelBuilder.getExpression(request);
-		SelectQuery query=new SelectQuery(ChannelValue.class,colExpression);
+		//Expression colExpression = ChannelBuilder.getExpression(request);
+		SelectQuery query = ChannelBuilder.getCayenneQuery(request.getQuery());
 		Long collisions = CountQuery.count((DataContext) request.getCayenneContext(), query);
 		
 		if (collisions>0)
