@@ -24,6 +24,8 @@ public class Restrictables {
 			add(Restrictable.MoleculeStoichiometricFormula);
 			
 			add(Restrictable.AtomSymbol);
+			
+			//add(Restrictable.CollisionIAEACode);
 		}
 	};
 
@@ -60,6 +62,8 @@ public class Restrictables {
 		
 		put(Restrictable.AtomSymbol,"specieRel.formula");
 		put(Restrictable.AtomIonCharge,"specieRel.charge");
+		
+		//put(Restrictable.CollisionIAEACode,"toTypeChannel");
 	}};
 	
 	public static Map<Restrictable,String> getAliasedChannelMap(String prefix){
@@ -75,6 +79,8 @@ public class Restrictables {
 
 			cps.put(Restrictable.AtomSymbol, prefix+".specieRel.formula");
 			cps.put(Restrictable.AtomIonCharge, prefix+".specieRel.charge");
+			
+			cps.put(Restrictable.CollisionIAEACode, prefix+".toTypeChannel");
 		}
 		return cps;
 	}

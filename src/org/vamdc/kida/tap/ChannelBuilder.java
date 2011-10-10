@@ -126,9 +126,9 @@ public class ChannelBuilder {
 				prefExp = QueryMapper.mapTree(
 						query.getPrefixedTree(prefix, index),
 						Restrictables.getAliasedChannelMap(strPrefix));// Build
-																		// tree
-																		// using
-																		// aliases
+				// tree
+				// using
+				// aliases
 				if (prefExp != null)
 					prefExp = prefExp.andExp(chsex);
 
@@ -138,16 +138,16 @@ public class ChannelBuilder {
 				prefExp = QueryMapper.mapTree(
 						query.getPrefixedTree(prefix, index),
 						Restrictables.getAliasedChannelMap(strPrefix));// Build
-																		// tree
-																		// using
-																		// aliases
+				// tree
+				// using
+				// aliases
 				if (prefExp != null)
 					prefExp = prefExp.andExp(chsex);
 			} else {
 				prefExp = null;
 			}
 			if (channelExp == null) {// Channel exp is yet empty, just assign
-										// prefExp to it.
+				// prefExp to it.
 				channelExp = prefExp;
 				prefExp = null;
 			} else if (prefExp != null) {
@@ -161,7 +161,7 @@ public class ChannelBuilder {
 		aliases.add("unprefixed");
 
 		if (channelExp == null) {// Channel exp is yet empty, just assign
-									// prefExp to it.
+			// prefExp to it.
 			channelExp = prefExp;
 			prefExp = null;
 		} else if (prefExp != null) {
@@ -196,7 +196,7 @@ public class ChannelBuilder {
 				continue;
 
 			CollisionalTransitionType mycollision = new CollisionalTransitionType();
-			
+
 			mycollision.setId(IDs.getProcessID('C', chan.getId()));
 
 			Collection<ChannelHasSpecie> chsc = chan.getChannelHasSpecieArray();
@@ -204,11 +204,11 @@ public class ChannelBuilder {
 
 			CollisionalProcessClassType process = new CollisionalProcessClassType();
 
-			/*
-			 * if ( writeIAEACode(chan.getToTypeChannel().getId()) != null ) {
-			 * process.setIAEACode(writeIAEACode(chan.getToTypeChannel().getId
-			 * ())); }
-			 */
+			ToolsBuilder.writeIAEACodes(process, chan.getToTypeChannel()
+					.getId());
+			ToolsBuilder.writeProcessCodes(process, chan.getToTypeChannel()
+					.getId());
+
 			mycollision.setProcessClass(process);
 
 			DataSetsType datasets = new DataSetsType();
