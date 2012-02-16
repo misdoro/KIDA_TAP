@@ -2,9 +2,7 @@ package org.vamdc.kida.tap;
 
 import java.util.Collection;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.Vector;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -23,7 +21,6 @@ import org.vamdc.kida.Specie;
 import org.vamdc.kida.TypeChannel;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
-import org.vamdc.tapservice.vss2.LogicNode;
 import org.vamdc.tapservice.vss2.Prefix;
 import org.vamdc.tapservice.vss2.Query;
 import org.vamdc.xsams.common.ArgumentType;
@@ -250,7 +247,7 @@ public class ChannelBuilder {
 				continue;
 
 			if (!tabFormulaName.contains(channelValue.getToFormula().getName())) {
-				FunctionType function = ToolsBuilder.writeFormula(channelValue
+				FunctionType function = FunctionsBuilder.writeFormula(channelValue
 						.getToFormula().getName());
 				tabFormulaName
 						.addElement(channelValue.getToFormula().getName());
@@ -355,28 +352,4 @@ public class ChannelBuilder {
 		return true;
 	}
 
-	/*
-	 * public static Expression getExpression(RequestInterface myrequest) {
-	 * //Build limits expression Expression
-	 * myExpression=null,collExpr=null,tgtExpr=null; //Expression myExpression =
-	 * QueryMapper
-	 * .listAnd(myrequest.getRestricts(),Restrictables.CollisionsPathSpec);
-	 * //Check if we have target tree defined LogicNode target =
-	 * myrequest.getQuery().getPrefixedTree(VSSPrefix.REACTANT, 0); tgtExpr =
-	 * QueryMapper.mapTree(target, Restrictables.ChannelPathSpec);
-	 * 
-	 * if (target!=null && tgtExpr!=null){ myExpression = tgtExpr;
-	 * 
-	 * //Check if we have collider tree defined LogicNode collider =
-	 * myrequest.getQuery().getPrefixedTree(VSSPrefix.REACTANT, 1); collExpr =
-	 * QueryMapper.mapTree(collider, Restrictables.ChannelPathSpec); if
-	 * (collider!=null && collExpr!=null)//If yes, add it also myExpression =
-	 * myExpression.andExp(collExpr); }else{ //No prefixes are defined, so sad,
-	 * let's try unprefixed VSS1 mode myExpression =
-	 * QueryMapper.mapTree(myrequest
-	 * .getRestrictsTree(),Restrictables.ChannelPathSpec); myExpression =
-	 * myExpression
-	 * .orExp(QueryMapper.mapTree(myrequest.getRestrictsTree(),Restrictables
-	 * .ChannelPathSpec)); } return myExpression; }
-	 */
 }
