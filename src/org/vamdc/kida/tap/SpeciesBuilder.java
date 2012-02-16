@@ -123,10 +123,8 @@ public class SpeciesBuilder {
 	public static AtomType writeAtom(Specie sp, RequestInterface myrequest) {
 		AtomType myatom = new AtomType();
 
-		ChemicalElementType element = new ChemicalElementType();
-		element.setElementSymbol(sp.getFormula());
-		if ( sp.getNuclearCharge() != null )
-			element.setNuclearCharge(sp.getNuclearCharge());
+
+		ChemicalElementType element = new ChemicalElementType(sp.getNuclearCharge(),sp.getFormula());
 		myatom.setChemicalElement(element);
 
 		IsotopeType isot = new IsotopeType();

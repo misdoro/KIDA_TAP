@@ -55,7 +55,7 @@ public class ToolsBuilder {
 		}
 		if (id == 7) // AD
 		{
-			process.getCodes().add("ion");
+			process.getCodes().add("ioni");
 			return;
 		}
 		if (id == 8) // ER

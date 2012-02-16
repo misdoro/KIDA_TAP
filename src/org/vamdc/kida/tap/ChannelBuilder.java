@@ -26,11 +26,11 @@ import org.vamdc.tapservice.query.QueryMapper;
 import org.vamdc.tapservice.vss2.LogicNode;
 import org.vamdc.tapservice.vss2.Prefix;
 import org.vamdc.tapservice.vss2.Query;
+import org.vamdc.xsams.common.ArgumentType;
 import org.vamdc.xsams.common.DataSetType;
 import org.vamdc.xsams.common.DataSetsType;
 import org.vamdc.xsams.common.FitDataType;
 import org.vamdc.xsams.common.FitParametersType;
-import org.vamdc.xsams.common.FitValidityLimitsType;
 import org.vamdc.xsams.common.NamedDataType;
 import org.vamdc.xsams.common.ValueType;
 import org.vamdc.xsams.functions.FunctionType;
@@ -264,13 +264,9 @@ public class ChannelBuilder {
 					.setDataDescription(DataDescriptionType.RATE_COEFFICIENT);
 			FitDataType values = new FitDataType();
 
-			// Temperature Range
-			FitValidityLimitsType tRange = new FitValidityLimitsType();
-			tRange.setLowerLimit(new ValueType((double) channelValue
-					.getToValidityRange().getTmin(), "K"));
-			tRange.setUpperLimit(new ValueType((double) channelValue
-					.getToValidityRange().getTmax(), "K"));
+			
 
+			
 			// Bibliography
 			Biblio cvBiblio = channelValue.getToBiblio();
 			if (cvBiblio != null) {
@@ -298,34 +294,54 @@ public class ChannelBuilder {
 				fitData.setProductionDate(xmlCalendar);
 			}
 
-			values.setFitParameters(writeAlphaBetaGamma(channelValue, chan));
+			values.setFitParameters(writeFitParameters(channelValue, chan,request));
 			channelValueDataSet.getFitDatas().add(values);
 			datasets.getDataSets().add(channelValueDataSet);
 
 		}
 
 	}
+	
+	private static FitParametersType writeFitParameters(
+			ChannelValue channelValue, Channel chan, RequestInterface request) {
+		FitParametersType result = new FitParametersType();
 
-	private static FitParametersType writeAlphaBetaGamma(
-			ChannelValue channelValue, Channel chan) {
-		FitParametersType alphaBetaGamma = new FitParametersType();
+		//int function = channelValue.getToFormula().get
+		//request.getXsamsroot().getFunction(IDs.getFunctionID(channelValue.getToFormula()))
+		//alphaBetaGamma.setFunctionRef(
+		
+		ArgumentType temperature = buildTemperatureArgument(channelValue);
+		
+		result.getFitArguments().add(temperature);
 
+		
 		NamedDataType alpha = new NamedDataType();
 		alpha.setValue(new ValueType(channelValue.getValue("alpha"), chan
 				.getUnitAlpha()));
 		alpha.setName("alpha");
-		alphaBetaGamma.getFitParameters().add(alpha);
+		result.getFitParameters().add(alpha);
 		NamedDataType beta = new NamedDataType();
 		beta.setValue(new ValueType(channelValue.getValue("beta"), "undef"));
 		beta.setName("beta");
-		alphaBetaGamma.getFitParameters().add(beta);
+		result.getFitParameters().add(beta);
 		NamedDataType gamma = new NamedDataType();
 		gamma.setValue(new ValueType(channelValue.getValue("gamma"), "keV"));
 		gamma.setName("gamma");
-		alphaBetaGamma.getFitParameters().add(gamma);
+		result.getFitParameters().add(gamma);
 
-		return alphaBetaGamma;
+		return result;
 
+	}
+
+	private static ArgumentType buildTemperatureArgument(
+			ChannelValue channelValue) {
+		ArgumentType temperature = new ArgumentType();
+		temperature.setUnits("K");
+		temperature.setName("T");
+		
+		temperature.setLowerLimit(channelValue.getToValidityRange().getTmin().doubleValue());
+		temperature.setUpperLimit(channelValue.getToValidityRange().getTmax().doubleValue());
+		return temperature;
 	}
 
 	private static boolean checkChannelValueValid(ChannelValue channelValue) {
