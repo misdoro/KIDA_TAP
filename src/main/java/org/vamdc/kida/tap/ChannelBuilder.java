@@ -58,17 +58,23 @@ public class ChannelBuilder {
 			}
 
 			if (chs.getType().equals("reactant")) {
-				mycollision
-				.getReactants()
-				.add(request.getXsamsManager().getSpeciesRef(
-						IDs.getSpecieID(chs.getSpecie().getId())));
-
+				int count = chs.getOccurrence();
+				for (int i=0;i<count;i++){
+					mycollision
+					.getReactants()
+					.add(request.getXsamsManager().getSpeciesRef(
+							IDs.getSpecieID(chs.getSpecie().getId())));
+				}
 
 			} else if (chs.getType().equals("product")) {
-				mycollision
-				.getProducts()
-				.add(request.getXsamsManager().getSpeciesRef(
-						IDs.getSpecieID(chs.getSpecie().getId())));
+				int count = chs.getOccurrence();
+				for (int i=0;i<count;i++){
+
+					mycollision
+					.getProducts()
+					.add(request.getXsamsManager().getSpeciesRef(
+							IDs.getSpecieID(chs.getSpecie().getId())));
+				}
 
 			}
 
