@@ -4,12 +4,9 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.cayenne.exp.Expression;
-import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.query.SelectQuery;
 import org.vamdc.dictionary.VSSPrefix;
-import org.vamdc.kida.Channel;
-import org.vamdc.kida.ChannelHasSpecie;
-import org.vamdc.kida.Specie;
+import org.vamdc.kida.dao.*;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
 import org.vamdc.tapservice.vss2.LogicNode;
@@ -47,13 +44,13 @@ public class SpeciesBuilder {
 
 		for (Specie sp : atms) {
 			if (sp.isASpecialSpecies()) {
-				request.getXsamsroot().addElement(
+				request.getXsamsManager().addElement(
 						SpeciesBuilder.writeParticle(sp, request));
 			} else if (sp.isAnAtom()) {
-				request.getXsamsroot().addElement(
+				request.getXsamsManager().addElement(
 						SpeciesBuilder.writeAtom(sp, request));
 			} else {
-				request.getXsamsroot().addElement(
+				request.getXsamsManager().addElement(
 						SpeciesBuilder.writeSpecies(sp));
 			}
 			tabSpeciesId.addElement(new Integer(sp.getId()));

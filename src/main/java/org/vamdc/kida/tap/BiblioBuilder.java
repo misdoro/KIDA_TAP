@@ -2,18 +2,13 @@ package org.vamdc.kida.tap;
 
 import java.sql.Date;
 import java.util.GregorianCalendar;
-import java.util.Vector;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.vamdc.kida.Biblio;
-import org.vamdc.kida.BiblioBook;
-import org.vamdc.kida.BiblioJournal;
-import org.vamdc.kida.BiblioThesis;
+import org.vamdc.kida.dao.*;
 import org.vamdc.xsams.schema.SourceCategoryType;
-import org.vamdc.xsams.sources.AuthorType;
 import org.vamdc.xsams.sources.AuthorsType;
 import org.vamdc.xsams.sources.SourceType;
 import org.vamdc.xsams.util.IDs;
@@ -41,14 +36,7 @@ public class BiblioBuilder {
 		}
 		bibliography.setYear(xmlCalendar);
 
-		AuthorsType authors = new AuthorsType();
-		Vector<String> biblioAuthors = cvBiblio.getAllAuthorsCollection();
-		for (int i = 0; i < biblioAuthors.size(); i++) {
-			AuthorType author = new AuthorType();
-			author.setName(biblioAuthors.elementAt(i));
-			authors.getAuthors().add(author);
-		}
-		bibliography.setAuthors(authors);
+		bibliography.setAuthors(new AuthorsType(cvBiblio.getAllAuthors()));
 		bibliography.setTitle(cvBiblio.getTitle() );
 		if (cvBiblio.isAJournal()) {
 			writeBiblioJournal(cvBiblio, bibliography);
@@ -76,12 +64,14 @@ public class BiblioBuilder {
 	private static void writeBiblioBook(Biblio cvBiblio, SourceType bibliography) {
 		BiblioBook bibBook = cvBiblio.getBiblioBook();
 		
-		String[] volumePage = bibBook.getPages().split(",");
 		String page = "";
-		try {
-			page = volumePage[1];
-		} catch (ArrayIndexOutOfBoundsException e) {
-
+		
+		String pages = bibBook.getPages();
+		String[] volumePage=null;
+		if (pages!=null){
+			volumePage = bibBook.getPages().split(",");
+			if (volumePage.length>1)
+				page = volumePage[1];
 		}
 
 		String[] pageBeginEnd = page.split("-");
@@ -93,7 +83,8 @@ public class BiblioBuilder {
 		} catch (ArrayIndexOutOfBoundsException e) {
 
 		}
-		bibliography.setVolume(volumePage[0]);
+		if (volumePage!=null && volumePage.length>0)
+			bibliography.setVolume(volumePage[0]);
 		bibliography.setPageBegin(pageDebut);
 		bibliography.setPageEnd(pageFin);
 		bibliography.setDigitalObjectIdentifier(bibBook.getDoi());

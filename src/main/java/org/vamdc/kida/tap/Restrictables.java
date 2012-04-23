@@ -36,7 +36,6 @@ public class Restrictables {
 	public final static Map<Restrictable, String> SpeciesPathSpec = new HashMap<Restrictable, String>() {
 		{
 			put(Restrictable.IonCharge, "charge");
-			//put(Restrictable.MoleculeChemicalName, "commonName");
 			put(Restrictable.MoleculeChemicalName, "description");
 			put(Restrictable.Inchi, "inchi");
 			put(Restrictable.InchiKey, "inchiKey");
@@ -51,14 +50,13 @@ public class Restrictables {
 	 * Channel paths
 	 */
 	public final static Map<Restrictable,String> ChannelPathSpec = new HashMap<Restrictable,String>(){{
-		put(Restrictable.IonCharge,"specieRel.charge");
-		//put(Restrictable.MoleculeChemicalName,"specieRel.commonName");
-		put(Restrictable.MoleculeChemicalName,"specieRel.description");
-		put(Restrictable.Inchi,"specieRel.inchi");
-		put(Restrictable.InchiKey,"specieRel.inchiKey");
-		put(Restrictable.MoleculeStoichiometricFormula,"formula");
+		put(Restrictable.IonCharge,"species.charge");
+		put(Restrictable.MoleculeChemicalName,"species.description");
+		put(Restrictable.Inchi,"species.inchi");
+		put(Restrictable.InchiKey,"species.inchiKey");
+		put(Restrictable.MoleculeStoichiometricFormula,"species.formula");
 		
-		put(Restrictable.AtomSymbol,"specieRel.formula");
+		put(Restrictable.AtomSymbol,"species.formula");
 		
 		//put(Restrictable.CollisionIAEACode,"toTypeChannel");
 	}};
@@ -66,16 +64,15 @@ public class Restrictables {
 	public static Map<Restrictable,String> getAliasedChannelMap(String prefix){
 		Map<Restrictable,String> cps = new HashMap<Restrictable,String>();
 		if (prefix!=null){
-			cps.put(Restrictable.IonCharge, prefix+".specieRel.charge");
-			//cps.put(Restrictable.MoleculeChemicalName, prefix+".specieRel.commonName");
-			cps.put(Restrictable.MoleculeChemicalName, prefix+".specieRel.description");
-			cps.put(Restrictable.Inchi, prefix+".specieRel.inchi");
-			cps.put(Restrictable.InchiKey, prefix+".specieRel.inchiKey");
-			cps.put(Restrictable.MoleculeStoichiometricFormula, prefix+".specieRel.formula");
+			cps.put(Restrictable.IonCharge, prefix+".specie.charge");
+			cps.put(Restrictable.MoleculeChemicalName, prefix+".specie.description");
+			cps.put(Restrictable.Inchi, prefix+".specie.inchi");
+			cps.put(Restrictable.InchiKey, prefix+".specie.inchiKey");
+			cps.put(Restrictable.MoleculeStoichiometricFormula, prefix+".specie.formula");
 
-			cps.put(Restrictable.AtomSymbol, prefix+".specieRel.formula");
+			cps.put(Restrictable.AtomSymbol, prefix+".specie.formula");
 			
-			cps.put(Restrictable.CollisionIAEACode, prefix+".toTypeChannel");
+			cps.put(Restrictable.CollisionIAEACode, prefix+".typeChannel");
 		}
 		return cps;
 	}
@@ -87,7 +84,7 @@ public class Restrictables {
 			cps.put(Restrictable.MoleculeChemicalName, prefix+".description");
 			cps.put(Restrictable.Inchi, prefix+".inchi");
 			cps.put(Restrictable.InchiKey, prefix+".inchiKey");
-			cps.put(Restrictable.MoleculeStoichiometricFormula, prefix+".specieRel.formula");
+			cps.put(Restrictable.MoleculeStoichiometricFormula, prefix+".formula");
 			cps.put(Restrictable.AtomSymbol, prefix+".formula");
 		}
 		return cps;

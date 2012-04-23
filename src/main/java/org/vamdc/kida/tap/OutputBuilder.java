@@ -6,11 +6,9 @@ import java.util.Vector;
 
 import org.vamdc.dictionary.Requestable;
 import org.vamdc.dictionary.Restrictable;
-import org.vamdc.kida.ChannelHasSpecie;
 import org.vamdc.tapservice.api.Dictionary.HeaderMetrics;
 import org.vamdc.tapservice.api.RequestInterface;
 
-import org.vamdc.tapservice.vss2.*;
 
 public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 
@@ -34,11 +32,6 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 			ChannelBuilder.buildChannels(request, tabSpeciesId, tabFormulaName);
 
 		}
-
-	}
-
-	private void addReactantProduct(Collection<ChannelHasSpecie> chsc) {
-		// TODO Auto-generated method stub
 
 	}
 

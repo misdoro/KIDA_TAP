@@ -13,12 +13,7 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.query.SelectQuery;
 import org.vamdc.dictionary.VSSPrefix;
-import org.vamdc.kida.Biblio;
-import org.vamdc.kida.Channel;
-import org.vamdc.kida.ChannelHasSpecie;
-import org.vamdc.kida.ChannelValue;
-import org.vamdc.kida.Specie;
-import org.vamdc.kida.TypeChannel;
+import org.vamdc.kida.dao.*;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
 import org.vamdc.tapservice.vss2.Prefix;
@@ -46,56 +41,56 @@ public class ChannelBuilder {
 		for (ChannelHasSpecie chs : chsc) {
 
 			// check if species have not been added
-			if (!tabSpeciesId.contains(new Integer(chs.getToSpecie().getId()))) {
-				Specie forgotSpecies = chs.getToSpecie();
+			if (!tabSpeciesId.contains(new Integer(chs.getSpecie().getId()))) {
+				Specie forgotSpecies = chs.getSpecie();
 				if (forgotSpecies.isASpecialSpecies()) {
-					request.getXsamsroot().addElement(
+					request.getXsamsManager().addElement(
 							SpeciesBuilder
 									.writeParticle(forgotSpecies, request));
 				} else if (forgotSpecies.isAnAtom()) {
-					request.getXsamsroot().addElement(
+					request.getXsamsManager().addElement(
 							SpeciesBuilder.writeAtom(forgotSpecies, request));
 				} else {
-					request.getXsamsroot().addElement(
+					request.getXsamsManager().addElement(
 							SpeciesBuilder.writeSpecies(forgotSpecies));
 				}
 				tabSpeciesId.addElement(new Integer(forgotSpecies.getId()));
 			}
 
 			if (chs.getType().equals("reactant")) {
-				if (chs.getToSpecie().isASpecialSpecies()) // CR, CRP,
+				if (chs.getSpecie().isASpecialSpecies()) // CR, CRP,
 				// e-,
 				// Photon
 				{
-					// mycollision.getReactants().add(request.getXsamsroot().getStateRef(
-				} else if (chs.getToSpecie().isAnAtom()) {
+					// mycollision.getReactants().add(request.getXsamsManager().getStateRef(
+				} else if (chs.getSpecie().isAnAtom()) {
 					mycollision
 							.getReactants()
-							.add(request.getXsamsroot().getSpeciesRef(
-									IDs.getSpecieID(chs.getToSpecie().getId())));
+							.add(request.getXsamsManager().getSpeciesRef(
+									IDs.getSpecieID(chs.getSpecie().getId())));
 				} else {
 					mycollision
 							.getReactants()
-							.add(request.getXsamsroot().getSpeciesRef(
-									IDs.getSpecieID(chs.getToSpecie().getId())));
+							.add(request.getXsamsManager().getSpeciesRef(
+									IDs.getSpecieID(chs.getSpecie().getId())));
 				}
 
 			} else if (chs.getType().equals("product")) {
-				if (chs.getToSpecie().isASpecialSpecies()) // CR, CRP,
+				if (chs.getSpecie().isASpecialSpecies()) // CR, CRP,
 				// e-,
 				// Photon
 				{
-					// mycollision.getProducts().add(request.getXsamsroot().getStateRef()}
-				} else if (chs.getToSpecie().isAnAtom()) {
+					// mycollision.getProducts().add(request.getXsamsManager().getStateRef()}
+				} else if (chs.getSpecie().isAnAtom()) {
 					mycollision
 							.getProducts()
-							.add(request.getXsamsroot().getSpeciesRef(
-									IDs.getSpecieID(chs.getToSpecie().getId())));
+							.add(request.getXsamsManager().getSpeciesRef(
+									IDs.getSpecieID(chs.getSpecie().getId())));
 				} else {
 					mycollision
 							.getProducts()
-							.add(request.getXsamsroot().getSpeciesRef(
-									IDs.getSpecieID(chs.getToSpecie().getId())));
+							.add(request.getXsamsManager().getSpeciesRef(
+									IDs.getSpecieID(chs.getSpecie().getId())));
 				}
 
 			}
@@ -119,7 +114,7 @@ public class ChannelBuilder {
 
 			if (prefix == VSSPrefix.REACTANT) {// Handle REACTANT
 				Expression chsex = ExpressionFactory.matchExp(strPrefix
-						+ ".type", ChannelHasSpecie.REACTANT);
+						+ ".type", Channel.REACTANT);
 				prefExp = QueryMapper.mapTree(
 						query.getPrefixedTree(prefix, index),
 						Restrictables.getAliasedChannelMap(strPrefix));// Build
@@ -131,7 +126,7 @@ public class ChannelBuilder {
 
 			} else if (prefix == VSSPrefix.PRODUCT) {// Handle PRODUCT
 				Expression chsex = ExpressionFactory.matchExp(strPrefix
-						+ ".type", ChannelHasSpecie.PRODUCT);
+						+ ".type", Channel.PRODUCT);
 				prefExp = QueryMapper.mapTree(
 						query.getPrefixedTree(prefix, index),
 						Restrictables.getAliasedChannelMap(strPrefix));// Build
@@ -169,7 +164,7 @@ public class ChannelBuilder {
 		SelectQuery q = new SelectQuery(Channel.class, channelExp);
 
 		if (aliases.size() > 0)
-			q.aliasPathSplits("channelHasSpecieArray",
+			q.aliasPathSplits("channelHasSpecies",
 					aliases.toArray(new String[0]));
 
 		return q;
@@ -188,7 +183,7 @@ public class ChannelBuilder {
 		for (Channel chan : atms) {
 			if (chan.getAddedStatus() == 0)
 				continue;
-			TypeChannel tc = chan.getToTypeChannel();
+			TypeChannel tc = chan.getTypeChannel();
 			if (tc == null || tc.getAbbrev().equals("3-body"))
 				continue;
 
@@ -196,14 +191,14 @@ public class ChannelBuilder {
 
 			mycollision.setId(IDs.getProcessID('C', chan.getId()));
 
-			Collection<ChannelHasSpecie> chsc = chan.getChannelHasSpecieArray();
+			Collection<ChannelHasSpecie> chsc = chan.getChannelHasSpecies();
 			writeReactantProduct(chsc, tabSpeciesId, mycollision, request);
 
 			CollisionalProcessClassType process = new CollisionalProcessClassType();
 
-			ToolsBuilder.writeIAEACodes(process, chan.getToTypeChannel()
+			ToolsBuilder.writeIAEACodes(process, chan.getTypeChannel()
 					.getId());
-			ToolsBuilder.writeProcessCodes(process, chan.getToTypeChannel()
+			ToolsBuilder.writeProcessCodes(process, chan.getTypeChannel()
 					.getId());
 
 			mycollision.setProcessClass(process);
@@ -212,7 +207,7 @@ public class ChannelBuilder {
 			Functions tabFunctions = new Functions();
 
 			Collection<ChannelValue> tChannelValues = chan
-					.getChannelValueArray();
+					.getChannelValues();
 			// for all channel values for this reaction
 			writeChanneValues(tChannelValues, tabFormulaName, request,
 					mycollision, chan, datasets, tabFunctions);
@@ -220,7 +215,7 @@ public class ChannelBuilder {
 			mycollision.setDataSets(datasets);
 
 			witeFunction(tabFunctions, request);
-			request.getXsamsroot().addProcess(mycollision);
+			request.getXsamsManager().addProcess(mycollision);
 		}
 
 	}
@@ -230,7 +225,7 @@ public class ChannelBuilder {
 		List<org.vamdc.xsams.schema.FunctionType> listFunction = tabFunctions
 				.getFunctions();
 		for (int cptFunction = 0; cptFunction < listFunction.size(); cptFunction++) {
-			request.getXsamsroot().addFunction(listFunction.get(cptFunction));
+			request.getXsamsManager().addFunction(listFunction.get(cptFunction));
 		}
 
 	}
@@ -246,11 +241,11 @@ public class ChannelBuilder {
 			if (!checkChannelValueValid(channelValue))
 				continue;
 
-			if (!tabFormulaName.contains(channelValue.getToFormula().getName())) {
+			if (!tabFormulaName.contains(channelValue.getFormula().getName())) {
 				FunctionType function = FunctionsBuilder.writeFormula(channelValue
-						.getToFormula().getName());
+						.getFormula().getName());
 				tabFormulaName
-						.addElement(channelValue.getToFormula().getName());
+						.addElement(channelValue.getFormula().getName());
 				tabFunctions.getFunctions().add(function);
 
 			}
@@ -265,11 +260,11 @@ public class ChannelBuilder {
 
 			
 			// Bibliography
-			Biblio cvBiblio = channelValue.getToBiblio();
+			Biblio cvBiblio = channelValue.getBibliography();
 			if (cvBiblio != null) {
 				SourceType bibliography = BiblioBuilder
 						.writeBibliography(cvBiblio);
-				request.getXsamsroot().addSource(bibliography);
+				request.getXsamsManager().addSource(bibliography);
 
 				mycollision.addSource(bibliography);
 
@@ -304,7 +299,7 @@ public class ChannelBuilder {
 		FitParametersType result = new FitParametersType();
 
 		//int function = channelValue.getToFormula().get
-		//request.getXsamsroot().getFunction(IDs.getFunctionID(channelValue.getToFormula()))
+		//request.getXsamsManager().getFunction(IDs.getFunctionID(channelValue.getToFormula()))
 		//alphaBetaGamma.setFunctionRef(
 		
 		ArgumentType temperature = buildTemperatureArgument(channelValue);
@@ -336,8 +331,8 @@ public class ChannelBuilder {
 		temperature.setUnits("K");
 		temperature.setName("T");
 		
-		temperature.setLowerLimit(channelValue.getToValidityRange().getTmin().doubleValue());
-		temperature.setUpperLimit(channelValue.getToValidityRange().getTmax().doubleValue());
+		temperature.setLowerLimit(channelValue.getValidityRange().getTmin().doubleValue());
+		temperature.setUpperLimit(channelValue.getValidityRange().getTmax().doubleValue());
 		return temperature;
 	}
 
