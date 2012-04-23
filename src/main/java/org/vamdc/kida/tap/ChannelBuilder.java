@@ -46,7 +46,7 @@ public class ChannelBuilder {
 				if (forgotSpecies.isASpecialSpecies()) {
 					request.getXsamsManager().addElement(
 							SpeciesBuilder
-									.writeParticle(forgotSpecies, request));
+							.writeParticle(forgotSpecies, request));
 				} else if (forgotSpecies.isAnAtom()) {
 					request.getXsamsManager().addElement(
 							SpeciesBuilder.writeAtom(forgotSpecies, request));
@@ -58,40 +58,17 @@ public class ChannelBuilder {
 			}
 
 			if (chs.getType().equals("reactant")) {
-				if (chs.getSpecie().isASpecialSpecies()) // CR, CRP,
-				// e-,
-				// Photon
-				{
-					// mycollision.getReactants().add(request.getXsamsManager().getStateRef(
-				} else if (chs.getSpecie().isAnAtom()) {
-					mycollision
-							.getReactants()
-							.add(request.getXsamsManager().getSpeciesRef(
-									IDs.getSpecieID(chs.getSpecie().getId())));
-				} else {
-					mycollision
-							.getReactants()
-							.add(request.getXsamsManager().getSpeciesRef(
-									IDs.getSpecieID(chs.getSpecie().getId())));
-				}
+				mycollision
+				.getReactants()
+				.add(request.getXsamsManager().getSpeciesRef(
+						IDs.getSpecieID(chs.getSpecie().getId())));
+
 
 			} else if (chs.getType().equals("product")) {
-				if (chs.getSpecie().isASpecialSpecies()) // CR, CRP,
-				// e-,
-				// Photon
-				{
-					// mycollision.getProducts().add(request.getXsamsManager().getStateRef()}
-				} else if (chs.getSpecie().isAnAtom()) {
-					mycollision
-							.getProducts()
-							.add(request.getXsamsManager().getSpeciesRef(
-									IDs.getSpecieID(chs.getSpecie().getId())));
-				} else {
-					mycollision
-							.getProducts()
-							.add(request.getXsamsManager().getSpeciesRef(
-									IDs.getSpecieID(chs.getSpecie().getId())));
-				}
+				mycollision
+				.getProducts()
+				.add(request.getXsamsManager().getSpeciesRef(
+						IDs.getSpecieID(chs.getSpecie().getId())));
 
 			}
 
@@ -245,20 +222,20 @@ public class ChannelBuilder {
 				FunctionType function = FunctionsBuilder.writeFormula(channelValue
 						.getFormula().getName());
 				tabFormulaName
-						.addElement(channelValue.getFormula().getName());
+				.addElement(channelValue.getFormula().getName());
 				tabFunctions.getFunctions().add(function);
 
 			}
 			DataSetType channelValueDataSet = new DataSetType();
 			channelValueDataSet
-					.setDataDescription(DataDescriptionType.RATE_COEFFICIENT);
+			.setDataDescription(DataDescriptionType.RATE_COEFFICIENT);
 			channelValueDataSet
-					.setDataDescription(DataDescriptionType.RATE_COEFFICIENT);
+			.setDataDescription(DataDescriptionType.RATE_COEFFICIENT);
 			FitDataType values = new FitDataType();
 
-			
 
-			
+
+
 			// Bibliography
 			Biblio cvBiblio = channelValue.getBibliography();
 			if (cvBiblio != null) {
@@ -293,7 +270,7 @@ public class ChannelBuilder {
 		}
 
 	}
-	
+
 	private static FitParametersType writeFitParameters(
 			ChannelValue channelValue, Channel chan, RequestInterface request) {
 		FitParametersType result = new FitParametersType();
@@ -301,12 +278,12 @@ public class ChannelBuilder {
 		//int function = channelValue.getToFormula().get
 		//request.getXsamsManager().getFunction(IDs.getFunctionID(channelValue.getToFormula()))
 		//alphaBetaGamma.setFunctionRef(
-		
+
 		ArgumentType temperature = buildTemperatureArgument(channelValue);
-		
+
 		result.getFitArguments().add(temperature);
 
-		
+
 		NamedDataType alpha = new NamedDataType();
 		alpha.setValue(new ValueType(channelValue.getValue("alpha"), chan
 				.getUnitAlpha()));
@@ -330,7 +307,7 @@ public class ChannelBuilder {
 		ArgumentType temperature = new ArgumentType();
 		temperature.setUnits("K");
 		temperature.setName("T");
-		
+
 		temperature.setLowerLimit(channelValue.getValidityRange().getTmin().doubleValue());
 		temperature.setUpperLimit(channelValue.getValidityRange().getTmax().doubleValue());
 		return temperature;

@@ -101,16 +101,22 @@ public class SpeciesBuilder {
 	public static ParticleType writeParticle(Specie sp,RequestInterface myrequest )
 	{
 		ParticleType myParticle = new ParticleType();
-		if ( sp.getCommonName().equals("Photon") || sp.getCommonName().equals("PHOTON")  || sp.getCommonName().equals("photon") )
+		if ( sp.getCommonName().equals("Photon"))
 		{
 			myParticle.setName(ParticleNameType.PHOTON);
 		}
-		else if ( sp.getCommonName().equals("e") || sp.getCommonName().equals("e-")  || sp.getCommonName().equals("E") )
+		else if ( sp.getCommonName().equals("e-"))
 		{
 			myParticle.setName(ParticleNameType.ELECTRON);
 		}
+		else if ( sp.getCommonName().equals("CR")){
+			myParticle.setName(ParticleNameType.PHOTON);
+			myParticle.setComments("Cosmic rays");
+		}
+		else if (sp.getCommonName().equals("CRP"))
+			myParticle.setName(ParticleNameType.COSMIC);
 		
-		myParticle.setStateID(IDs.getStateID(0, sp.getId()));
+		myParticle.setSpeciesID(IDs.getSpecieID(sp.getId()));
 		 
 		return myParticle;
 
