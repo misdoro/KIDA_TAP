@@ -14,6 +14,7 @@ import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.query.SelectQuery;
 import org.vamdc.dictionary.VSSPrefix;
 import org.vamdc.kida.dao.*;
+import org.vamdc.kida.xsams.BiblioSource;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
 import org.vamdc.tapservice.vss2.Prefix;
@@ -239,18 +240,12 @@ public class ChannelBuilder {
 			.setDataDescription(DataDescriptionType.RATE_COEFFICIENT);
 			FitDataType values = new FitDataType();
 
-
-
-
 			// Bibliography
 			Biblio cvBiblio = channelValue.getBibliography();
 			if (cvBiblio != null) {
-				SourceType bibliography = BiblioBuilder
-						.writeBibliography(cvBiblio);
+				SourceType bibliography = new BiblioSource(cvBiblio);
 				request.getXsamsManager().addSource(bibliography);
-
 				mycollision.addSource(bibliography);
-
 			}
 
 			// channel value
