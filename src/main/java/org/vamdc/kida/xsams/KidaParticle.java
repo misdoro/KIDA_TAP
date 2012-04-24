@@ -21,11 +21,12 @@ public class KidaParticle extends ParticleType{
 			this.setName(ParticleNameType.ELECTRON);
 		
 		else if ( particleName.equals("CR")){
-			this.setName(ParticleNameType.PHOTON);
-			this.setComments("Cosmic rays");
-			
-		}else if (particleName.equals("CRP"))
 			this.setName(ParticleNameType.COSMIC);
+		}else if (particleName.equals("CRP")){
+			this.setName(ParticleNameType.PHOTON);
+			this.setComments("Cosmic ray photon");
+		}
+		
 		
 	}
 	
