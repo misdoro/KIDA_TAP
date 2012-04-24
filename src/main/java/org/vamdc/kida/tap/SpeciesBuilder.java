@@ -7,27 +7,14 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.SelectQuery;
 import org.vamdc.dictionary.VSSPrefix;
 import org.vamdc.kida.dao.*;
+import org.vamdc.kida.xsams.KidaAtom;
+import org.vamdc.kida.xsams.KidaMolecule;
 import org.vamdc.kida.xsams.KidaParticle;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
 import org.vamdc.tapservice.vss2.LogicNode;
 import org.vamdc.tapservice.vss2.Prefix;
 import org.vamdc.tapservice.vss2.Query;
-import org.vamdc.xsams.common.ChemicalElementType;
-import org.vamdc.xsams.common.DataType;
-import org.vamdc.xsams.schema.ParticleNameType;
-import org.vamdc.xsams.species.atoms.AtomType;
-import org.vamdc.xsams.species.atoms.AtomicIonType;
-import org.vamdc.xsams.species.atoms.IsotopeParametersType;
-import org.vamdc.xsams.species.atoms.IsotopeType;
-import org.vamdc.xsams.species.molecules.MolecularChemicalSpeciesType;
-import org.vamdc.xsams.species.molecules.MolecularPropertiesType;
-import org.vamdc.xsams.species.molecules.MolecularStateType;
-import org.vamdc.xsams.species.molecules.MoleculeType;
-import org.vamdc.xsams.species.molecules.ReferencedTextType;
-import org.vamdc.xsams.species.particles.ParticleType;
-import org.vamdc.xsams.util.IDs;
-import org.vamdc.xsams.util.XsamsUnits;
 
 public class SpeciesBuilder {
 
@@ -47,11 +34,9 @@ public class SpeciesBuilder {
 			if (sp.isASpecialSpecies()) {
 				request.getXsamsManager().addElement(new KidaParticle(sp));
 			} else if (sp.isAnAtom()) {
-				request.getXsamsManager().addElement(
-						SpeciesBuilder.writeAtom(sp, request));
+				request.getXsamsManager().addElement(new KidaAtom(sp));
 			} else {
-				request.getXsamsManager().addElement(
-						SpeciesBuilder.writeSpecies(sp));
+				request.getXsamsManager().addElement(new KidaMolecule(sp));
 			}
 			tabSpeciesId.addElement(new Integer(sp.getId()));
 
@@ -95,74 +80,6 @@ public class SpeciesBuilder {
 		SelectQuery q = new SelectQuery(Specie.class, myExpression);
 		return q;
 			
-	}
-	
-	public static AtomType writeAtom(Specie sp, RequestInterface myrequest) {
-		AtomType myatom = new AtomType();
-
-
-		ChemicalElementType element = new ChemicalElementType(sp.getNuclearCharge(),sp.getFormula());
-		myatom.setChemicalElement(element);
-
-		IsotopeType isot = new IsotopeType();
-		myatom.getIsotopes().add(isot);
-
-		AtomicIonType iost = new AtomicIonType();
-		isot.getIons().add(iost);
-		iost.setIonCharge(sp.getCharge().intValue());
-		iost.setInChIKey(sp.getInchiKey());
-		iost.setSpeciesID(IDs.getSpecieID(sp.getId()));
-
-		
-
-		IsotopeParametersType ipt = new IsotopeParametersType();
-		isot.setIsotopeParameters(ipt);
-		ipt.setMassNumber((int) Math.round(sp.getMass()));
-		ipt.setMass(new DataType(sp.getMass(), XsamsUnits.AMU));
-		
-
-		return myatom;
-
-	}
-	
-	/**
-	 * @param sp
-	 *            a species object
-	 */
-	public static MoleculeType writeSpecies(Specie sp) {
-		MoleculeType mt = new MoleculeType();
-		MolecularChemicalSpeciesType mcst = new MolecularChemicalSpeciesType();
-		mcst.setInChI(sp.getInchi());
-
-		mcst.setOrdinaryStructuralFormula(new ReferencedTextType(sp.getCommonNameLatex())); 
-		mcst.setStoichiometricFormula(sp.getFormulaSorted());
-		if ( sp.getDescription() != null && sp.getDescription().length() > 0)
-		{
-			mcst.setChemicalName(new ReferencedTextType(sp.getDescription()));  
-		}
-
-		mcst.setURLFigure("http://kida.obs.u-bordeaux1.fr/images/species/"
-				+ sp.getId() + ".jpg");
-
-		if (sp.getCas() != null && sp.getCas().length() != 0) {
-			mcst.setCASRegistryNumber(new ReferencedTextType(sp.getCas()));
-		}
-		mcst.setInChIKey(sp.getInchiKey());
-
-		MolecularPropertiesType mpt = new MolecularPropertiesType();
-		mpt.setMolecularWeight(new DataType(sp.getMass(), XsamsUnits.AMU)) ;
-		mcst.setStableMolecularProperties(mpt);
-
-		mt.setMolecularChemicalSpecies(mcst);
-
-		MolecularStateType ms = new MolecularStateType();
-		//ms.setStateID(IDs.getStateID(sp.getId(), 0)); // species id, 0
-		// ms.setDescription("description");
-		//mt.getMolecularStates().add(ms);
-
-		mt.setSpeciesID(IDs.getSpecieID(sp.getId()));
-
-		return mt;
 	}
 	
 	public static Expression getExpression(RequestInterface myrequest) {

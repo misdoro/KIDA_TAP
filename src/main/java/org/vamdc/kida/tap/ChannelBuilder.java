@@ -15,6 +15,8 @@ import org.apache.cayenne.query.SelectQuery;
 import org.vamdc.dictionary.VSSPrefix;
 import org.vamdc.kida.dao.*;
 import org.vamdc.kida.xsams.BiblioSource;
+import org.vamdc.kida.xsams.KidaAtom;
+import org.vamdc.kida.xsams.KidaMolecule;
 import org.vamdc.kida.xsams.KidaParticle;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
@@ -48,11 +50,9 @@ public class ChannelBuilder {
 				if (forgotSpecies.isASpecialSpecies()) {
 					request.getXsamsManager().addElement(new KidaParticle(forgotSpecies));
 				} else if (forgotSpecies.isAnAtom()) {
-					request.getXsamsManager().addElement(
-							SpeciesBuilder.writeAtom(forgotSpecies, request));
+					request.getXsamsManager().addElement(new KidaAtom(forgotSpecies));
 				} else {
-					request.getXsamsManager().addElement(
-							SpeciesBuilder.writeSpecies(forgotSpecies));
+					request.getXsamsManager().addElement(new KidaMolecule(forgotSpecies));
 				}
 				tabSpeciesId.addElement(new Integer(forgotSpecies.getId()));
 			}
