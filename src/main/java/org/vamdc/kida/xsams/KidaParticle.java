@@ -14,6 +14,7 @@ public class KidaParticle extends ParticleType{
 		String particleName = particle.getCommonName();
 		if (particleName==null)
 			return;
+		
 		if ( particleName.equals("Photon"))
 			this.setName(ParticleNameType.PHOTON);
 		
@@ -22,6 +23,7 @@ public class KidaParticle extends ParticleType{
 		
 		else if ( particleName.equals("CR")){
 			this.setName(ParticleNameType.COSMIC);
+			
 		}else if (particleName.equals("CRP")){
 			this.setName(ParticleNameType.PHOTON);
 			this.setComments("Cosmic ray photon");
