@@ -41,9 +41,6 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 	}
 
 	public Collection<Restrictable> getRestrictables() {
-		// TODO Auto-generated method stub
-		// Map<String, Integer> restr = new HashMap<String, Integer>();
-		// restr.put("test", 1);
 		return Restrictables.Restricts;
 	}
 
@@ -55,7 +52,6 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 		if (request.isValid())
 			return Metrics.estimate(request);
 		return null;
-
 	}
 
 }

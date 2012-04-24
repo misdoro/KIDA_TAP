@@ -7,6 +7,7 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.SelectQuery;
 import org.vamdc.dictionary.VSSPrefix;
 import org.vamdc.kida.dao.*;
+import org.vamdc.kida.xsams.KidaParticle;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
 import org.vamdc.tapservice.vss2.LogicNode;
@@ -44,8 +45,7 @@ public class SpeciesBuilder {
 
 		for (Specie sp : atms) {
 			if (sp.isASpecialSpecies()) {
-				request.getXsamsManager().addElement(
-						SpeciesBuilder.writeParticle(sp, request));
+				request.getXsamsManager().addElement(new KidaParticle(sp));
 			} else if (sp.isAnAtom()) {
 				request.getXsamsManager().addElement(
 						SpeciesBuilder.writeAtom(sp, request));
@@ -95,32 +95,6 @@ public class SpeciesBuilder {
 		SelectQuery q = new SelectQuery(Specie.class, myExpression);
 		return q;
 			
-	}
-
-
-	public static ParticleType writeParticle(Specie sp,RequestInterface myrequest )
-	{
-		ParticleType myParticle = new ParticleType();
-		if ( sp.getCommonName().equals("Photon"))
-		{
-			myParticle.setName(ParticleNameType.PHOTON);
-		}
-		else if ( sp.getCommonName().equals("e-"))
-		{
-			myParticle.setName(ParticleNameType.ELECTRON);
-		}
-		else if ( sp.getCommonName().equals("CR")){
-			myParticle.setName(ParticleNameType.PHOTON);
-			myParticle.setComments("Cosmic rays");
-		}
-		else if (sp.getCommonName().equals("CRP"))
-			myParticle.setName(ParticleNameType.COSMIC);
-		
-		myParticle.setSpeciesID(IDs.getSpecieID(sp.getId()));
-		 
-		return myParticle;
-
-		
 	}
 	
 	public static AtomType writeAtom(Specie sp, RequestInterface myrequest) {
