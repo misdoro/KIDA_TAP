@@ -80,7 +80,7 @@ public class ChannelBuilder {
 
 		System.out.println("Expression:" + channelExp);
 		SelectQuery q = new SelectQuery(Channel.class, channelExp);
-
+		
 		if (aliases.size() > 0)
 			q.aliasPathSplits("channelHasSpecies",
 					aliases.toArray(new String[0]));
@@ -91,13 +91,13 @@ public class ChannelBuilder {
 
 	public static void buildChannels(RequestInterface request) {
 
-		SelectQuery atquery = getCayenneQuery(request.getQuery());
+		SelectQuery query = getCayenneQuery(request.getQuery());
 		
 		@SuppressWarnings("unchecked")
-		List<Channel> atms = (List<Channel>) request.getCayenneContext()
-				.performQuery(atquery);
+		List<Channel> channels = (List<Channel>) request.getCayenneContext()
+				.performQuery(query);
 
-		for (Channel chan : atms) {
+		for (Channel chan : channels) {
 			if (chan.getAddedStatus() == 0)
 				continue;
 			TypeChannel tc = chan.getTypeChannel();
