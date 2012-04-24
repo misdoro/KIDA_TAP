@@ -16,6 +16,7 @@ import org.vamdc.dictionary.VSSPrefix;
 import org.vamdc.kida.dao.*;
 import org.vamdc.kida.xsams.BiblioSource;
 import org.vamdc.kida.xsams.KidaAtom;
+import org.vamdc.kida.xsams.KidaFunction;
 import org.vamdc.kida.xsams.KidaMolecule;
 import org.vamdc.kida.xsams.KidaParticle;
 import org.vamdc.tapservice.api.RequestInterface;
@@ -29,7 +30,7 @@ import org.vamdc.xsams.common.FitDataType;
 import org.vamdc.xsams.common.FitParametersType;
 import org.vamdc.xsams.common.NamedDataType;
 import org.vamdc.xsams.common.ValueType;
-import org.vamdc.xsams.functions.FunctionType;
+import org.vamdc.xsams.schema.FunctionType;
 import org.vamdc.xsams.functions.Functions;
 import org.vamdc.xsams.process.collisions.CollisionalProcessClassType;
 import org.vamdc.xsams.process.collisions.CollisionalTransitionType;
@@ -57,7 +58,7 @@ public class ChannelBuilder {
 				tabSpeciesId.addElement(new Integer(forgotSpecies.getId()));
 			}
 
-			if (chs.getType().equals("reactant")) {
+			if (chs.getType().equals(Channel.REACTANT)) {
 				int count = chs.getOccurrence();
 				for (int i=0;i<count;i++){
 					mycollision
@@ -66,7 +67,7 @@ public class ChannelBuilder {
 							IDs.getSpecieID(chs.getSpecie().getId())));
 				}
 
-			} else if (chs.getType().equals("product")) {
+			} else if (chs.getType().equals(Channel.PRODUCT)) {
 				int count = chs.getOccurrence();
 				for (int i=0;i<count;i++){
 
@@ -155,11 +156,11 @@ public class ChannelBuilder {
 	}
 
 	public static void buildChannels(RequestInterface request,
-			Vector<Integer> tabSpeciesId, Vector<String> tabFormulaName) {
-		// ObjectFactory factory = new org.vamdc.xsams.ObjectFactory(); //
+			Vector<Integer> tabSpeciesId) {
 
 		SelectQuery atquery = getCayenneQuery(request.getQuery());
-		// atquery.setPrefetchTree(prefetchTree)
+		
+		@SuppressWarnings("unchecked")
 		List<Channel> atms = (List<Channel>) request.getCayenneContext()
 				.performQuery(atquery);
 
@@ -187,54 +188,31 @@ public class ChannelBuilder {
 			mycollision.setProcessClass(process);
 
 			DataSetsType datasets = new DataSetsType();
-			Functions tabFunctions = new Functions();
 
 			Collection<ChannelValue> tChannelValues = chan
 					.getChannelValues();
 			// for all channel values for this reaction
-			writeChanneValues(tChannelValues, tabFormulaName, request,
-					mycollision, chan, datasets, tabFunctions);
+			writeChanneValues(tChannelValues, request,
+					mycollision, chan, datasets);
 
 			mycollision.setDataSets(datasets);
 
-			witeFunction(tabFunctions, request);
 			request.getXsamsManager().addProcess(mycollision);
 		}
 
 	}
 
-	private static void witeFunction(Functions tabFunctions,
-			RequestInterface request) {
-		List<org.vamdc.xsams.schema.FunctionType> listFunction = tabFunctions
-				.getFunctions();
-		for (int cptFunction = 0; cptFunction < listFunction.size(); cptFunction++) {
-			request.getXsamsManager().addFunction(listFunction.get(cptFunction));
-		}
-
-	}
-
 	private static void writeChanneValues(
-			Collection<ChannelValue> tChannelValues,
-			Vector<String> tabFormulaName, RequestInterface request,
+			Collection<ChannelValue> tChannelValues, RequestInterface request,
 			CollisionalTransitionType mycollision, Channel chan,
-			DataSetsType datasets, Functions tabFunctions) {
+			DataSetsType datasets) {
 		for (ChannelValue channelValue : tChannelValues) {
 
-			// ignore some channel
+			// ignore some channels
 			if (!checkChannelValueValid(channelValue))
 				continue;
 
-			if (!tabFormulaName.contains(channelValue.getFormula().getName())) {
-				FunctionType function = FunctionsBuilder.writeFormula(channelValue
-						.getFormula().getName());
-				tabFormulaName
-				.addElement(channelValue.getFormula().getName());
-				tabFunctions.getFunctions().add(function);
-
-			}
 			DataSetType channelValueDataSet = new DataSetType();
-			channelValueDataSet
-			.setDataDescription(DataDescriptionType.RATE_COEFFICIENT);
 			channelValueDataSet
 			.setDataDescription(DataDescriptionType.RATE_COEFFICIENT);
 			FitDataType values = new FitDataType();
@@ -275,14 +253,17 @@ public class ChannelBuilder {
 			ChannelValue channelValue, Channel chan, RequestInterface request) {
 		FitParametersType result = new FitParametersType();
 
-		//int function = channelValue.getToFormula().get
-		//request.getXsamsManager().getFunction(IDs.getFunctionID(channelValue.getToFormula()))
-		//alphaBetaGamma.setFunctionRef(
+		String funcId = IDs.getFunctionID(channelValue.getFormula().getId());
+		FunctionType func = request.getXsamsManager().getFunction(funcId);
+		if (func==null){
+			func = new KidaFunction(channelValue.getFormula());
+			request.getXsamsManager().addFunction(func);
+		}
+		result.setFunctionRef(func);
 
 		ArgumentType temperature = buildTemperatureArgument(channelValue);
 
 		result.getFitArguments().add(temperature);
-
 
 		NamedDataType alpha = new NamedDataType();
 		alpha.setValue(new ValueType(channelValue.getValue("alpha"), chan

@@ -1,9 +1,7 @@
 package org.vamdc.kida.tap;
 
 import org.apache.cayenne.access.DataContext;
-import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.SelectQuery;
-import org.vamdc.kida.dao.*;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.api.Dictionary.HeaderMetrics;
 import org.vamdc.tapservice.query.CountQuery;
@@ -17,7 +15,6 @@ public class Metrics {
 		Map<HeaderMetrics, Integer> estimates = new HashMap<HeaderMetrics, Integer>();
 		
 		//Estimate collisions
-		//Expression colExpression = ChannelBuilder.getExpression(request);
 		SelectQuery query = ChannelBuilder.getCayenneQuery(request.getQuery());
 		Long collisions = CountQuery.count((DataContext) request.getCayenneContext(), query);
 		
@@ -26,8 +23,7 @@ public class Metrics {
 		
 		
 		//Estimate species
-		Expression spExpression = SpeciesBuilder.getExpression(request);
-		SelectQuery spQuery=new SelectQuery(Specie.class,spExpression);
+		SelectQuery spQuery = SpeciesBuilder.getSpeciesQuery(request.getQuery()); 
 		Long nbSpecies = CountQuery.count((DataContext) request.getCayenneContext(), spQuery);
 		
 		if (nbSpecies>0)

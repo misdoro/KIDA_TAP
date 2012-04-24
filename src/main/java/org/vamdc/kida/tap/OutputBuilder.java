@@ -15,7 +15,6 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 	public void buildXSAMS(RequestInterface request) {
 
 		Vector<Integer> tabSpeciesId = new Vector<Integer>();
-		Vector<String> tabFormulaName = new Vector<String>();
 		if (request.checkBranch(Requestable.Species)
 				|| request.checkBranch(Requestable.Molecules)
 				|| request.checkBranch(Requestable.Atoms)
@@ -29,7 +28,7 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 		// Collision in
 		// query or a *
 		{
-			ChannelBuilder.buildChannels(request, tabSpeciesId, tabFormulaName);
+			ChannelBuilder.buildChannels(request, tabSpeciesId);
 
 		}
 
