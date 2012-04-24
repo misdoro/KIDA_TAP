@@ -4,7 +4,6 @@ import org.vamdc.kida.dao.Specie;
 import org.vamdc.xsams.common.DataType;
 import org.vamdc.xsams.species.molecules.MolecularChemicalSpeciesType;
 import org.vamdc.xsams.species.molecules.MolecularPropertiesType;
-import org.vamdc.xsams.species.molecules.MolecularStateType;
 import org.vamdc.xsams.species.molecules.MoleculeType;
 import org.vamdc.xsams.species.molecules.ReferencedTextType;
 import org.vamdc.xsams.util.IDs;

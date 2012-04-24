@@ -39,7 +39,6 @@ public class SpeciesBuilder {
 				request.getXsamsManager().addElement(new KidaMolecule(sp));
 			}
 			tabSpeciesId.addElement(new Integer(sp.getId()));
-
 		}
 
 	}
