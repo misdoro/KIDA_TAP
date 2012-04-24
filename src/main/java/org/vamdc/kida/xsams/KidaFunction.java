@@ -28,7 +28,7 @@ public class KidaFunction extends FunctionType{
 
 		this.setY(getValueArgument());
 		this.setArguments(getTemperatureArgument());
-		
+
 	}
 
 	private ExpressionType getMathExpression(Formula formula){
@@ -60,13 +60,13 @@ public class KidaFunction extends FunctionType{
 			break;
 		}
 	}
-	
+
 	private void addParameter(FunctionParameterType param){
 		if (this.getParameters()==null)
 			this.setParameters(new FunctionParametersType());
 		this.getParameters().getParameters().add(param);
 	}
-	
+
 	private void addParameterAlpha() {
 		FunctionParameterType alpha = new FunctionParameterType();
 		alpha.setName("alpha");
@@ -74,7 +74,7 @@ public class KidaFunction extends FunctionType{
 		alpha.setDescription("Alpha multiplier");
 		this.addParameter(alpha);
 	}
-	
+
 	private void addParameterBeta() {
 		FunctionParameterType beta = new FunctionParameterType();
 		beta.setName("beta");
@@ -82,7 +82,7 @@ public class KidaFunction extends FunctionType{
 		beta.setDescription("beta power");
 		this.addParameter(beta);
 	}
-	
+
 	private void addParameterGamma() {
 		FunctionParameterType gamma = new FunctionParameterType();
 		gamma.setName("gamma");
@@ -91,7 +91,7 @@ public class KidaFunction extends FunctionType{
 		gamma.setDescription("gamma exponent");
 		this.addParameter(gamma);
 	}
-	
+
 	private static ArgumentType getValueArgument() {
 		ArgumentType argument = new ArgumentType();
 		argument.setName("K");
@@ -100,12 +100,9 @@ public class KidaFunction extends FunctionType{
 		return argument;
 	}
 
-	private static ArgumentsType getTemperatureArgument() {
+	public static ArgumentsType getTemperatureArgument() {
 		ArgumentsType arguments = new ArgumentsType();
-		ArgumentType argument = new ArgumentType();
-		arguments.getArguments().add(argument);
-		argument.setName("T");
-		argument.setUnits("K");
+		arguments.getArguments().add(new TemperatureArgument(null));
 		return arguments;
 	}
 

@@ -13,7 +13,8 @@ import org.vamdc.xsams.util.IDs;
 public class BiblioSource extends SourceType{
 
 	public BiblioSource(Biblio cvBiblio){
-
+		if (cvBiblio==null)
+			throw new IllegalArgumentException();
 		if (cvBiblio.isABook())
 			setCategory(SourceCategoryType.BOOK);
 		else if (cvBiblio.isAJournal())

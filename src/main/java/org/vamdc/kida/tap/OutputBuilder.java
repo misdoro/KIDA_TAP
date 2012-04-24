@@ -1,8 +1,8 @@
 package org.vamdc.kida.tap;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
-import java.util.Vector;
 
 import org.vamdc.dictionary.Requestable;
 import org.vamdc.dictionary.Restrictable;
@@ -14,7 +14,6 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 
 	public void buildXSAMS(RequestInterface request) {
 
-		Vector<Integer> tabSpeciesId = new Vector<Integer>();
 		if (request.checkBranch(Requestable.Species)
 				|| request.checkBranch(Requestable.Molecules)
 				|| request.checkBranch(Requestable.Atoms)
@@ -22,13 +21,13 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 		// if there is a Species
 		// in query or a *
 		{
-			SpeciesBuilder.buildSpecies(request, tabSpeciesId);
+			SpeciesBuilder.buildSpecies(request);
 		}
 		if (request.checkBranch(Requestable.Collisions)) // if there is a
 		// Collision in
 		// query or a *
 		{
-			ChannelBuilder.buildChannels(request, tabSpeciesId);
+			ChannelBuilder.buildChannels(request);
 
 		}
 
@@ -50,7 +49,7 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 	public Map<HeaderMetrics, Integer> getMetrics(RequestInterface request) {
 		if (request.isValid())
 			return Metrics.estimate(request);
-		return null;
+		return Collections.emptyMap();
 	}
 
 }

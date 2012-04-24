@@ -1,12 +1,11 @@
 package org.vamdc.kida.tap;
 
 import java.util.List;
-import java.util.Vector;
 
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.SelectQuery;
 import org.vamdc.dictionary.VSSPrefix;
-import org.vamdc.kida.dao.*;
+import org.vamdc.kida.dao.Specie;
 import org.vamdc.kida.xsams.KidaAtom;
 import org.vamdc.kida.xsams.KidaMolecule;
 import org.vamdc.kida.xsams.KidaParticle;
@@ -15,11 +14,11 @@ import org.vamdc.tapservice.query.QueryMapper;
 import org.vamdc.tapservice.vss2.LogicNode;
 import org.vamdc.tapservice.vss2.Prefix;
 import org.vamdc.tapservice.vss2.Query;
+import org.vamdc.xsams.util.SpeciesInterface;
 
 public class SpeciesBuilder {
 
-	public static void buildSpecies(RequestInterface request,
-			Vector<Integer> tabSpeciesId) {
+	public static void buildSpecies(RequestInterface request) {
 
 		SelectQuery atquery = getSpeciesQuery(request.getQuery());
 
@@ -28,16 +27,23 @@ public class SpeciesBuilder {
 				.performQuery(atquery);
 
 		for (Specie sp : atms) {
-			if (sp.isASpecialSpecies()) {
-				request.getXsamsManager().addElement(new KidaParticle(sp));
-			} else if (sp.isAnAtom()) {
-				request.getXsamsManager().addElement(new KidaAtom(sp));
-			} else {
-				request.getXsamsManager().addElement(new KidaMolecule(sp));
-			}
-			tabSpeciesId.addElement(new Integer(sp.getId()));
+			SpeciesInterface element = getKidaSpecies(sp);
+			request.getXsamsManager().addElement(element);
 		}
 
+	}
+
+
+	public static SpeciesInterface getKidaSpecies(Specie sp) {
+		SpeciesInterface element = null;
+		if (sp.isASpecialSpecies()) {
+			element = new KidaParticle(sp);
+		} else if (sp.isAnAtom()) {
+			element = new KidaAtom(sp);
+		} else {
+			element = new KidaMolecule(sp);
+		}
+		return element;
 	}
 
 
@@ -75,8 +81,6 @@ public class SpeciesBuilder {
 			collExpr = QueryMapper.mapTree(collider, Restrictables.SpeciesPathSpec);
 			if (collider!=null && collExpr!=null)//If we have some prefixed result, add it to the query with OR
 				result = result.orExp(collExpr);
-
-
 
 		}
 		return result;
