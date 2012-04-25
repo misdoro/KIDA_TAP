@@ -1,11 +1,8 @@
 package org.vamdc.kida.xsams;
 
 import org.vamdc.kida.dao.Formula;
-import org.vamdc.xsams.common.ArgumentType;
+import org.vamdc.xsams.XSAMSManager;
 import org.vamdc.xsams.common.ExpressionType;
-import org.vamdc.xsams.functions.ArgumentsType;
-import org.vamdc.xsams.functions.FunctionParameterType;
-import org.vamdc.xsams.functions.FunctionParametersType;
 import org.vamdc.xsams.functions.FunctionType;
 import org.vamdc.xsams.util.IDs;
 
@@ -24,11 +21,6 @@ public class KidaFunction extends FunctionType{
 		this.setFunctionID(IDs.getFunctionID(formula.getId()));
 		this.setComments("Function image available at http://kida.obs.u-bordeaux1.fr/images/formula/"+formula.getImage());
 
-		addParameters(formula);
-
-		this.setY(getValueArgument());
-		this.setArguments(getTemperatureArgument());
-
 	}
 
 	private ExpressionType getMathExpression(Formula formula){
@@ -36,74 +28,33 @@ public class KidaFunction extends FunctionType{
 		result.setComputerLanguage("Fortran");
 		result.setValue(formula.getMath());
 		return result;
-
 	}
-
-	private void addParameters(Formula formula){
-		switch(formula.getId().intValue()){
-		case FID_COSMIC:
-			addParameterAlpha();
-			addParameterBeta();
-			break;
-		case FID_PHOTO:
-			addParameterAlpha();
-			addParameterGamma();
-			break;
-		case FID_KOOIJ:
-		case FID_IONPOL1:
-		case FID_IONPOL2:
-			addParameterAlpha();
-			addParameterBeta();
-			addParameterGamma();
-			break;
-		default:
-			break;
+	
+	public static FunctionType newKidaFunction(Formula formula){
+		if (formula!=null){
+			switch(formula.getId()){
+			case FID_COSMIC:
+				return new FunctionCosmic(formula);
+			case FID_PHOTO:
+				return new FunctionPhoto(formula);
+			case FID_KOOIJ:
+				return new FunctionKooij(formula);
+			case FID_IONPOL1:
+			case FID_IONPOL2:
+				return new FunctionIonpol(formula);
+			}
 		}
+		return null;	
 	}
-
-	private void addParameter(FunctionParameterType param){
-		if (this.getParameters()==null)
-			this.setParameters(new FunctionParametersType());
-		this.getParameters().getParameters().add(param);
+	
+	public static FunctionType getKidaFunction(Formula formula,
+			XSAMSManager document) {
+		String funcId = IDs.getFunctionID(formula.getId());
+		FunctionType func = (FunctionType) document.getFunction(funcId);
+		if (func==null){
+			func = KidaFunction.newKidaFunction(formula);
+			document.addFunction(func);
+		}
+		return func;
 	}
-
-	private void addParameterAlpha() {
-		FunctionParameterType alpha = new FunctionParameterType();
-		alpha.setName("alpha");
-		alpha.setUnits("1/s");
-		alpha.setDescription("Alpha multiplier");
-		this.addParameter(alpha);
-	}
-
-	private void addParameterBeta() {
-		FunctionParameterType beta = new FunctionParameterType();
-		beta.setName("beta");
-		beta.setUnits("undef");
-		beta.setDescription("beta power");
-		this.addParameter(beta);
-	}
-
-	private void addParameterGamma() {
-		FunctionParameterType gamma = new FunctionParameterType();
-		gamma.setName("gamma");
-		gamma.setUnits("keV");
-		//TODO: check units here
-		gamma.setDescription("gamma exponent");
-		this.addParameter(gamma);
-	}
-
-	private static ArgumentType getValueArgument() {
-		ArgumentType argument = new ArgumentType();
-		argument.setName("K");
-		argument.setUnits("cm3/s");
-		argument.setDescription("Rate coefficient vs temperature");
-		return argument;
-	}
-
-	public static ArgumentsType getTemperatureArgument() {
-		ArgumentsType arguments = new ArgumentsType();
-		arguments.getArguments().add(new TemperatureArgument(null));
-		return arguments;
-	}
-
 }

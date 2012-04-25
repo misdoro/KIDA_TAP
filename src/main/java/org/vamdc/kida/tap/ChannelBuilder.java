@@ -8,7 +8,6 @@ import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.query.SelectQuery;
 import org.vamdc.dictionary.VSSPrefix;
 import org.vamdc.kida.dao.Channel;
-import org.vamdc.kida.dao.TypeChannel;
 import org.vamdc.kida.xsams.Collision;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.tapservice.query.QueryMapper;
@@ -78,7 +77,6 @@ public class ChannelBuilder {
 			channelExp = channelExp.andExp(prefExp);
 		}
 
-		System.out.println("Expression:" + channelExp);
 		SelectQuery q = new SelectQuery(Channel.class, channelExp);
 		
 		if (aliases.size() > 0)
@@ -98,13 +96,8 @@ public class ChannelBuilder {
 				.performQuery(query);
 
 		for (Channel chan : channels) {
-			if (chan.getAddedStatus() == 0)
-				continue;
-			TypeChannel tc = chan.getTypeChannel();
-			if (tc == null || tc.getAbbrev().equals("3-body"))
-				continue;
-
-			request.getXsamsManager().addProcess(new Collision(chan,request.getXsamsManager()));
+			if (chan.isValid())
+				request.getXsamsManager().addProcess(new Collision(chan,request));
 		}
 	}	
 

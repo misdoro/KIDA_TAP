@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.SelectQuery;
+import org.vamdc.dictionary.Requestable;
 import org.vamdc.dictionary.VSSPrefix;
 import org.vamdc.kida.dao.Specie;
 import org.vamdc.kida.xsams.KidaAtom;
@@ -18,47 +19,41 @@ import org.vamdc.xsams.util.SpeciesInterface;
 
 public class SpeciesBuilder {
 
-	public static void buildSpecies(RequestInterface request) {
-
-		SelectQuery atquery = getSpeciesQuery(request.getQuery());
+	public static void loadSpecies(RequestInterface request) {
 
 		@SuppressWarnings("unchecked")
-		List<Specie> atms = (List<Specie>) request.getCayenneContext()
-				.performQuery(atquery);
+		List<Specie> species = (List<Specie>) request.getCayenneContext()
+				.performQuery(
+						getSpeciesQuery(request.getQuery())
+						);
 
-		for (Specie sp : atms) {
-			SpeciesInterface element = getKidaSpecies(sp);
-			request.getXsamsManager().addElement(element);
-		}
-
+		for (Specie sp : species) 
+			request.getXsamsManager().addElement(getKidaSpecies(sp,request));
 	}
 
 
-	public static SpeciesInterface getKidaSpecies(Specie sp) {
+	public static SpeciesInterface getKidaSpecies(Specie sp,RequestInterface request) {
 		SpeciesInterface element = null;
-		if (sp.isASpecialSpecies()) {
+		if (sp.isASpecialSpecies()){
+			if (request.checkBranch(Requestable.Particles)) 
 			element = new KidaParticle(sp);
-		} else if (sp.isAnAtom()) {
-			element = new KidaAtom(sp);
-		} else {
+		}else if (sp.isAnAtom()){
+			if (request.checkBranch(Requestable.Atoms)) 
+				element = new KidaAtom(sp);
+		} else if (request.checkBranch(Requestable.Molecules)){
 			element = new KidaMolecule(sp);
 		}
 		return element;
 	}
 
 
-	public static SelectQuery getSpeciesQuery(Query query) {
+	public static SelectQuery getSpeciesQuery(Query inputQuery) {
 		
-		return  new SelectQuery(Specie.class, getExpression(query));
+		Expression resultExpression=null,collExpr=null;
 
-	}
+		resultExpression = QueryMapper.mapTree(inputQuery.getRestrictsTree(),Restrictables.SpeciesPathSpec);
 
-	private static Expression getExpression(Query query) {
-		Expression result=null,collExpr=null;
-
-		result = QueryMapper.mapTree(query.getRestrictsTree(),Restrictables.SpeciesPathSpec);
-
-		for (Prefix pref:query.getPrefixes())
+		for (Prefix pref:inputQuery.getPrefixes())
 		{
 			VSSPrefix prefix = pref.getPrefix();
 			int index = pref.getIndex();
@@ -68,21 +63,21 @@ public class SpeciesBuilder {
 			LogicNode collider = null;
 			if ( prefix.name().equals("REACTANT"))
 			{
-				collider = query.getPrefixedTree(VSSPrefix.REACTANT, index);
+				collider = inputQuery.getPrefixedTree(VSSPrefix.REACTANT, index);
 
 			}
 			if (  prefix.name().equals("PRODUCT"))
 			{
-				collider = query.getPrefixedTree(VSSPrefix.PRODUCT, index);
+				collider = inputQuery.getPrefixedTree(VSSPrefix.PRODUCT, index);
 			}
 			if ( collider == null ) // if prefix is not reactant or product ... we skip it
 				continue;
 
 			collExpr = QueryMapper.mapTree(collider, Restrictables.SpeciesPathSpec);
 			if (collider!=null && collExpr!=null)//If we have some prefixed result, add it to the query with OR
-				result = result.orExp(collExpr);
+				resultExpression = resultExpression.orExp(collExpr);
 
 		}
-		return result;
+		return new SelectQuery(Specie.class,resultExpression);
 	}
 }

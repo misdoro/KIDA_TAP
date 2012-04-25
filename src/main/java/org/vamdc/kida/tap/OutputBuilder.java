@@ -21,7 +21,7 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 		// if there is a Species
 		// in query or a *
 		{
-			SpeciesBuilder.buildSpecies(request);
+			SpeciesBuilder.loadSpecies(request);
 		}
 		if (request.checkBranch(Requestable.Collisions)) // if there is a
 		// Collision in
