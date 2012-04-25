@@ -28,7 +28,8 @@ public class SpeciesBuilder {
 						);
 
 		for (Specie sp : species) 
-			request.getXsamsManager().addElement(getKidaSpecies(sp,request));
+			if (sp.isValid())
+				request.getXsamsManager().addElement(getKidaSpecies(sp,request));
 	}
 
 
