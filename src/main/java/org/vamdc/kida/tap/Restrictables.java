@@ -14,6 +14,7 @@ import org.vamdc.dictionary.Restrictable;
 @SuppressWarnings("serial")
 public class Restrictables {
 
+	//TODO: rewrite query mapping
 	public static Collection<Restrictable> Restricts = new ArrayList<Restrictable>() {
 		{
 			add(Restrictable.IonCharge);
