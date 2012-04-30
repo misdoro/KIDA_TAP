@@ -1,7 +1,8 @@
 package org.vamdc.kida.tap;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Vector;
 
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
@@ -10,74 +11,45 @@ import org.vamdc.dictionary.VSSPrefix;
 import org.vamdc.kida.dao.Channel;
 import org.vamdc.kida.xsams.Collision;
 import org.vamdc.tapservice.api.RequestInterface;
-import org.vamdc.tapservice.query.QueryMapper;
+import org.vamdc.tapservice.vss2.LogicNode;
 import org.vamdc.tapservice.vss2.Prefix;
 import org.vamdc.tapservice.vss2.Query;
 
 public class ChannelBuilder {
 
 	public static SelectQuery getCayenneQuery(Query query) {
-		Expression channelExp = null;
-		Expression prefExp = null;
+		Expression result = null;
 		// Loop over all defined prefixes
-		Vector<String> aliases = new Vector<String>();
+		Collection<String> aliases = new ArrayList<String>();
 		for (Prefix pref : query.getPrefixes()) {
 			VSSPrefix prefix = pref.getPrefix();
 			int index = pref.getIndex();
 
-			// Add alias to vector
 			String strPrefix = prefix.name() + index;
-			aliases.add(strPrefix);
-
-			if (prefix == VSSPrefix.REACTANT) {// Handle REACTANT
-				Expression chsex = ExpressionFactory.matchExp(strPrefix
+			
+			Expression chanSelector = null;
+			switch(prefix){
+			case REACTANT:
+				chanSelector = ExpressionFactory.matchExp(strPrefix
 						+ ".type", Channel.REACTANT);
-				prefExp = QueryMapper.mapTree(
-						query.getPrefixedTree(prefix, index),
-						Restrictables.getAliasedChannelMap(strPrefix));// Build
-				// tree
-				// using
-				// aliases
-				if (prefExp != null)
-					prefExp = prefExp.andExp(chsex);
-
-			} else if (prefix == VSSPrefix.PRODUCT) {// Handle PRODUCT
-				Expression chsex = ExpressionFactory.matchExp(strPrefix
+				break;
+			case PRODUCT:
+				chanSelector = ExpressionFactory.matchExp(strPrefix
 						+ ".type", Channel.PRODUCT);
-				prefExp = QueryMapper.mapTree(
-						query.getPrefixedTree(prefix, index),
-						Restrictables.getAliasedChannelMap(strPrefix));// Build
-				// tree
-				// using
-				// aliases
-				if (prefExp != null)
-					prefExp = prefExp.andExp(chsex);
-			} else {
-				prefExp = null;
+				break;
+			default:
+				break;
 			}
-			if (channelExp == null) {// Channel exp is yet empty, just assign
-				// prefExp to it.
-				channelExp = prefExp;
-				prefExp = null;
-			} else if (prefExp != null) {
-				channelExp = channelExp.andExp(prefExp);//
-			}
+			
+			result = addPrefixedTree(query.getPrefixedTree(prefix, index),
+					result, aliases, strPrefix, chanSelector);
 		}
 
 		// add all keywords that don't require or don't have a prefix.
-		prefExp = QueryMapper.mapTree(query.getPrefixedTree(null, 0),
-				Restrictables.getAliasedChannelMap("unprefixed"));
-		aliases.add("unprefixed");
-
-		if (channelExp == null) {// Channel exp is yet empty, just assign
-			// prefExp to it.
-			channelExp = prefExp;
-			prefExp = null;
-		} else if (prefExp != null) {
-			channelExp = channelExp.andExp(prefExp);
-		}
-
-		SelectQuery q = new SelectQuery(Channel.class, channelExp);
+		result = addPrefixedTree(query.getPrefixedTree(null, 0),
+				result,aliases,"unprefixed",null);
+		
+		SelectQuery q = new SelectQuery(Channel.class, result);
 		
 		if (aliases.size() > 0)
 			q.aliasPathSplits("channelHasSpecies",
@@ -85,6 +57,31 @@ public class ChannelBuilder {
 
 		return q;
 
+	}
+
+	private static Expression addPrefixedTree(LogicNode subtree, Expression result,
+			Collection<String> aliases,
+			String strPrefix, Expression chanSelector) {
+		if (subtree==null)
+			return result;
+		// Build tree using aliases
+		Expression prefExp = Restrictables.queryMapper.mapAliasedTree(
+			subtree,
+			Restrictables.QUERY_CHANNEL,
+			"alias", 
+			strPrefix);
+		
+		if (prefExp != null){
+			aliases.add(strPrefix);
+			if (chanSelector!=null)
+				prefExp = prefExp.andExp(chanSelector);
+			
+			if (result == null) // Channel exp is yet empty, just assign prefExp to it.
+				result = prefExp;
+			else
+				result = result.andExp(prefExp);
+		}
+		return result;
 	}
 
 	public static void buildChannels(RequestInterface request) {

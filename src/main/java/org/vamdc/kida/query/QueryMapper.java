@@ -32,11 +32,23 @@ public interface QueryMapper {
 	 */
 	public Expression mapTree(LogicNode root, int queryIndex);
 	
+	/**
+	 * Same as MapTree, but use aliases in query path
+	 * @param root
+	 * @param queryIndex
+	 * @param alias
+	 * @param replacement
+	 * @return
+	 */
+	public Expression mapAliasedTree(LogicNode root, int queryIndex, String alias,
+			String replacement);
 	
 	/**
 	 * Do internal integrity check
 	 * @return true if mapper is operational
 	 */
 	public boolean isReady();
+
+
 	
 }

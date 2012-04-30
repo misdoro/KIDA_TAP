@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.cayenne.exp.Expression;
-import org.apache.cayenne.exp.ExpressionFactory;
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.tapservice.vss2.LogicNode;
 import org.vamdc.tapservice.vss2.LogicNode.Operator;
@@ -27,7 +26,12 @@ public class QueryMapperImpl implements QueryMapper{
 
 	@Override
 	public Expression mapTree(LogicNode root, int queryIndex) {
-		return mapSubTree(root,queryIndex);
+		return mapSubTree(root,queryIndex,null,null);
+	}
+	
+	@Override
+	public Expression mapAliasedTree(LogicNode root, int queryIndex,String alias, String replacement) {
+		return mapSubTree(root,queryIndex,alias,replacement);
 	}
 
 	@Override
@@ -43,20 +47,20 @@ public class QueryMapperImpl implements QueryMapper{
 	}
 
 	
-	private Expression mapSubTree(LogicNode root, int queryIndex){
+	private Expression mapSubTree(LogicNode root, int queryIndex, String alias, String replacement){
 		if (root==null)
 			throw new IllegalArgumentException("Incoming tree should not be null");
 		
 		if (root instanceof RestrictExpression){
-			return mapExpression((RestrictExpression) root, queryIndex);
+			return mapExpression((RestrictExpression) root, queryIndex,alias,replacement);
 		}else{
 			Expression result=null,newExpr=null;
 			switch (root.getOperator()){
 			case NOT:
-				return mapSubTree((LogicNode) root.getValue(),queryIndex).notExp();
+				return mapSubTree((LogicNode) root.getValue(),queryIndex,alias,replacement).notExp();
 			default:
 				for (Object branch:root.getValues()){
-					newExpr = mapSubTree((LogicNode)branch,queryIndex);
+					newExpr = mapSubTree((LogicNode)branch,queryIndex,alias,replacement);
 					if (result==null)
 						result = newExpr;
 					else if (root.getOperator()==Operator.OR)
@@ -71,10 +75,10 @@ public class QueryMapperImpl implements QueryMapper{
 		}
 	}
 
-	public Expression mapExpression(RestrictExpression node, int queryIndex) {
+	public Expression mapExpression(RestrictExpression node, int queryIndex, String alias, String replacement) {
 		KeywordMapper mapper = mappers.get(node.getColumn());
 		if (mapper!=null)
-			return mapper.translate(node, queryIndex);
+			return mapper.translateAlias(node, queryIndex,alias,replacement);
 		else 
 			throw new IllegalArgumentException("Query contains a keyword that is not supported");
 			//TODO: add configuration option to return true here

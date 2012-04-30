@@ -11,7 +11,6 @@ import org.vamdc.kida.xsams.KidaAtom;
 import org.vamdc.kida.xsams.KidaMolecule;
 import org.vamdc.kida.xsams.KidaParticle;
 import org.vamdc.tapservice.api.RequestInterface;
-import org.vamdc.tapservice.query.QueryMapper;
 import org.vamdc.tapservice.vss2.LogicNode;
 import org.vamdc.tapservice.vss2.Prefix;
 import org.vamdc.tapservice.vss2.Query;
@@ -23,9 +22,9 @@ public class SpeciesBuilder {
 
 		@SuppressWarnings("unchecked")
 		List<Specie> species = (List<Specie>) request.getCayenneContext()
-				.performQuery(
-						getSpeciesQuery(request.getQuery())
-						);
+		.performQuery(
+				getSpeciesQuery(request.getQuery())
+				);
 
 		for (Specie sp : species) 
 			if (sp.isValid())
@@ -37,7 +36,7 @@ public class SpeciesBuilder {
 		SpeciesInterface element = null;
 		if (sp.isASpecialSpecies()){
 			if (request.checkBranch(Requestable.Particles)) 
-			element = new KidaParticle(sp);
+				element = new KidaParticle(sp);
 		}else if (sp.isAnAtom()){
 			if (request.checkBranch(Requestable.Atoms)) 
 				element = new KidaAtom(sp);
@@ -49,36 +48,42 @@ public class SpeciesBuilder {
 
 
 	public static SelectQuery getSpeciesQuery(Query inputQuery) {
-		
-		Expression resultExpression=null,collExpr=null;
 
-		resultExpression = QueryMapper.mapTree(inputQuery.getRestrictsTree(),Restrictables.SpeciesPathSpec);
+		Expression result=null;
+
+		//Map unprefixed keywords
+		result =addPrefixedTree (null,
+				inputQuery.getPrefixedTree(null, 0));
 
 		for (Prefix pref:inputQuery.getPrefixes())
 		{
 			VSSPrefix prefix = pref.getPrefix();
-			int index = pref.getIndex();
-			String strPrefix = prefix.name()+index;
-			System.out.println(strPrefix);
 
-			LogicNode collider = null;
-			if ( prefix.name().equals("REACTANT"))
-			{
-				collider = inputQuery.getPrefixedTree(VSSPrefix.REACTANT, index);
-
+			switch(prefix){
+			case REACTANT:
+			case PRODUCT:
+				result = addPrefixedTree(result,
+						inputQuery.getPrefixedTree(pref.getPrefix(),pref.getIndex()));
+				break;
+			default:
+				break;
 			}
-			if (  prefix.name().equals("PRODUCT"))
-			{
-				collider = inputQuery.getPrefixedTree(VSSPrefix.PRODUCT, index);
-			}
-			if ( collider == null ) // if prefix is not reactant or product ... we skip it
-				continue;
-
-			collExpr = QueryMapper.mapTree(collider, Restrictables.SpeciesPathSpec);
-			if (collider!=null && collExpr!=null)//If we have some prefixed result, add it to the query with OR
-				resultExpression = resultExpression.orExp(collExpr);
-
 		}
-		return new SelectQuery(Specie.class,resultExpression);
+		return new SelectQuery(Specie.class,result);
+	}
+
+
+	public static Expression addPrefixedTree(
+			Expression resultExpression,
+			LogicNode subtree) {
+		if (subtree!=null){
+			Expression collExpr = Restrictables.queryMapper.mapTree(subtree, Restrictables.QUERY_SPECIES);
+			if (collExpr!=null)
+				if (resultExpression == null)
+					resultExpression = collExpr;
+				else 
+					resultExpression = resultExpression.orExp(collExpr);
+		}
+		return resultExpression;
 	}
 }

@@ -12,6 +12,8 @@ import org.vamdc.tapservice.api.RequestInterface;
 
 public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 
+
+	
 	public void buildXSAMS(RequestInterface request) {
 
 		if (request.checkBranch(Requestable.Species)
@@ -34,16 +36,15 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 	}
 
 	public String getErrorMessage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Collection<Restrictable> getRestrictables() {
-		return Restrictables.Restricts;
+		return Restrictables.queryMapper.getRestrictables();
 	}
 
 	public boolean isAvailable() {
-		return true;
+		return Restrictables.queryMapper.isReady();
 	}
 
 	public Map<HeaderMetrics, Integer> getMetrics(RequestInterface request) {

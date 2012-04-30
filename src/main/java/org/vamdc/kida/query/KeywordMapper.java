@@ -18,6 +18,18 @@ public interface KeywordMapper {
 	 * @return Apache Cayenne Expression that can be added to the translated logic tree
 	 */
 	public Expression translate(RestrictExpression input,int queryIndex);
+
+	/**
+	 * The same as Translate, but with possibility to alter path components for Cayenne path aliases
+	 * @param input
+	 * @param queryIndex
+	 * @param alias
+	 * @param aliasReplace
+	 * @return
+	 */
+	public Expression translateAlias(RestrictExpression input, int queryIndex,
+			String alias, String aliasReplace);
+
 	
 	/**
 	 * Get a keyword that this mapper operates on
@@ -31,5 +43,6 @@ public interface KeywordMapper {
 	 * @return maximum query index 
 	 */
 	public int getMaxQueryIndex();
+
 	
 }
