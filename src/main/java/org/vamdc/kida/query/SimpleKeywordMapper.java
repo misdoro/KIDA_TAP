@@ -1,6 +1,7 @@
 package org.vamdc.kida.query;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -63,17 +64,26 @@ public class SimpleKeywordMapper implements KeywordMapper{
 	}
 
 	/**
+	 * Translate value from external form to in-database form
+	 * @param value incoming value
+	 * @return corresponding database value
+	 */
+	protected Object valueTranslator(Object value){
+		return value;
+	}
+	
+	/**
 	 * Build Cayenne Expression from VSS RestrictExpression
 	 * @param restrictor VSS RestrictExpression
 	 * @param pathSpec path specification in Cayenne model relations tree
 	 * @return Cayenne Expression corresponding to the RestrictExpression and it's path
 	 */
-	private static Expression buildExpression(RestrictExpression restrictor,String pathSpec){
+	private Expression buildExpression(RestrictExpression restrictor,String pathSpec){
 		//If we didn't specify restrictor, or path is undefined, throw an illegal argument exception
 		if (restrictor==null || restrictor.getOperator()==null || pathSpec==null)
 			throw new IllegalArgumentException("Path or operator is not defined for mapping "+restrictor+","+pathSpec);
 
-		Object value = restrictor.getValue();	//For most cases we will need this value
+		Object value = valueTranslator(restrictor.getValue());	//For most cases we will need this value
 		//Check all known operators, try to handle them
 		switch (restrictor.getOperator()){
 		case EQUAL_TO:
@@ -91,15 +101,22 @@ public class SimpleKeywordMapper implements KeywordMapper{
 		case BETWEEN:
 			if (restrictor.getValues().size()==2){
 				Iterator<Object> iter = restrictor.getValues().iterator();
-				return ExpressionFactory.betweenExp(pathSpec, iter.next(), iter.next());
+				return ExpressionFactory.betweenExp(pathSpec, valueTranslator(iter.next()), valueTranslator(iter.next()));
 			}
 		case IN:
-			return ExpressionFactory.inExp(pathSpec, restrictor.getValues());
+			return ExpressionFactory.inExp(pathSpec, translateValues(restrictor.getValues()));
 		case LIKE:
 			return ExpressionFactory.likeExp(pathSpec, value);
 		default:
 			return ExpressionFactory.expFalse();
 		}
+	}
+	
+	private Collection<Object> translateValues(Collection<Object> values){
+		Collection<Object> result = new ArrayList<Object>(values.size());
+		for (Object value:values)
+			result.add(valueTranslator(value));
+		return result;
 	}
 
 }

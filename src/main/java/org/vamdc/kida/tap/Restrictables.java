@@ -1,6 +1,7 @@
 package org.vamdc.kida.tap;
 
 import org.vamdc.dictionary.Restrictable;
+import org.vamdc.kida.query.KidaParticleMapper;
 import org.vamdc.kida.query.QueryMapper;
 import org.vamdc.kida.query.QueryMapperImpl;
 import org.vamdc.kida.query.SimpleKeywordMapper;
@@ -47,7 +48,7 @@ public class Restrictables {
 					.addNewPath("alias.specie.formula"));
 		
 		this.addMapper(
-				new SimpleKeywordMapper(Restrictable.ParticleName)
+				new KidaParticleMapper(Restrictable.ParticleName)
 					.addNewPath("formula")
 					.addNewPath("alias.specie.formula"));
 		
