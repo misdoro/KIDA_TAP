@@ -1910,6 +1910,7 @@
 	<obj-relationship name="permission" source="SfGuardUserPermission" target="SfGuardPermission" deleteRule="Nullify" db-relationship-path="permission"/>
 	<obj-relationship name="user" source="SfGuardUserPermission" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="user"/>
 	<obj-relationship name="user" source="SfGuardUserProfile" target="SfGuardUser" deleteRule="Nullify" db-relationship-path="user"/>
+	<obj-relationship name="channel" source="Specie" target="Channel" deleteRule="Deny" db-relationship-path="channelHasSpecies.channel"/>
 	<obj-relationship name="channelHasSpecies" source="Specie" target="ChannelHasSpecie" deleteRule="Deny" db-relationship-path="channelHasSpecies"/>
 	<obj-relationship name="channelValues" source="Specie" target="ChannelValue" deleteRule="Deny" db-relationship-path="channelHasSpecies.channel.channelValues"/>
 	<obj-relationship name="specieHasElements" source="Specie" target="SpecieHasElement" deleteRule="Deny" db-relationship-path="specieHasElements"/>

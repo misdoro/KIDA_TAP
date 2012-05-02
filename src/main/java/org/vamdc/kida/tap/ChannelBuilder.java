@@ -67,7 +67,7 @@ public class ChannelBuilder {
 		// Build tree using aliases
 		Expression prefExp = Restrictables.queryMapper.mapAliasedTree(
 			subtree,
-			Restrictables.QUERY_CHANNEL_SPECIES,
+			Restrictables.QUERY_CHANNEL,
 			"alias", 
 			strPrefix);
 		

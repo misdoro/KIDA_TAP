@@ -3,64 +3,19 @@ package org.vamdc.kida.constants;
 import org.vamdc.xsams.process.collisions.CollisionalProcessClassType;
 import org.vamdc.xsams.schema.IAEACodeType;
 
-public class ProcessCodes{
+public class Process{
 
-	public static void writeProcessCodes(CollisionalProcessClassType process,
-			Integer id) {
-		if (id == 1) // CR
-		{
-			process.getCodes().add("ioni");
-			process.getCodes().add("diss");
-			return;
-		}
-		if (id == 2) // CRP
-		{
-			process.getCodes().add("ioni");
-			process.getCodes().add("diss");
-			process.getCodes().add("eldt");
-			process.getCodes().add("phab");
-
-			return;
-		}
-		if (id == 3) // Phot
-		{
-			process.getCodes().add("ioni");
-			process.getCodes().add("diss");
-			process.getCodes().add("eldt");
-			process.getCodes().add("phab");
-			return;
-		}
-		if (id == 4) // Bimo
-		{
-			process.getCodes().add("chem");
-			process.getCodes().add("exch");
-			return;
-		}
-		if (id == 5) // CE
-		{
-			process.getCodes().add("tran");
-			return;
-		}
-		if (id == 6) // RA
-		{
-			process.getCodes().add("phem");
-			process.getCodes().add("asso");
-			return;
-		}
-		if (id == 7) // AD
-		{
-			process.getCodes().add("ioni");
-			return;
-		}
-		if (id == 8) // ER
-		{
-			process.getCodes().add("phem");
-			process.getCodes().add("exch");
-			process.getCodes().add("elat");
-			process.getCodes().add("diss");
-			return;
-		}
-	}
+	public final static int COSMIC_RAY = 1;
+	public final static int COSMIC_RAY_PHOTON = 2;
+	public final static int PHOTO = 3;
+	public final static int BIMO = 4;
+	public final static int CHARGE_EX = 5;
+	public final static int RAD_ASSO = 6;
+	public final static int ASS_DETACH = 7;
+	public final static int ELEC_RECO = 8;
+	public final static int THREE_BODY = 9;
+	
+	
 
 	public static void writeIAEACodes(CollisionalProcessClassType process,
 			Integer id) {

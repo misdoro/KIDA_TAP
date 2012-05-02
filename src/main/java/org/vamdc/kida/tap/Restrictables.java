@@ -15,8 +15,7 @@ import org.vamdc.kida.query.SimpleKeywordMapper;
 public class Restrictables {
 
 	public final static int QUERY_SPECIES=0;
-	public final static int QUERY_CHANNEL_SPECIES=1;
-	public final static int QUERY_CHANNEL_OTHER=2;
+	public final static int QUERY_CHANNEL=1;
 
 	/**
 	 * Query index 0 must have path relevant from Species table,
@@ -75,6 +74,8 @@ public class Restrictables {
 		
 		this.addMapper(
 				new KidaReactionMapper(Restrictable.CollisionCode)
+				.addNewPath("channel.typeChannel.id")
+				.addNewPath("typeChannel.id")
 				
 				);
 
