@@ -1,6 +1,7 @@
 package org.vamdc.kida.tap;
 
 import org.vamdc.dictionary.Restrictable;
+import org.vamdc.kida.query.KidaAtomSymbolMapper;
 import org.vamdc.kida.query.KidaParticleMapper;
 import org.vamdc.kida.query.KidaReactionMapper;
 import org.vamdc.kida.query.KidaTemperatureMapper;
@@ -55,9 +56,9 @@ public class Restrictables {
 				);
 
 		this.addMapper(
-				new SimpleKeywordMapper(Restrictable.AtomSymbol)
-				.addNewPath("formula")
-				.addNewPath("alias.specie.formula")
+				new KidaAtomSymbolMapper(Restrictable.AtomSymbol)
+				.addNewPath("element.symbol")
+				.addNewPath("alias.specie.element.symbol")
 				);
 
 		this.addMapper(

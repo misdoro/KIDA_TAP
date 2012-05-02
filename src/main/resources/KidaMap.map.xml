@@ -1913,6 +1913,7 @@
 	<obj-relationship name="channel" source="Specie" target="Channel" deleteRule="Deny" db-relationship-path="channelHasSpecies.channel"/>
 	<obj-relationship name="channelHasSpecies" source="Specie" target="ChannelHasSpecie" deleteRule="Deny" db-relationship-path="channelHasSpecies"/>
 	<obj-relationship name="channelValues" source="Specie" target="ChannelValue" deleteRule="Deny" db-relationship-path="channelHasSpecies.channel.channelValues"/>
+	<obj-relationship name="element" source="Specie" target="Element" deleteRule="Deny" db-relationship-path="specieHasElements.element"/>
 	<obj-relationship name="specieHasElements" source="Specie" target="SpecieHasElement" deleteRule="Deny" db-relationship-path="specieHasElements"/>
 	<obj-relationship name="threeBodyChannelHasSpecies" source="Specie" target="ThreeBodyChannelHasSpecie" deleteRule="Deny" db-relationship-path="threeBodyChannelHasSpecies"/>
 	<obj-relationship name="threeBodyReactionHasReactants" source="Specie" target="ThreeBodyReactionHasReactant" deleteRule="Deny" db-relationship-path="threeBodyReactionHasReactants"/>
