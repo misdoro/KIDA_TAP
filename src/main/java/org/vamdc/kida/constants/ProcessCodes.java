@@ -1,9 +1,9 @@
-package org.vamdc.kida.tap;
+package org.vamdc.kida.constants;
 
 import org.vamdc.xsams.process.collisions.CollisionalProcessClassType;
 import org.vamdc.xsams.schema.IAEACodeType;
 
-public class ToolsBuilder{
+public class ProcessCodes{
 
 	public static void writeProcessCodes(CollisionalProcessClassType process,
 			Integer id) {

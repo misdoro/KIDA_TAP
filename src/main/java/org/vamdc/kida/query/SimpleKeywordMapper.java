@@ -41,6 +41,9 @@ public class SimpleKeywordMapper implements KeywordMapper{
 		if (alias!=null && aliasReplace !=null)
 			path = path.replace(alias, aliasReplace);
 
+		if (path.length()==0) //Empty path disables the keyword for this kind of query
+			return null;
+		
 		return buildExpression(input,path);
 	}
 
@@ -78,10 +81,8 @@ public class SimpleKeywordMapper implements KeywordMapper{
 	 * @param pathSpec path specification in Cayenne model relations tree
 	 * @return Cayenne Expression corresponding to the RestrictExpression and it's path
 	 */
-	private Expression buildExpression(RestrictExpression restrictor,String pathSpec){
-		//If we didn't specify restrictor, or path is undefined, throw an illegal argument exception
-		if (restrictor==null || restrictor.getOperator()==null || pathSpec==null)
-			throw new IllegalArgumentException("Path or operator is not defined for mapping "+restrictor+","+pathSpec);
+	protected Expression buildExpression(RestrictExpression restrictor,String pathSpec){
+		verifyParameters(restrictor, pathSpec);
 
 		Object value = valueTranslator(restrictor.getValue());	//For most cases we will need this value
 		//Check all known operators, try to handle them
@@ -110,6 +111,13 @@ public class SimpleKeywordMapper implements KeywordMapper{
 		default:
 			return ExpressionFactory.expFalse();
 		}
+	}
+
+	protected void verifyParameters(RestrictExpression restrictor,
+			String pathSpec) {
+		//If we didn't specify restrictor, or path is undefined, throw an illegal argument exception
+		if (restrictor==null || restrictor.getOperator()==null || pathSpec==null )
+			throw new IllegalArgumentException("Path or operator is not defined for mapping "+restrictor+","+pathSpec);
 	}
 	
 	private Collection<Object> translateValues(Collection<Object> values){

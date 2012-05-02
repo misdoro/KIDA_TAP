@@ -2,11 +2,11 @@ package org.vamdc.kida.xsams;
 
 import java.util.Collection;
 
+import org.vamdc.kida.constants.ProcessCodes;
 import org.vamdc.kida.dao.Channel;
 import org.vamdc.kida.dao.ChannelHasSpecie;
 import org.vamdc.kida.dao.ChannelValue;
 import org.vamdc.kida.tap.SpeciesBuilder;
-import org.vamdc.kida.tap.ToolsBuilder;
 import org.vamdc.tapservice.api.RequestInterface;
 import org.vamdc.xsams.XSAMSManager;
 import org.vamdc.xsams.common.DataSetsType;
@@ -23,8 +23,8 @@ public class Collision extends CollisionalTransitionType{
 
 		CollisionalProcessClassType process = new CollisionalProcessClassType();
 		this.setProcessClass(process);
-		ToolsBuilder.writeIAEACodes(process, channel.getTypeChannel().getId());
-		ToolsBuilder.writeProcessCodes(process, channel.getTypeChannel().getId());
+		ProcessCodes.writeIAEACodes(process, channel.getTypeChannel().getId());
+		ProcessCodes.writeProcessCodes(process, channel.getTypeChannel().getId());
 
 		this.setDataSets(getDataSets(channel.getChannelValues(),request.getXsamsManager()));
 
