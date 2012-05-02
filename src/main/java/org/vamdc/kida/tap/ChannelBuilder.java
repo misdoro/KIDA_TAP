@@ -93,8 +93,12 @@ public class ChannelBuilder {
 				.performQuery(query);
 
 		for (Channel chan : channels) {
-			if (chan.isValid())
-				request.getXsamsManager().addProcess(new Collision(chan,request));
+			if (chan.isValid()){
+				
+				Boolean status = request.getXsamsManager().addProcess(new Collision(chan,request));
+				if (!status)
+					break;//Do not add more processes if limit is exceeded
+			}
 		}
 	}	
 

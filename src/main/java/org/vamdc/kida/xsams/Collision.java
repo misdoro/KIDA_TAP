@@ -2,7 +2,6 @@ package org.vamdc.kida.xsams;
 
 import java.util.Collection;
 
-import org.vamdc.kida.constants.Process;
 import org.vamdc.kida.constants.XSAMSProcessCodes;
 import org.vamdc.kida.dao.Channel;
 import org.vamdc.kida.dao.ChannelHasSpecie;
@@ -24,7 +23,7 @@ public class Collision extends CollisionalTransitionType{
 
 		CollisionalProcessClassType process = new CollisionalProcessClassType();
 		this.setProcessClass(process);
-		Process.writeIAEACodes(process, channel.getTypeChannel().getId());
+		//Process.writeIAEACodes(process, channel.getTypeChannel().getId());
 		process.getCodes().addAll(XSAMSProcessCodes.getCodes(channel.getTypeChannel().getId()));
 		//Process.writeProcessCodes(process, channel.getTypeChannel().getId());
 
