@@ -5,9 +5,9 @@ import org.vamdc.kida.query.KidaAtomSymbolMapper;
 import org.vamdc.kida.query.KidaParticleMapper;
 import org.vamdc.kida.query.KidaReactionMapper;
 import org.vamdc.kida.query.KidaTemperatureMapper;
-import org.vamdc.kida.query.QueryMapper;
-import org.vamdc.kida.query.QueryMapperImpl;
-import org.vamdc.kida.query.SimpleKeywordMapper;
+import org.vamdc.tapservice.querymapper.QueryMapper;
+import org.vamdc.tapservice.querymapper.QueryMapperImpl;
+import org.vamdc.tapservice.querymapper.SimpleKeywordMapper;
 
 /*
  * Here we put all supported restrictables
@@ -69,13 +69,13 @@ public class Restrictables {
 
 		this.addMapper(
 				new KidaTemperatureMapper(Restrictable.EnvironmentTemperature)
-				.addNewPath("channelValues.validityRange")
+				.addNewPath("")
 				.addNewPath("channelValues.validityRange")
 				);
 		
 		this.addMapper(
 				new KidaReactionMapper(Restrictable.CollisionCode)
-				.addNewPath("channel.typeChannel.id")
+				.addNewPath("")
 				.addNewPath("typeChannel.id")
 				
 				);

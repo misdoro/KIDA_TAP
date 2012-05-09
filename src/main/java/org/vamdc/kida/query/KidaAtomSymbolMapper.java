@@ -3,6 +3,7 @@ package org.vamdc.kida.query;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.vamdc.dictionary.Restrictable;
+import org.vamdc.tapservice.querymapper.SimpleKeywordMapper;
 import org.vamdc.tapservice.vss2.RestrictExpression;
 
 public class KidaAtomSymbolMapper extends SimpleKeywordMapper{
