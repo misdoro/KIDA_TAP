@@ -25,8 +25,7 @@ public class Collision extends CollisionalTransitionType{
 		this.setProcessClass(process);
 		//Process.writeIAEACodes(process, channel.getTypeChannel().getId());
 		process.getCodes().addAll(XSAMSProcessCodes.getCodes(channel.getTypeChannel().getId()));
-		//Process.writeProcessCodes(process, channel.getTypeChannel().getId());
-
+		
 		this.setDataSets(getDataSets(channel.getChannelValues(),request.getXsamsManager()));
 
 	}
