@@ -26,7 +26,7 @@ public class KidaAtom extends AtomType{
 
 		AtomicIonType iost = new AtomicIonType();
 		isot.getIons().add(iost);
-		iost.setIonCharge(atom.getCharge().intValue());
+		iost.setIonCharge(atom.getCharge());
 		
 		iost.setInChI(atom.getInchi());
 		iost.setInChIKey(atom.getInchiKey());
