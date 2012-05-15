@@ -4,6 +4,7 @@ import org.vamdc.kida.dao.Biblio;
 import org.vamdc.kida.dao.BiblioBook;
 import org.vamdc.kida.dao.BiblioJournal;
 import org.vamdc.kida.dao.BiblioThesis;
+import org.vamdc.xsams.XSAMSManager;
 import org.vamdc.xsams.schema.SourceCategoryType;
 import org.vamdc.xsams.sources.AuthorsType;
 import org.vamdc.xsams.sources.EditorsType;
@@ -44,6 +45,15 @@ public class BiblioSource extends SourceType{
 			}
 		}
 		this.setSourceID(IDs.getSourceID(cvBiblio.getId()));
+	}
+	
+	public static SourceType get(XSAMSManager document,Biblio source){
+		if (source != null) {
+			SourceType bibliography = new BiblioSource(source);
+			document.addSource(bibliography);
+			return bibliography;
+		}
+		return null;
 	}
 
 	private void writeBiblioThesis(Biblio cvBiblio) {
