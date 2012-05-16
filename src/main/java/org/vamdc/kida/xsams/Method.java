@@ -26,6 +26,9 @@ public class Method extends MethodType{
 			this.identifier = identifier;
 			this.xsamsType = xsamsType;
 		}
+		
+		public String getDbName(){return dbName;}
+		public MethodCategoryType getMethodCategory(){return xsamsType;}
 	}
 	
 	public static MethodType getMethod(XSAMSManager document, String dbName){

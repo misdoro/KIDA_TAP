@@ -2,6 +2,7 @@ package org.vamdc.kida.tap;
 
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.kida.query.KidaAtomSymbolMapper;
+import org.vamdc.kida.query.KidaMethodMapper;
 import org.vamdc.kida.query.KidaParticleMapper;
 import org.vamdc.kida.query.KidaReactionMapper;
 import org.vamdc.kida.query.KidaTemperatureMapper;
@@ -21,7 +22,6 @@ public class Restrictables {
 	/**
 	 * Query index 0 must have path relevant from Species table,
 	 * query index 1 gives restriction on species for channel table, replacing "alias" with "channel_has_specie"
-	 * Query index 2 goes from channel to other relations like temperature, collision code. Base path is given 
 	 */
 	public final static QueryMapper queryMapper= new QueryMapperImpl(){{
 
@@ -79,6 +79,10 @@ public class Restrictables {
 				.addNewPath("typeChannel.id")
 				
 				);
+		this.addMapper(
+				new KidaMethodMapper(Restrictable.MethodCategory)
+				.addNewPath("")
+				.addNewPath("channelValues.method"));
 
 	}};
 
