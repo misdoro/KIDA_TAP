@@ -5,14 +5,14 @@ import org.vamdc.kida.dao.ChannelValue;
 import org.vamdc.xsams.XSAMSManager;
 import org.vamdc.xsams.common.DataSetType;
 import org.vamdc.xsams.common.FitDataType;
-import org.vamdc.xsams.schema.DataDescriptionType;
+import org.vamdc.dictionary.DataDescriptionType;
 import org.vamdc.xsams.util.StringUtil;
 
 public class FitDataSet extends DataSetType{
 	
 	public FitDataSet(ChannelValue fit,XSAMSManager document){
 		
-		this.setDataDescription(DataDescriptionType.RATE_COEFFICIENT);
+		this.setDataDescription(DataDescriptionType.rateCoefficient.name());
 		
 		FitDataType fitData = new FitDataType();
 		this.getFitDatas().add(fitData);
@@ -25,12 +25,12 @@ public class FitDataSet extends DataSetType{
 		
 		fitData.setComments(Evaluation.getEvaluation(fit));
 
-		this.addSource(BiblioSource.get(document, fit.getBibliography()));
+		fitData.addSource(BiblioSource.get(document, fit.getBibliography()));
 		
-		this.addSource(OriginSource.get(document, fit));
+		fitData.addSource(OriginSource.get(document, fit));
 		
-		this.setMethodRef(Method.getMethod(document, fit.getMethod()));
-		this.setComments(StringUtil.checkNull(fit.getDescription()));
+		fitData.setMethodRef(Method.getMethod(document, fit.getMethod()));
+		fitData.setComments(StringUtil.checkNull(fit.getDescription()));
 		
 		
 	}

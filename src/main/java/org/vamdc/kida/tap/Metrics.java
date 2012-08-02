@@ -3,7 +3,7 @@ package org.vamdc.kida.tap;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.query.SelectQuery;
 import org.vamdc.tapservice.api.RequestInterface;
-import org.vamdc.tapservice.api.Dictionary.HeaderMetrics;
+import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.tapservice.query.CountQuery;
 
 import java.util.HashMap;

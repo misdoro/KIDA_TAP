@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.vamdc.dictionary.Requestable;
 import org.vamdc.dictionary.Restrictable;
-import org.vamdc.tapservice.api.Dictionary.HeaderMetrics;
+import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.tapservice.api.RequestInterface;
 
 
