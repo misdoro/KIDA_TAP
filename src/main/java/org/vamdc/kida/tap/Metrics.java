@@ -25,7 +25,7 @@ public class Metrics {
 					QueryUtil.lastTimestampQuery(
 							(DataContext) request.getCayenneContext(), 
 							query, 
-							"updated_at"));
+							"t0.updated_at"));
 		}
 		
 		
@@ -39,7 +39,7 @@ public class Metrics {
 					QueryUtil.lastTimestampQuery(
 							(DataContext) request.getCayenneContext(), 
 							spQuery, 
-							"updated_at"));
+							"t0.updated_at"));
 		}
 		
 		return estimates;
