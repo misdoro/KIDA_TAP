@@ -10,7 +10,7 @@ import org.vamdc.dictionary.HeaderMetrics;
 import org.vamdc.tapservice.api.RequestInterface;
 
 
-public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
+public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlugin {
 
 
 	
@@ -47,7 +47,7 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlug {
 		return Restrictables.queryMapper.isReady();
 	}
 
-	public Map<HeaderMetrics, Integer> getMetrics(RequestInterface request) {
+	public Map<HeaderMetrics, Object> getMetrics(RequestInterface request) {
 		if (request.isValid())
 			return Metrics.estimate(request);
 		return Collections.emptyMap();

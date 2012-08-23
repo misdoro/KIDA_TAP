@@ -8,7 +8,7 @@ import org.vamdc.kida.query.KidaReactionMapper;
 import org.vamdc.kida.query.KidaTemperatureMapper;
 import org.vamdc.tapservice.querymapper.QueryMapper;
 import org.vamdc.tapservice.querymapper.QueryMapperImpl;
-import org.vamdc.tapservice.querymapper.SimpleKeywordMapper;
+import org.vamdc.tapservice.querymapper.KeywordMapperImpl;
 
 /*
  * Here we put all supported restrictables
@@ -26,31 +26,31 @@ public class Restrictables {
 	public final static QueryMapper queryMapper= new QueryMapperImpl(){{
 
 		this.addMapper(
-				new SimpleKeywordMapper(Restrictable.IonCharge)
+				new KeywordMapperImpl(Restrictable.IonCharge)
 				.addNewPath("charge")
 				.addNewPath("alias.specie.charge")
 				);
 
 		this.addMapper(
-				new SimpleKeywordMapper(Restrictable.MoleculeChemicalName)
+				new KeywordMapperImpl(Restrictable.MoleculeChemicalName)
 				.addNewPath("description")
 				.addNewPath("alias.specie.description")
 				);
 
 		this.addMapper(
-				new SimpleKeywordMapper(Restrictable.Inchi)
+				new KeywordMapperImpl(Restrictable.Inchi)
 				.addNewPath("inchi")
 				.addNewPath("alias.specie.inchi")
 				);
 
 		this.addMapper(
-				new SimpleKeywordMapper(Restrictable.InchiKey)
+				new KeywordMapperImpl(Restrictable.InchiKey)
 				.addNewPath("inchiKey")
 				.addNewPath("alias.specie.inchiKey")
 				);
 
 		this.addMapper(
-				new SimpleKeywordMapper(Restrictable.MoleculeStoichiometricFormula)
+				new KeywordMapperImpl(Restrictable.MoleculeStoichiometricFormula)
 				.addNewPath("formula")
 				.addNewPath("alias.specie.formula")
 				);

@@ -5,13 +5,13 @@ import java.util.Map;
 
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.kida.xsams.Method;
-import org.vamdc.tapservice.querymapper.SimpleKeywordMapper;
+import org.vamdc.tapservice.querymapper.KeywordMapperImpl;
 
 /**
  * Keyword mapper for MethodCategory. 
  * Warning, only "=" and "in()" queries are guaranteed to be supported.
  */
-public class KidaMethodMapper extends SimpleKeywordMapper{
+public class KidaMethodMapper extends KeywordMapperImpl{
 	public KidaMethodMapper(Restrictable key) {
 		super(key);
 	}

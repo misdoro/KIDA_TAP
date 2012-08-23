@@ -8,10 +8,10 @@ import org.apache.cayenne.exp.ExpressionFactory;
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.kida.constants.XSAMSProcessCodes;
 import org.vamdc.tapservice.querymapper.KeywordMapper;
-import org.vamdc.tapservice.querymapper.SimpleKeywordMapper;
+import org.vamdc.tapservice.querymapper.KeywordMapperImpl;
 import org.vamdc.tapservice.vss2.RestrictExpression;
 
-public class KidaReactionMapper extends SimpleKeywordMapper implements KeywordMapper {
+public class KidaReactionMapper extends KeywordMapperImpl implements KeywordMapper {
 
 	public KidaReactionMapper(Restrictable key) {
 		super(key);

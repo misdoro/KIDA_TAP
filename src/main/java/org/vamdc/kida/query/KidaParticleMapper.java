@@ -1,10 +1,10 @@
 package org.vamdc.kida.query;
 
 import org.vamdc.dictionary.Restrictable;
-import org.vamdc.tapservice.querymapper.SimpleKeywordMapper;
+import org.vamdc.tapservice.querymapper.KeywordMapperImpl;
 import org.vamdc.xsams.schema.ParticleNameType;
 
-public class KidaParticleMapper extends SimpleKeywordMapper{
+public class KidaParticleMapper extends KeywordMapperImpl{
 
 	public KidaParticleMapper(Restrictable key) {
 		super(key);

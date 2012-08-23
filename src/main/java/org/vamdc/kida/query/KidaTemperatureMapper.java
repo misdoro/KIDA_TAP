@@ -6,7 +6,7 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.tapservice.querymapper.KeywordMapper;
-import org.vamdc.tapservice.querymapper.SimpleKeywordMapper;
+import org.vamdc.tapservice.querymapper.KeywordMapperImpl;
 import org.vamdc.tapservice.vss2.RestrictExpression;
 
 /**
@@ -14,7 +14,7 @@ import org.vamdc.tapservice.vss2.RestrictExpression;
  * @author doronin
  *
  */
-public class KidaTemperatureMapper extends SimpleKeywordMapper implements KeywordMapper{
+public class KidaTemperatureMapper extends KeywordMapperImpl implements KeywordMapper{
 
 	public KidaTemperatureMapper(Restrictable key) {
 		super(key);

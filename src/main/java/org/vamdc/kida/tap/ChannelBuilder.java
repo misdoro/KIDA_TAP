@@ -98,6 +98,7 @@ public class ChannelBuilder {
 				Boolean status = request.getXsamsManager().addProcess(new Collision(chan,request));
 				if (!status)
 					break;//Do not add more processes if limit is exceeded
+				request.setLastModified(chan.getUpdatedAt());
 			}
 		}
 	}	
