@@ -30,6 +30,8 @@ public class ChannelBuilder {
 			Expression chanSelector = null;
 			switch(prefix){
 			case REACTANT:
+			case TARGET:
+			case COLLIDER:
 				chanSelector = ExpressionFactory.matchExp(strPrefix
 						+ ".type", Channel.REACTANT);
 				break;

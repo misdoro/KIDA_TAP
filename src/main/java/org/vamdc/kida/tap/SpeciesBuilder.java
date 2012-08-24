@@ -62,6 +62,8 @@ public class SpeciesBuilder {
 			switch(prefix){
 			case REACTANT:
 			case PRODUCT:
+			case TARGET:
+			case COLLIDER:
 				result = addPrefixedTree(result,
 						inputQuery.getPrefixedTree(pref.getPrefix(),pref.getIndex()));
 				break;
