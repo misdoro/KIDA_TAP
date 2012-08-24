@@ -57,8 +57,8 @@ public class Restrictables {
 
 		this.addMapper(
 				new KidaAtomSymbolMapper(Restrictable.AtomSymbol)
-				.addNewPath("element.symbol")
-				.addNewPath("alias.specie.element.symbol")
+				.addNewPath("formula")
+				.addNewPath("alias.specie.formula")
 				);
 
 		this.addMapper(

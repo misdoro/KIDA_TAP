@@ -4,6 +4,7 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.tapservice.querymapper.KeywordMapperImpl;
+import org.vamdc.tapservice.vss2.LogicNode.Operator;
 import org.vamdc.tapservice.vss2.RestrictExpression;
 
 public class KidaAtomSymbolMapper extends KeywordMapperImpl{
@@ -14,13 +15,17 @@ public class KidaAtomSymbolMapper extends KeywordMapperImpl{
 	
 	@Override
 	protected Expression buildExpression(RestrictExpression restrictor,String pathSpec){
-		Expression result = super.buildExpression(restrictor, pathSpec);
 		
-		//TODO:check the path if updating model
-		if (result!=null){
-			String occurrencePath = pathSpec.replace("element.symbol", "specieHasElement.ocurrence");
-			result.andExp(ExpressionFactory.matchExp(occurrencePath, 1));
+		Expression result =null;
+		
+		//Treat equals by adding positive and negative ions, look up formula field
+		if (restrictor.getOperator()==Operator.EQUAL_TO){
+			String atom = (String) restrictor.getValue();
+			result=ExpressionFactory.inExp(pathSpec, atom,atom+"+",atom+"-");
+		}else{
+			result= super.buildExpression(restrictor, pathSpec);
 		}
+		
 		return result;
 	}
 	
