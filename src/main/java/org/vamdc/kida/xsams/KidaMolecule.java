@@ -16,6 +16,8 @@ public class KidaMolecule extends MoleculeType{
 		this.setMolecularChemicalSpecies(mcst);
 		mcst.setInChI(molecule.getInchi());
 
+		mcst.setIonCharge(molecule.getCharge());
+		
 		mcst.setOrdinaryStructuralFormula(new ReferencedTextType(molecule.getCommonNameLatex())); 
 		mcst.setStoichiometricFormula(molecule.getFormulaSorted());
 		if ( molecule.getDescription() != null && molecule.getDescription().length() > 0)
@@ -35,7 +37,7 @@ public class KidaMolecule extends MoleculeType{
 		mcst.setStableMolecularProperties(mpt);
 		mpt.setMolecularWeight(new DataType(molecule.getMass(), XsamsUnits.AMU)) ;
 		
-
+		
 		
 
 		this.setSpeciesID(IDs.getSpecieID(molecule.getId()));
