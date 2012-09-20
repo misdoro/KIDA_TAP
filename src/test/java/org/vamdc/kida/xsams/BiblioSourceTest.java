@@ -6,6 +6,7 @@ import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.query.SelectQuery;
 import org.junit.Test;
 import org.vamdc.kida.dao.Biblio;
+import org.vamdc.xsams.schema.AuthorType;
 
 public class BiblioSourceTest {
 
@@ -23,7 +24,13 @@ public class BiblioSourceTest {
 			BiblioSource sourceXML = new BiblioSource((Biblio) source);
 			assertNotNull(sourceXML);
 			assertNotNull(sourceXML.getSourceID());
+			for (AuthorType aut:sourceXML.getAuthors().getAuthors()){
+				if (aut.getName().contains("\n")){
+					System.out.println(sourceXML.getSourceID());
+					System.out.println(aut.getName());
+					fail(aut.getName());
+				}
+			}
 		}
-		
 	}
 }
