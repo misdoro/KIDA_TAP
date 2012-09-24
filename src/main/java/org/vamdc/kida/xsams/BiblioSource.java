@@ -1,5 +1,6 @@
 package org.vamdc.kida.xsams;
 
+import org.vamdc.kida.SourceDup;
 import org.vamdc.kida.dao.Biblio;
 import org.vamdc.kida.dao.BiblioBook;
 import org.vamdc.kida.dao.BiblioJournal;
@@ -49,6 +50,9 @@ public class BiblioSource extends SourceType{
 	
 	public static SourceType get(XSAMSManager document,Biblio source){
 		if (source != null) {
+			//Replace duplicate sources with primary one
+			source=SourceDup.INSTANCE.getBiblio(source.getId());
+			
 			SourceType bibliography = new BiblioSource(source);
 			document.addSource(bibliography);
 			return bibliography;
