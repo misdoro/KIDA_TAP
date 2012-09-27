@@ -15,6 +15,8 @@ public class KidaMolecule extends MoleculeType{
 		MolecularChemicalSpeciesType mcst = new MolecularChemicalSpeciesType();
 		this.setMolecularChemicalSpecies(mcst);
 		mcst.setInChI(molecule.getInchi());
+		mcst.setInChIKey(molecule.getInchiKey());
+		mcst.setVAMDCSpeciesID(molecule.getInchiKey());
 
 		mcst.setIonCharge(molecule.getCharge());
 		
@@ -31,14 +33,11 @@ public class KidaMolecule extends MoleculeType{
 		if (molecule.getCas() != null && molecule.getCas().length() != 0) {
 			mcst.setCASRegistryNumber(new ReferencedTextType(molecule.getCas()));
 		}
-		mcst.setInChIKey(molecule.getInchiKey());
+		
 
 		MolecularPropertiesType mpt = new MolecularPropertiesType();
 		mcst.setStableMolecularProperties(mpt);
 		mpt.setMolecularWeight(new DataType(molecule.getMass(), XsamsUnits.AMU)) ;
-		
-		
-		
 
 		this.setSpeciesID(IDs.getSpecieID(molecule.getId()));
 	}
