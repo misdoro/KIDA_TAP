@@ -31,7 +31,7 @@ public class SpeciesBuilder {
 
 	@SuppressWarnings("unchecked")
 	private static List<Specie> getSpecies(RequestInterface request) {
-		Expression expr = getExpression(request.getQuery());
+		Expression expr = getSpeciesExpression(request.getQuery());
 
 		if (expr!=null || (request.getQueryString()!=null && "select species".equalsIgnoreCase(request.getQueryString().trim()))){
 			SelectQuery query = new SelectQuery(Specie.class,expr);
@@ -55,14 +55,8 @@ public class SpeciesBuilder {
 		}
 		return element;
 	}
-
-
 	
-	public static SelectQuery getSpeciesQuery(Query inputQuery) {
-		return new SelectQuery(Specie.class,getExpression(inputQuery));
-		
-	}
-	private static Expression getExpression (Query inputQuery){
+	public static Expression getSpeciesExpression (Query inputQuery){
 		
 		Expression result=null;
 
