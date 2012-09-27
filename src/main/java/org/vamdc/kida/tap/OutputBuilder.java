@@ -7,6 +7,7 @@ import java.util.Map;
 import org.vamdc.dictionary.Requestable;
 import org.vamdc.dictionary.Restrictable;
 import org.vamdc.dictionary.HeaderMetrics;
+import org.vamdc.kida.xsams.SelfSource;
 import org.vamdc.tapservice.api.RequestInterface;
 
 
@@ -16,6 +17,8 @@ public class OutputBuilder implements org.vamdc.tapservice.api.DatabasePlugin {
 	
 	public void buildXSAMS(RequestInterface request) {
 
+		request.getXsamsManager().addSource(new SelfSource(request));
+		
 		if (request.checkBranch(Requestable.Species)
 				|| request.checkBranch(Requestable.Molecules)
 				|| request.checkBranch(Requestable.Atoms)
