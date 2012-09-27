@@ -20,13 +20,19 @@ public class KidaReactionMapper extends KeywordMapperImpl implements KeywordMapp
 	@Override
 	protected Expression buildExpression(RestrictExpression restrictor,String pathSpec){
 		Object value = restrictor.getValue();	//For most cases we will need this value
+		
 		//Check all known operators, try to handle them
 		if (value instanceof String){
+			
+			Collection<Integer> codes = XSAMSProcessCodes.getProcIDs((String)value);
+			if (codes==null || codes.size()==0)
+				return ExpressionFactory.expFalse();
+			
 			switch (restrictor.getOperator()){
 			case EQUAL_TO:
-				return ExpressionFactory.inExp(pathSpec, XSAMSProcessCodes.getProcIDs((String)value));
+				return ExpressionFactory.inExp(pathSpec, codes);
 			case NOT_EQUAL_TO:
-				return ExpressionFactory.notInExp(pathSpec, XSAMSProcessCodes.getProcIDs((String)value));
+				return ExpressionFactory.notInExp(pathSpec, codes);
 			case LESS_THAN:
 				return ExpressionFactory.expFalse();
 			case GREATER_THAN:
@@ -38,7 +44,7 @@ public class KidaReactionMapper extends KeywordMapperImpl implements KeywordMapp
 			case BETWEEN:
 				return ExpressionFactory.expFalse();
 			case IN:
-				Collection<Integer> codes = new ArrayList<Integer>();
+				codes = new ArrayList<Integer>();
 				for (Object oneValue:restrictor.getValues()){
 					if (oneValue instanceof String)
 						codes.addAll(XSAMSProcessCodes.getProcIDs((String)value));

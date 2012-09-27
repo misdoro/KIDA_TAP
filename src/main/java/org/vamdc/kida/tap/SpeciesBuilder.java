@@ -1,5 +1,6 @@
 package org.vamdc.kida.tap;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.cayenne.exp.Expression;
@@ -20,15 +21,24 @@ public class SpeciesBuilder {
 
 	public static void loadSpecies(RequestInterface request) {
 
-		@SuppressWarnings("unchecked")
-		List<Specie> species = (List<Specie>) request.getCayenneContext()
-		.performQuery(
-				getSpeciesQuery(request.getQuery())
-				);
+		
+		List<Specie> species = getSpecies(request);
 
 		for (Specie sp : species) 
 			if (sp.isValid())
 				request.getXsamsManager().addElement(getKidaSpecies(sp,request));
+	}
+
+	@SuppressWarnings("unchecked")
+	private static List<Specie> getSpecies(RequestInterface request) {
+		Expression expr = getExpression(request.getQuery());
+
+		if (expr!=null || (request.getQueryString()!=null && "select species".equalsIgnoreCase(request.getQueryString().trim()))){
+			SelectQuery query = new SelectQuery(Specie.class,expr);
+			return (List<Specie>) request.getCayenneContext().performQuery(query);
+		}else{
+			return Collections.emptyList();
+		}
 	}
 
 
@@ -47,8 +57,13 @@ public class SpeciesBuilder {
 	}
 
 
+	
 	public static SelectQuery getSpeciesQuery(Query inputQuery) {
-
+		return new SelectQuery(Specie.class,getExpression(inputQuery));
+		
+	}
+	private static Expression getExpression (Query inputQuery){
+		
 		Expression result=null;
 
 		//Map unprefixed keywords
@@ -71,7 +86,7 @@ public class SpeciesBuilder {
 				break;
 			}
 		}
-		return new SelectQuery(Specie.class,result);
+		return result;
 	}
 
 
