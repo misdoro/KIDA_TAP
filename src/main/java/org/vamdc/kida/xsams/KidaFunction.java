@@ -25,7 +25,7 @@ public class KidaFunction extends FunctionType{
 
 	private ExpressionType getMathExpression(Formula formula){
 		ExpressionType result = new ExpressionType();
-		result.setComputerLanguage("Fortran");
+		result.setComputerLanguage("math");
 		result.setValue(formula.getMath());
 		return result;
 	}
