@@ -1,6 +1,7 @@
 package org.vamdc.kida.constants;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.apache.commons.collections.map.MultiValueMap;
 import org.vamdc.xsams.schema.CodeType;
@@ -53,7 +54,12 @@ public class XSAMSProcessCodes {
 	
 	@SuppressWarnings("unchecked")
 	public static Collection<Integer> getProcIDs(String code){
-		return codeToIds.getCollection(code);
+		try{
+			CodeType cdt = CodeType.fromValue(code);
+			return codeToIds.getCollection(cdt);
+		}catch(IllegalArgumentException e){
+		}
+		return Collections.emptyList();
 	}
 	
 }

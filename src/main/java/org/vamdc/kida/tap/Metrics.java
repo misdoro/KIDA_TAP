@@ -34,7 +34,7 @@ public class Metrics {
 
 		//Estimate species
 		Expression spExpr=SpeciesBuilder.getSpeciesExpression(request.getQuery());
-		if (spExpr==null || (request.getQueryString()!=null && "select species".equalsIgnoreCase(request.getQueryString().trim()))){
+		if (spExpr!=null || (request.getQueryString()!=null && "select species".equalsIgnoreCase(request.getQueryString().trim()))){
 
 			SelectQuery spQuery = new SelectQuery(Specie.class,spExpr);
 			Long nbSpecies = QueryUtil.countQuery((DataContext) request.getCayenneContext(), spQuery);
