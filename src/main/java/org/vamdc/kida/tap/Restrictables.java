@@ -48,6 +48,10 @@ public class Restrictables {
 				.addNewPath("inchiKey")
 				.addNewPath("alias.specie.inchiKey")
 				);
+		
+		this.addMapper(new KeywordMapperImpl(Restrictable.VAMDCSpeciesID)
+				.addNewPath("inchiKey")
+				.addNewPath("alias.specie.inchiKey"));
 
 		this.addMapper(
 				new KeywordMapperImpl(Restrictable.MoleculeStoichiometricFormula)
